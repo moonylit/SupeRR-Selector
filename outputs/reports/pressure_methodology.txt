@@ -1,0 +1,37 @@
+SUPERR SELECTOR — PRESSURE METHOD AND LIMITATIONS
+==============================================================================
+
+Purpose: reconstruct pre-delivery states and provide two transparent, role-specific descriptive pressure indices. The values are not probabilities, player ratings, or rankings.
+
+STATE RECONSTRUCTION
+- Runs, dismissals, and legal balls are accumulated only from earlier delivery rows in the same innings. The current delivery outcome is never included in its own state.
+- Source over/ball ordinals are retained, and completed legal overs plus balls into the over are provided as lower/upper values when prior legality is uncertain.
+- Wides and the observed Overstep no-ball label do not consume a legal ball; byes and leg-byes do. Unclassified legality remains unknown.
+- For each state, balls remaining are bounded: lower bound assumes all prior unknown-legality deliveries were legal; upper bound assumes none were legal. Point scores use the midpoint and retain lower/upper score bounds.
+- A dismissal reduces wickets only when is_wicket is true. Each flagged source row counts one dismissal; multiple flagged rows in an innings sequence each count. The source schema has a boolean wicket flag and one dismissal type, so multiple dismissals encoded inside one row cannot be separately counted.
+- Revised target is used only when recorded for the second innings; otherwise the first innings total + 1 defines the chase target. Tie-break innings are paired sequentially; later super-over innings target the preceding super-over total + 1.
+- First/second innings revised-over fields are treated as legal-ball limits because observed values are multiples of six (30–114), while the original field names remain ambiguous. Missing limits default to 120; super overs default to 6.
+
+INDEX DEFINITIONS
+- Empirical ranks are calculated walk-forward within competition group (IPL, T20I, Other T20) and innings phase. Each calendar month uses only dates through the prior month; rank r is bounded to [0,1], and a neutral 0.5 rank is used until at least 100 earlier states exist. This normalizes local scoring environments but is not a common absolute risk probability.
+- Chase demand D is the mean of the empirical percentile of (required run rate − current run rate) and the empirical percentile of the fraction of the target still required. For first innings, D is the percentile of under-scoring versus first-innings current-run-rate distribution in the same competition/phase; at the start, missing current rate is neutral (0.5).
+- Resource depletion R is the mean of legal-ball progress fraction and wickets lost / 10. Unknown prior legality gives lower/upper bounds on legal-ball progress and scores.
+- Weighted index A = 100 × [wD × D + (1 − wD) × R], with configured wD = 0.50. Equal default weight gives equal weight to demand and depleted-resource domains; component subfeatures are also averaged equally. There is no outcome-trained ground truth, so weights are transparent design parameters, not statistically estimated optimum weights.
+- Nonlinear index B = 100 × [1 − ((1 − D) × (1 − R))^gamma], with configured gamma = 0.50. This symmetric geometric interaction rises more sharply when both demand and resource strain are high. It is an alternative sensitivity formulation, not a selected winner.
+- demand_weight, nonlinear_interaction_power, minimum_reference_states, the fixed-flag threshold, and percentile flags are configurable with PressureConfig in src/pressure/pressure_detection.py.
+- Bowling indices use role-specific threat: in chases, easier opponent demand is 1 − D and opponent resources are 1 − R; in the first innings, the pace percentile is paired with pace percentile × wickets remaining / 10. These are team-context interpretations, not individual bowler workload.
+- Bowling context includes runs to defend, required rate, balls and wickets remaining. A prior-date phase boundary-event rate is included as a contextual feature but is not part of the score; current/future delivery outcomes are not pre-delivery information.
+
+CLASSIFICATION AND SENSITIVITY
+- Candidate definitions compared are fixed score cutoffs 70/80/90, competition-group top 10%/5%, and competition-plus-phase top 10%/5%.
+- Provisional recommendation for high-pressure opportunity labels: weighted-index context-adjusted 90th percentile within competition group × innings phase. It directly addresses scoring-environment and phase differences while avoiding a convenient absolute cutoff; it means the most strained 10% of observed contexts in each stratum, not a common probability.
+- In this dataset, that candidate marks 20,105 batting-pressure deliveries across 776 matches and 692 batters. Fixed weighted score >=80 marks 5,600 deliveries across 349 matches and 409 batters.
+- This is a relative descriptive candidate, not an empirically optimal psychological threshold. Fixed cutoffs and competition-only percentiles remain sensitivity comparisons; no player rankings use these labels.
+- Examine pressure_threshold_analysis.csv and pressure_distribution.csv before choosing any downstream definition. Classifications can differ substantially by formula, group, and phase.
+
+LIMITATIONS
+- There is no externally labeled, pre-delivery pressure ground truth. Index weights and percentiles describe an explicit construct; they do not prove psychological pressure or predict success.
+- Empirical normalization is computed on the supplied dataset and is not a time-held-out calibration. Avoid interpreting it as a real-time prospective scale.
+- The dataset has 267 deliveries with uncertain legal-ball status; 266 with uncertain bowler-extra attribution; 16 abandoned matches without deliveries; incomplete innings and missing result/target details can affect context.
+- T20 and T20I are kept separate; Other T20 remains its own group. Sparse competition-phase combinations have noisier empirical ranks.
+- Close-result checks in pressure_validation.txt are ex-post descriptive associations only. Match outcomes are not used to reconstruct states, normalize indices, set weights, or classify deliveries.

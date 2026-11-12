@@ -1,0 +1,42 @@
+SUPERR SELECTOR — PRESSURE VALIDATION
+==============================================================================
+
+Rows scored: 200,999; weighted and nonlinear indices are both bounded to [0,100].
+Data-state counts: {'delivery_state_rows': 200999, 'first_innings_rows': 105727, 'chase_rows_with_target': 95247, 'prior_legality_uncertain_state_rows': 9599, 'current_delivery_legality_uncertain_rows': 267, 'phase_uncertain_rows': 168, 'super_over_rows': 38, 'target_unknown_chase_rows': 0}
+
+OBSERVED DISTRIBUTIONS (descriptive)
+competition_group                  innings_phase  deliveries  matches  median_batting_pressure  median_bowling_pressure  high_weighted_batting_fixed_80  median_required_run_rate  median_wickets_remaining  median_legal_balls_remaining  median_prior_boundary_event_rate
+              IPL              Death (overs 16+)       20039      362                    55.81                    43.33                            1784                     13.43                      5.00                         16.50                              0.21
+              IPL            Middle (overs 7-15)       40237      366                    40.17                    56.74                             176                     10.10                      8.00                         57.00                              0.15
+              IPL          Powerplay (overs 1-6)       27325      367                    27.19                    67.06                               0                      9.53                     10.00                        102.00                              0.21
+              IPL Tie-break / super-over innings          14        2                    32.50                    50.00                               0                     10.00                     10.00                          4.50                              0.40
+              IPL                Uncertain phase          72       53                    51.15                    43.85                               0                     11.52                      7.00                         30.50                              0.11
+        Other T20              Death (overs 16+)        1527       30                    59.58                    38.02                             146                     11.27                      5.00                         16.00                              0.17
+        Other T20            Middle (overs 7-15)        3208       30                    44.38                    49.79                              33                      7.90                      7.00                         58.00                              0.11
+        Other T20          Powerplay (overs 1-6)        2236       30                    28.75                    65.83                               0                      7.46                      9.00                        103.00                              0.19
+        Other T20 Tie-break / super-over innings          12        2                    30.42                    56.25                               0                      4.50                     10.00                          5.00                              0.00
+        Other T20                Uncertain phase           2        2                    58.65                    41.35                               0                     14.76                      4.00                         30.50                              0.00
+             T20I              Death (overs 16+)       22884      439                    59.00                    39.29                            3160                     13.20                      5.00                         17.00                              0.19
+             T20I            Middle (overs 7-15)       48937      463                    43.38                    52.97                             301                      9.41                      7.00                         57.00                              0.14
+             T20I          Powerplay (overs 1-6)       34400      470                    29.57                    64.39                               0                      8.71                      9.00                        102.00                              0.19
+             T20I Tie-break / super-over innings          12        2                    30.42                    48.75                               0                      3.00                      9.50                          5.00                              0.20
+             T20I                Uncertain phase          94       53                    51.15                    45.00                               0                      9.59                      7.00                         30.50                              0.20
+
+SYNTHETIC SCENARIOS (not observed matches)
+                    scenario  runs_required  legal_balls_remaining  wickets_remaining  required_run_rate  demand_component_synthetic  resource_component  batting_pressure_weighted_synthetic  batting_pressure_nonlinear_synthetic  is_synthetic_not_match_observation
+       low-demand long chase          10.00                     30                  9               2.00                        0.15                0.42                                28.93                                 30.23                                True
+ high-demand, scarce wickets          30.00                     12                  2              15.00                        0.71                0.85                                78.17                                 79.27                                True
+      final-ball, one wicket          18.00                      6                  1              18.00                        0.78                0.93                                85.09                                 87.06                                True
+   comfortable first innings            NaN                    100                 10                NaN                        0.10                0.08                                 9.17                                  9.17                                True
+death phase, high chase rate          30.00                     12                  5              15.00                        0.71                0.70                                70.67                                 70.68                                True
+Monotonic checks: {'more_demand_and_fewer_wickets_30_from_12_2wkts_exceeds_10_from_30_9wkts': True, 'final_ball_one_wicket_exceeds_high_demand_12_ball_scenario': True, 'comfortable_first_innings_below_chase_stress': True}
+
+ALTERNATIVE FORMULATIONS
+Median absolute batting-score difference between A and B: 1.44 points.
+Compare pressure_distribution.csv and pressure_threshold_analysis.csv for score distributions and qualification sensitivity.
+Provisional high-pressure opportunity definition: context-adjusted P90 for the weighted batting index (20,105 deliveries, 776 matches, 692 batters). A fixed weighted score >=80 identifies 5,600 deliveries. The relative P90 better controls group/phase context; this is a fairness-based design recommendation, not a statistically validated ground-truth cutoff.
+
+CLOSE CHASES — POST-HOC CHECK ONLY
+{'matches_with_second_innings_delivery_state': 845, 'close_results_by_margin_ex_post': 61, 'median_last_recorded_batting_pressure_close_ex_post': 61.86340632309057, 'median_last_recorded_batting_pressure_other_results': 55.74004118124468, 'outcome_fields_used_for_pressure_scores': False, 'interpretation': 'post-hoc descriptive association only; final results are not score inputs or validation labels for weights'}
+
+Caveat: these checks establish software behavior and descriptive face validity only. They do not statistically validate a latent psychological-pressure construct. Outcome fields are excluded from pressure feature construction.

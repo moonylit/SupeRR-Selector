@@ -6,7 +6,7 @@ The analysis will compare pressure performance with each player's own baseline, 
 
 ## Project status
 
-**Phase 3 — exploratory data analysis.** Reproducible dataset profiling and descriptive batting, bowling, innings-phase, player-consistency, and pre-delivery match-context analyses are implemented. This phase produces descriptive reports and figures only; pressure detection, pressure scoring, predictive modelling, and final player rankings remain later phases.
+**Phase 4 — match-state reconstruction and pressure detection.** The pipeline reconstructs pre-delivery match states with explicit legal-ball uncertainty and produces two candidate, explainable batting/bowling pressure indices. The indices are descriptive and not player rankings or success probabilities.
 
 ## Repository layout
 
@@ -60,6 +60,7 @@ The phases can also be run separately:
 ```powershell
 python main.py --phase profile
 python main.py --phase eda
+python main.py --phase pressure
 ```
 
 Run the automated calculation and validation tests with:
@@ -74,11 +75,13 @@ Phase 2 creates `dataset_profile.txt`, `dataset_profile.json`, `data_quality_rep
 
 Phase 3 adds `eda_summary.txt`, `eda_summary.json`, `competition_analysis.csv`, `batting_analysis.csv`, `bowling_analysis.csv`, `innings_phase_analysis.csv`, `innings_context_analysis.csv`, `player_consistency.csv`, and `match_context_analysis.csv` under `outputs/reports/`, plus 16 standalone SVG charts under `outputs/figures/eda/`. Player opportunity and match-count thresholds only flag more interpretable descriptive comparisons; they do not establish statistical reliability or create rankings. Delivery states use information available before the delivery, and match outcomes are kept out of those state features. Uncertain delivery legality, extras attribution, and phase assignment remain explicitly flagged.
 
+Phase 4 writes the generated `delivery_match_states.csv`, `pressure_features.csv`, and `pressure_scores.csv` under the local-only `outputs/processed/` directory. The reproducible, shareable reports are `pressure_methodology.txt`, `pressure_validation.txt`, `pressure_distribution.csv`, `pressure_threshold_analysis.csv`, and `pressure_scenario_tests.csv` under `outputs/reports/`, with eight standalone charts under `outputs/figures/pressure/`. Match-state features use information available before each delivery. Unknown legal deliveries are carried as explicit lower/upper bounds; pressure percentiles use only information through the previous calendar month within each competition group and innings phase. Match outcomes are excluded from score construction. With no independent pressure ground truth, the reports recommend context-adjusted P90 as a provisional relative label for high-pressure opportunities and compare it with fixed and competition-only percentile thresholds. This recommendation is not a validated player-ranking threshold.
+
 ## Phase 2 findings
 
 The data pack contains 883 match records, 200,999 ball-by-ball rows, 141 competition catalog entries, 28,381 playing-eleven rows, 353 competition-team records, and 6,413 competition-team-player mappings. Match dates span 2022-01-22 through 2026-11-01. Competition metadata identifies five IPL seasons, 134 T20I competitions, and two other T20 events.
 
-All delivery match IDs and all delivery batter/bowler player keys resolve to the supplied match and player mapping tables. Sixteen abandoned matches have no delivery records; three catalog competitions have no matches. The playing-eleven data has five unmapped non-playing roster rows and 35 repeated match/team/player keys. Extras include 264 `other` labels and two rows with nonzero extras but no type, so legal-ball and bowler-extra calculations retain explicit uncertainty. `matches.csv` has no independent innings score totals for external reconciliation. See the generated data-quality reports for details; no pressure scoring or player rankings have been produced.
+All delivery match IDs and all delivery batter/bowler player keys resolve to the supplied match and player mapping tables. Sixteen abandoned matches have no delivery records; three catalog competitions have no matches. The playing-eleven data has five unmapped non-playing roster rows and 35 repeated match/team/player keys. Extras include 264 `other` labels and two rows with nonzero extras but no type, so legal-ball and bowler-extra calculations retain explicit uncertainty. `matches.csv` has no independent innings score totals for external reconciliation. See the generated data-quality reports for details. Phase 4 pressure indices are descriptive candidates only; player rankings have not been produced.
 
 The dashboard will be implemented after subsequent analytical outputs are available:
 
