@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Player bowling-economy distribution</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Players with at least 24 known legal balls; known-ball economy, display capped at 30</text>
+<line x1="330.0" y1="115" x2="330.0" y2="669" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="669" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">73</text>
+<line x1="634.0" y1="115" x2="634.0" y2="669" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">145</text>
+<line x1="786.0" y1="115" x2="786.0" y2="669" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">218</text>
+<line x1="938.0" y1="115" x2="938.0" y2="669" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">290</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="669" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">363</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">0–&lt;2</text>
+<rect x="330" y="125" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="140" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="174" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">2–&lt;4</text>
+<rect x="330" y="159" width="2.09" height="19" rx="4" fill="#245b8f"/>
+<text x="339.1" y="174" font-family="Arial" font-size="11" fill="#182230">1</text>
+<text x="316" y="208" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">4–&lt;6</text>
+<rect x="330" y="193" width="58.62" height="19" rx="4" fill="#245b8f"/>
+<text x="395.6" y="208" font-family="Arial" font-size="11" fill="#182230">28</text>
+<text x="316" y="242" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">6–&lt;8</text>
+<rect x="330" y="227" width="355.92" height="19" rx="4" fill="#245b8f"/>
+<text x="692.9" y="242" font-family="Arial" font-size="11" fill="#182230">170</text>
+<text x="316" y="276" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">8–&lt;10</text>
+<rect x="330" y="261" width="760.00" height="19" rx="4" fill="#245b8f"/>
+<text x="1096.0" y="276" font-family="Arial" font-size="11" fill="#182230">363</text>
+<text x="316" y="310" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">10–&lt;12</text>
+<rect x="330" y="295" width="270.08" height="19" rx="4" fill="#245b8f"/>
+<text x="607.1" y="310" font-family="Arial" font-size="11" fill="#182230">129</text>
+<text x="316" y="344" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">12–&lt;14</text>
+<rect x="330" y="329" width="54.44" height="19" rx="4" fill="#245b8f"/>
+<text x="391.4" y="344" font-family="Arial" font-size="11" fill="#182230">26</text>
+<text x="316" y="378" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">14–&lt;16</text>
+<rect x="330" y="363" width="16.75" height="19" rx="4" fill="#245b8f"/>
+<text x="353.7" y="378" font-family="Arial" font-size="11" fill="#182230">8</text>
+<text x="316" y="412" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">16–&lt;18</text>
+<rect x="330" y="397" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="412" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="446" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">18–&lt;20</text>
+<rect x="330" y="431" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="446" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="480" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">20–&lt;22</text>
+<rect x="330" y="465" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="480" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="514" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">22–&lt;24</text>
+<rect x="330" y="499" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="514" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="548" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">24–&lt;26</text>
+<rect x="330" y="533" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="548" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="582" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">26–&lt;28</text>
+<rect x="330" y="567" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="582" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="616" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">28–&lt;30</text>
+<rect x="330" y="601" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="616" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="650" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">30+ (display cap)</text>
+<rect x="330" y="635" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="650" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>

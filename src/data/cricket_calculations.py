@@ -77,8 +77,9 @@ def calculate_delivery_metrics(deliveries: pd.DataFrame) -> pd.DataFrame:
     result["bowler_runs_conceded_known"] = runs + (extra_one + extra_two).where(
         known_bowler_extra, 0
     )
+    is_penalty = extras_type.eq("penalty").fillna(False)
     uncertain_bowler_extras = extras_present & ~(
-        known_bowler_extra | extras_type.isin(KNOWN_LEGAL_EXTRAS) | extras_type.eq("penalty")
+        known_bowler_extra | extras_type.isin(KNOWN_LEGAL_EXTRAS) | is_penalty
     )
     result["bowler_runs_attribution_unknown"] = uncertain_bowler_extras
 

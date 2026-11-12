@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Sequence
 
 import pandas as pd
+import numpy as np
 
 WIDTH = 1200
 BG = "#f5f7fb"
@@ -99,6 +100,48 @@ def line_chart(labels: Sequence[str], values: Sequence[float], title: str, subti
     parts.append(f'<polyline points="{polyline}" fill="none" stroke="{BLUE}" stroke-width="3"/>')
     for x, y in points:
         parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.5" fill="{ORANGE}"/>')
+    _save(parts, path)
+
+
+def multi_line_chart(
+    labels: Sequence[str], series: dict[str, Sequence[float]], title: str, subtitle: str, path: Path
+) -> None:
+    """Render a compact multi-series progression chart with a labeled legend."""
+    parts = _base(title, subtitle)
+    left, right, top, bottom = 95, 1130, 150, 600
+    palette = ["#245b8f", "#d9822b", "#25855a", "#8d5aa6", "#c04444", "#0b8190"]
+    numeric = [[float(v) if pd.notna(v) else np.nan for v in values] for values in series.values()]
+    finite_values = [v for line in numeric for v in line if np.isfinite(v)]
+    maximum = max(finite_values) if finite_values else 1.0
+    minimum = min([0.0] + finite_values) if finite_values else 0.0
+    maximum = max(maximum, minimum + 1.0)
+    for i in range(6):
+        y = bottom - (bottom - top) * i / 5
+        value = minimum + (maximum - minimum) * i / 5
+        parts.append(f'<line x1="{left}" y1="{y:.1f}" x2="{right}" y2="{y:.1f}" stroke="{GRID}"/>')
+        parts.append(f'<text x="{left-12}" y="{y+4:.1f}" text-anchor="end" font-family="Arial" font-size="12" fill="{MUTED}">{value:,.1f}</text>')
+    denom = max(1, len(labels) - 1)
+    for idx, label in enumerate(labels):
+        if len(labels) <= 25 or idx % max(1, len(labels)//20) == 0:
+            x = left + (right-left) * idx / denom
+            parts.append(f'<text x="{x:.1f}" y="{bottom+22}" text-anchor="middle" font-family="Arial" font-size="10" fill="{MUTED}">{escape(str(label))}</text>')
+    for line_index, (name, values) in enumerate(zip(series, numeric)):
+        color = palette[line_index % len(palette)]
+        points = []
+        for i, value in enumerate(values):
+            if not np.isfinite(value):
+                continue
+            x = left + (right-left) * i / denom
+            y = bottom - (bottom-top) * (value - minimum) / (maximum - minimum)
+            points.append((x, y))
+        path_data = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
+        parts.append(f'<polyline points="{path_data}" fill="none" stroke="{color}" stroke-width="2.5"/>')
+        for x, y in points:
+            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="{color}"/>')
+        legend_x = left + (line_index % 3) * 340
+        legend_y = 642 + (line_index // 3) * 17
+        parts.append(f'<line x1="{legend_x}" y1="{legend_y-4}" x2="{legend_x+22}" y2="{legend_y-4}" stroke="{color}" stroke-width="3"/>')
+        parts.append(f'<text x="{legend_x+28}" y="{legend_y}" font-family="Arial" font-size="11" fill="{INK}">{escape(name)}</text>')
     _save(parts, path)
 
 
