@@ -6,7 +6,7 @@ The analysis will compare pressure performance with each player's own baseline, 
 
 ## Project status
 
-**Phase 2 — dataset profiling and validation.** The source data has been inspected and a reproducible profiling pipeline is implemented. Structural, relational, and cricket-scoring reports and figures are generated from the official CSVs. Pressure detection, modelling, player selection, dashboard views, and the final competition report remain later phases.
+**Phase 3 — exploratory data analysis.** Reproducible dataset profiling and descriptive batting, bowling, innings-phase, player-consistency, and pre-delivery match-context analyses are implemented. This phase produces descriptive reports and figures only; pressure detection, pressure scoring, predictive modelling, and final player rankings remain later phases.
 
 ## Repository layout
 
@@ -49,10 +49,17 @@ Keep the supplied ZIP and extracted CSV files in `data/raw/` on your machine. Bo
 
 ## Run
 
-Run the Phase 2 profiling pipeline from the repository root:
+Run both dataset profiling and exploratory analysis from the repository root:
 
 ```powershell
 python main.py
+```
+
+The phases can also be run separately:
+
+```powershell
+python main.py --phase profile
+python main.py --phase eda
 ```
 
 Run the automated calculation and validation tests with:
@@ -64,6 +71,8 @@ python -m pytest -q
 The pipeline reads CSVs from `data/raw/`, writes reports and figures under `outputs/`, and writes the derived innings summary under the ignored `data/processed/` directory. It preserves every input row and does not modify the source CSVs.
 
 Phase 2 creates `dataset_profile.txt`, `dataset_profile.json`, `data_quality_report.txt`, `missing_values.csv`, `relational_validation.csv`, `cricket_scoring_validation.csv`, `competition_coverage.csv`, and `innings_scoring_summary.csv` under `outputs/reports/`. Eight standalone SVG figures are written under `outputs/figures/`.
+
+Phase 3 adds `eda_summary.txt`, `eda_summary.json`, `competition_analysis.csv`, `batting_analysis.csv`, `bowling_analysis.csv`, `innings_phase_analysis.csv`, `innings_context_analysis.csv`, `player_consistency.csv`, and `match_context_analysis.csv` under `outputs/reports/`, plus 16 standalone SVG charts under `outputs/figures/eda/`. Player opportunity and match-count thresholds only flag more interpretable descriptive comparisons; they do not establish statistical reliability or create rankings. Delivery states use information available before the delivery, and match outcomes are kept out of those state features. Uncertain delivery legality, extras attribution, and phase assignment remain explicitly flagged.
 
 ## Phase 2 findings
 

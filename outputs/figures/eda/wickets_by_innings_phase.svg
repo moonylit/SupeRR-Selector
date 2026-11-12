@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Bowler-attributable wickets by phase</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Caught, bowled, LBW, stumped, and hit wicket only</text>
+<line x1="330.0" y1="115" x2="330.0" y2="431" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="431" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">469</text>
+<line x1="634.0" y1="115" x2="634.0" y2="431" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">938</text>
+<line x1="786.0" y1="115" x2="786.0" y2="431" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">1,406</text>
+<line x1="938.0" y1="115" x2="938.0" y2="431" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">1,875</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="431" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">2,344</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Death (overs 16+)</text>
+<rect x="330" y="125" width="450.36" height="19" rx="4" fill="#245b8f"/>
+<text x="787.4" y="140" font-family="Arial" font-size="11" fill="#182230">1,389</text>
+<text x="316" y="174" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Middle (overs 7-15)</text>
+<rect x="330" y="159" width="563.52" height="19" rx="4" fill="#245b8f"/>
+<text x="900.5" y="174" font-family="Arial" font-size="11" fill="#182230">1,738</text>
+<text x="316" y="208" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Powerplay (overs 1-6)</text>
+<rect x="330" y="193" width="347.25" height="19" rx="4" fill="#245b8f"/>
+<text x="684.3" y="208" font-family="Arial" font-size="11" fill="#182230">1,071</text>
+<text x="316" y="242" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Death (overs 16+)</text>
+<rect x="330" y="227" width="36.31" height="19" rx="4" fill="#245b8f"/>
+<text x="373.3" y="242" font-family="Arial" font-size="11" fill="#182230">112</text>
+<text x="316" y="276" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Middle (overs 7-15)</text>
+<rect x="330" y="261" width="48.31" height="19" rx="4" fill="#245b8f"/>
+<text x="385.3" y="276" font-family="Arial" font-size="11" fill="#182230">149</text>
+<text x="316" y="310" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Powerplay (overs 1-6)</text>
+<rect x="330" y="295" width="32.75" height="19" rx="4" fill="#245b8f"/>
+<text x="369.7" y="310" font-family="Arial" font-size="11" fill="#182230">101</text>
+<text x="316" y="344" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Death (overs 16+)</text>
+<rect x="330" y="329" width="568.05" height="19" rx="4" fill="#245b8f"/>
+<text x="905.1" y="344" font-family="Arial" font-size="11" fill="#182230">1,752</text>
+<text x="316" y="378" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Middle (overs 7-15)</text>
+<rect x="330" y="363" width="760.00" height="19" rx="4" fill="#245b8f"/>
+<text x="1096.0" y="378" font-family="Arial" font-size="11" fill="#182230">2,344</text>
+<text x="316" y="412" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Powerplay (overs 1-6)</text>
+<rect x="330" y="397" width="517.80" height="19" rx="4" fill="#245b8f"/>
+<text x="854.8" y="412" font-family="Arial" font-size="11" fill="#182230">1,597</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>

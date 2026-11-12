@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Batter match-run standard deviation</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">At least five batting matches; descriptive variability, not reliability ranking</text>
+<line x1="330.0" y1="115" x2="330.0" y2="567" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="567" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">26</text>
+<line x1="634.0" y1="115" x2="634.0" y2="567" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">52</text>
+<line x1="786.0" y1="115" x2="786.0" y2="567" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">79</text>
+<line x1="938.0" y1="115" x2="938.0" y2="567" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">105</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="567" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">131</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">0–&lt;5</text>
+<rect x="330" y="125" width="446.72" height="19" rx="4" fill="#245b8f"/>
+<text x="783.7" y="140" font-family="Arial" font-size="11" fill="#182230">77</text>
+<text x="316" y="174" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">5–&lt;10</text>
+<rect x="330" y="159" width="597.56" height="19" rx="4" fill="#245b8f"/>
+<text x="934.6" y="174" font-family="Arial" font-size="11" fill="#182230">103</text>
+<text x="316" y="208" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">10–&lt;15</text>
+<rect x="330" y="193" width="661.37" height="19" rx="4" fill="#245b8f"/>
+<text x="998.4" y="208" font-family="Arial" font-size="11" fill="#182230">114</text>
+<text x="316" y="242" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">15–&lt;20</text>
+<rect x="330" y="227" width="760.00" height="19" rx="4" fill="#245b8f"/>
+<text x="1096.0" y="242" font-family="Arial" font-size="11" fill="#182230">131</text>
+<text x="316" y="276" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">20–&lt;25</text>
+<rect x="330" y="261" width="620.76" height="19" rx="4" fill="#245b8f"/>
+<text x="957.8" y="276" font-family="Arial" font-size="11" fill="#182230">107</text>
+<text x="316" y="310" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">25–&lt;30</text>
+<rect x="330" y="295" width="319.08" height="19" rx="4" fill="#245b8f"/>
+<text x="656.1" y="310" font-family="Arial" font-size="11" fill="#182230">55</text>
+<text x="316" y="344" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">30–&lt;35</text>
+<rect x="330" y="329" width="133.44" height="19" rx="4" fill="#245b8f"/>
+<text x="470.4" y="344" font-family="Arial" font-size="11" fill="#182230">23</text>
+<text x="316" y="378" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">35–&lt;40</text>
+<rect x="330" y="363" width="29.01" height="19" rx="4" fill="#245b8f"/>
+<text x="366.0" y="378" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="412" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">40–&lt;45</text>
+<rect x="330" y="397" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="412" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="446" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">45–&lt;50</text>
+<rect x="330" y="431" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="446" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="480" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">50–&lt;55</text>
+<rect x="330" y="465" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="480" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="514" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">55–&lt;60</text>
+<rect x="330" y="499" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="514" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="316" y="548" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">60+ (display cap)</text>
+<rect x="330" y="533" width="0.00" height="19" rx="4" fill="#245b8f"/>
+<text x="337.0" y="548" font-family="Arial" font-size="11" fill="#182230">0</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>
