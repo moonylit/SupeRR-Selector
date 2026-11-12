@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Distribution of innings totals</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Runs + recorded extras; standard innings and tie-break innings retained</text>
+<line x1="330.0" y1="115" x2="330.0" y2="725" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="725" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">38</text>
+<line x1="634.0" y1="115" x2="634.0" y2="725" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">76</text>
+<line x1="786.0" y1="115" x2="786.0" y2="725" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">115</text>
+<line x1="938.0" y1="115" x2="938.0" y2="725" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">153</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="725" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">191</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">0–9</text>
+<rect x="330" y="125" width="47.75" height="19" rx="4" fill="#d9822b"/>
+<text x="384.7" y="140" font-family="Arial" font-size="11" fill="#182230">12</text>
+<text x="316" y="160" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">10–19</text>
+<rect x="330" y="145" width="11.94" height="19" rx="4" fill="#d9822b"/>
+<text x="348.9" y="160" font-family="Arial" font-size="11" fill="#182230">3</text>
+<text x="316" y="180" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">20–29</text>
+<rect x="330" y="165" width="7.96" height="19" rx="4" fill="#d9822b"/>
+<text x="345.0" y="180" font-family="Arial" font-size="11" fill="#182230">2</text>
+<text x="316" y="200" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">30–39</text>
+<rect x="330" y="185" width="23.87" height="19" rx="4" fill="#d9822b"/>
+<text x="360.9" y="200" font-family="Arial" font-size="11" fill="#182230">6</text>
+<text x="316" y="220" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">40–49</text>
+<rect x="330" y="205" width="7.96" height="19" rx="4" fill="#d9822b"/>
+<text x="345.0" y="220" font-family="Arial" font-size="11" fill="#182230">2</text>
+<text x="316" y="240" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">50–59</text>
+<rect x="330" y="225" width="27.85" height="19" rx="4" fill="#d9822b"/>
+<text x="364.9" y="240" font-family="Arial" font-size="11" fill="#182230">7</text>
+<text x="316" y="260" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">60–69</text>
+<rect x="330" y="245" width="35.81" height="19" rx="4" fill="#d9822b"/>
+<text x="372.8" y="260" font-family="Arial" font-size="11" fill="#182230">9</text>
+<text x="316" y="280" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">70–79</text>
+<rect x="330" y="265" width="43.77" height="19" rx="4" fill="#d9822b"/>
+<text x="380.8" y="280" font-family="Arial" font-size="11" fill="#182230">11</text>
+<text x="316" y="300" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">80–89</text>
+<rect x="330" y="285" width="55.71" height="19" rx="4" fill="#d9822b"/>
+<text x="392.7" y="300" font-family="Arial" font-size="11" fill="#182230">14</text>
+<text x="316" y="320" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">90–99</text>
+<rect x="330" y="305" width="135.29" height="19" rx="4" fill="#d9822b"/>
+<text x="472.3" y="320" font-family="Arial" font-size="11" fill="#182230">34</text>
+<text x="316" y="340" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">100–109</text>
+<rect x="330" y="325" width="175.08" height="19" rx="4" fill="#d9822b"/>
+<text x="512.1" y="340" font-family="Arial" font-size="11" fill="#182230">44</text>
+<text x="316" y="360" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">110–119</text>
+<rect x="330" y="345" width="210.89" height="19" rx="4" fill="#d9822b"/>
+<text x="547.9" y="360" font-family="Arial" font-size="11" fill="#182230">53</text>
+<text x="316" y="380" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">120–129</text>
+<rect x="330" y="365" width="342.20" height="19" rx="4" fill="#d9822b"/>
+<text x="679.2" y="380" font-family="Arial" font-size="11" fill="#182230">86</text>
+<text x="316" y="400" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">130–139</text>
+<rect x="330" y="385" width="449.63" height="19" rx="4" fill="#d9822b"/>
+<text x="786.6" y="400" font-family="Arial" font-size="11" fill="#182230">113</text>
+<text x="316" y="420" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">140–149</text>
+<rect x="330" y="405" width="656.54" height="19" rx="4" fill="#d9822b"/>
+<text x="993.5" y="420" font-family="Arial" font-size="11" fill="#182230">165</text>
+<text x="316" y="440" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">150–159</text>
+<rect x="330" y="425" width="720.21" height="19" rx="4" fill="#d9822b"/>
+<text x="1057.2" y="440" font-family="Arial" font-size="11" fill="#182230">181</text>
+<text x="316" y="460" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">160–169</text>
+<rect x="330" y="445" width="708.27" height="19" rx="4" fill="#d9822b"/>
+<text x="1045.3" y="460" font-family="Arial" font-size="11" fill="#182230">178</text>
+<text x="316" y="480" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">170–179</text>
+<rect x="330" y="465" width="760.00" height="19" rx="4" fill="#d9822b"/>
+<text x="1096.0" y="480" font-family="Arial" font-size="11" fill="#182230">191</text>
+<text x="316" y="500" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">180–189</text>
+<rect x="330" y="485" width="557.07" height="19" rx="4" fill="#d9822b"/>
+<text x="894.1" y="500" font-family="Arial" font-size="11" fill="#182230">140</text>
+<text x="316" y="520" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">190–199</text>
+<rect x="330" y="505" width="505.34" height="19" rx="4" fill="#d9822b"/>
+<text x="842.3" y="520" font-family="Arial" font-size="11" fill="#182230">127</text>
+<text x="316" y="540" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">200–209</text>
+<rect x="330" y="525" width="537.17" height="19" rx="4" fill="#d9822b"/>
+<text x="874.2" y="540" font-family="Arial" font-size="11" fill="#182230">135</text>
+<text x="316" y="560" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">210–219</text>
+<rect x="330" y="545" width="310.37" height="19" rx="4" fill="#d9822b"/>
+<text x="647.4" y="560" font-family="Arial" font-size="11" fill="#182230">78</text>
+<text x="316" y="580" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">220–229</text>
+<rect x="330" y="565" width="246.70" height="19" rx="4" fill="#d9822b"/>
+<text x="583.7" y="580" font-family="Arial" font-size="11" fill="#182230">62</text>
+<text x="316" y="600" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">230–239</text>
+<rect x="330" y="585" width="91.52" height="19" rx="4" fill="#d9822b"/>
+<text x="428.5" y="600" font-family="Arial" font-size="11" fill="#182230">23</text>
+<text x="316" y="620" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">240–249</text>
+<rect x="330" y="605" width="71.62" height="19" rx="4" fill="#d9822b"/>
+<text x="408.6" y="620" font-family="Arial" font-size="11" fill="#182230">18</text>
+<text x="316" y="640" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">250–259</text>
+<rect x="330" y="625" width="51.73" height="19" rx="4" fill="#d9822b"/>
+<text x="388.7" y="640" font-family="Arial" font-size="11" fill="#182230">13</text>
+<text x="316" y="660" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">260–269</text>
+<rect x="330" y="645" width="27.85" height="19" rx="4" fill="#d9822b"/>
+<text x="364.9" y="660" font-family="Arial" font-size="11" fill="#182230">7</text>
+<text x="316" y="680" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">270–279</text>
+<rect x="330" y="665" width="15.92" height="19" rx="4" fill="#d9822b"/>
+<text x="352.9" y="680" font-family="Arial" font-size="11" fill="#182230">4</text>
+<text x="316" y="700" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">280–289</text>
+<rect x="330" y="685" width="11.94" height="19" rx="4" fill="#d9822b"/>
+<text x="348.9" y="700" font-family="Arial" font-size="11" fill="#182230">3</text>
+<text x="316" y="720" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">300+</text>
+<rect x="330" y="705" width="7.96" height="19" rx="4" fill="#d9822b"/>
+<text x="345.0" y="720" font-family="Arial" font-size="11" fill="#182230">2</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>

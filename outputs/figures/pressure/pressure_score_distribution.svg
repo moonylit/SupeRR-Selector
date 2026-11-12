@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Batting pressure score distribution</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Weighted index across first innings and chases; delivery-weighted states</text>
+<line x1="330.0" y1="115" x2="330.0" y2="465" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="465" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">7,921</text>
+<line x1="634.0" y1="115" x2="634.0" y2="465" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">15,843</text>
+<line x1="786.0" y1="115" x2="786.0" y2="465" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">23,764</text>
+<line x1="938.0" y1="115" x2="938.0" y2="465" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">31,686</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="465" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">39,607</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">0–9</text>
+<rect x="330" y="125" width="112.83" height="19" rx="4" fill="#d9822b"/>
+<text x="449.8" y="140" font-family="Arial" font-size="11" fill="#182230">5,880</text>
+<text x="316" y="174" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">10–19</text>
+<rect x="330" y="159" width="365.96" height="19" rx="4" fill="#d9822b"/>
+<text x="703.0" y="174" font-family="Arial" font-size="11" fill="#182230">19,072</text>
+<text x="316" y="208" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">20–29</text>
+<rect x="330" y="193" width="663.19" height="19" rx="4" fill="#d9822b"/>
+<text x="1000.2" y="208" font-family="Arial" font-size="11" fill="#182230">34,562</text>
+<text x="316" y="242" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">30–39</text>
+<rect x="330" y="227" width="760.00" height="19" rx="4" fill="#d9822b"/>
+<text x="1096.0" y="242" font-family="Arial" font-size="11" fill="#182230">39,607</text>
+<text x="316" y="276" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">40–49</text>
+<rect x="330" y="261" width="735.90" height="19" rx="4" fill="#d9822b"/>
+<text x="1072.9" y="276" font-family="Arial" font-size="11" fill="#182230">38,351</text>
+<text x="316" y="310" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">50–59</text>
+<rect x="330" y="295" width="519.74" height="19" rx="4" fill="#d9822b"/>
+<text x="856.7" y="310" font-family="Arial" font-size="11" fill="#182230">27,086</text>
+<text x="316" y="344" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">60–69</text>
+<rect x="330" y="329" width="363.66" height="19" rx="4" fill="#d9822b"/>
+<text x="700.7" y="344" font-family="Arial" font-size="11" fill="#182230">18,952</text>
+<text x="316" y="378" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">70–79</text>
+<rect x="330" y="363" width="228.13" height="19" rx="4" fill="#d9822b"/>
+<text x="565.1" y="378" font-family="Arial" font-size="11" fill="#182230">11,889</text>
+<text x="316" y="412" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">80–89</text>
+<rect x="330" y="397" width="91.68" height="19" rx="4" fill="#d9822b"/>
+<text x="428.7" y="412" font-family="Arial" font-size="11" fill="#182230">4,778</text>
+<text x="316" y="446" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">100+</text>
+<rect x="330" y="431" width="15.77" height="19" rx="4" fill="#d9822b"/>
+<text x="352.8" y="446" font-family="Arial" font-size="11" fill="#182230">822</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Median batting pressure by innings phase</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Context groups are reported separately; lower/upper state bounds retained in delivery scores</text>
+<line x1="330.0" y1="115" x2="330.0" y2="635" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="635" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">12</text>
+<line x1="634.0" y1="115" x2="634.0" y2="635" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">24</text>
+<line x1="786.0" y1="115" x2="786.0" y2="635" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">36</text>
+<line x1="938.0" y1="115" x2="938.0" y2="635" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">48</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="635" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">60</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Death (overs 16+)</text>
+<rect x="330" y="125" width="711.86" height="19" rx="4" fill="#245b8f"/>
+<text x="1048.9" y="140" font-family="Arial" font-size="11" fill="#182230">55.8</text>
+<text x="316" y="174" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Middle (overs 7-15)</text>
+<rect x="330" y="159" width="512.38" height="19" rx="4" fill="#245b8f"/>
+<text x="849.4" y="174" font-family="Arial" font-size="11" fill="#182230">40.2</text>
+<text x="316" y="208" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Powerplay (overs 1-6)</text>
+<rect x="330" y="193" width="346.80" height="19" rx="4" fill="#245b8f"/>
+<text x="683.8" y="208" font-family="Arial" font-size="11" fill="#182230">27.2</text>
+<text x="316" y="242" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Tie-break / super-over innings</text>
+<rect x="330" y="227" width="414.55" height="19" rx="4" fill="#245b8f"/>
+<text x="751.5" y="242" font-family="Arial" font-size="11" fill="#182230">32.5</text>
+<text x="316" y="276" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL · Uncertain phase</text>
+<rect x="330" y="261" width="652.38" height="19" rx="4" fill="#245b8f"/>
+<text x="989.4" y="276" font-family="Arial" font-size="11" fill="#182230">51.1</text>
+<text x="316" y="310" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Death (overs 16+)</text>
+<rect x="330" y="295" width="760.00" height="19" rx="4" fill="#245b8f"/>
+<text x="1096.0" y="310" font-family="Arial" font-size="11" fill="#182230">59.6</text>
+<text x="316" y="344" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Middle (overs 7-15)</text>
+<rect x="330" y="329" width="566.01" height="19" rx="4" fill="#245b8f"/>
+<text x="903.0" y="344" font-family="Arial" font-size="11" fill="#182230">44.4</text>
+<text x="316" y="378" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Powerplay (overs 1-6)</text>
+<rect x="330" y="363" width="366.71" height="19" rx="4" fill="#245b8f"/>
+<text x="703.7" y="378" font-family="Arial" font-size="11" fill="#182230">28.7</text>
+<text x="316" y="412" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Tie-break / super-over innings</text>
+<rect x="330" y="397" width="387.97" height="19" rx="4" fill="#245b8f"/>
+<text x="725.0" y="412" font-family="Arial" font-size="11" fill="#182230">30.4</text>
+<text x="316" y="446" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Other T20 · Uncertain phase</text>
+<rect x="330" y="431" width="748.04" height="19" rx="4" fill="#245b8f"/>
+<text x="1085.0" y="446" font-family="Arial" font-size="11" fill="#182230">58.6</text>
+<text x="316" y="480" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Death (overs 16+)</text>
+<rect x="330" y="465" width="752.54" height="19" rx="4" fill="#245b8f"/>
+<text x="1089.5" y="480" font-family="Arial" font-size="11" fill="#182230">59.0</text>
+<text x="316" y="514" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Middle (overs 7-15)</text>
+<rect x="330" y="499" width="553.30" height="19" rx="4" fill="#245b8f"/>
+<text x="890.3" y="514" font-family="Arial" font-size="11" fill="#182230">43.4</text>
+<text x="316" y="548" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Powerplay (overs 1-6)</text>
+<rect x="330" y="533" width="377.19" height="19" rx="4" fill="#245b8f"/>
+<text x="714.2" y="548" font-family="Arial" font-size="11" fill="#182230">29.6</text>
+<text x="316" y="582" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Tie-break / super-over innings</text>
+<rect x="330" y="567" width="387.97" height="19" rx="4" fill="#245b8f"/>
+<text x="725.0" y="582" font-family="Arial" font-size="11" fill="#182230">30.4</text>
+<text x="316" y="616" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">T20I · Uncertain phase</text>
+<rect x="330" y="601" width="652.38" height="19" rx="4" fill="#245b8f"/>
+<text x="989.4" y="616" font-family="Arial" font-size="11" fill="#182230">51.1</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>

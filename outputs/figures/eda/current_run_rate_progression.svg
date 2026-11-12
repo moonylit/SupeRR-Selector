@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Run-rate progression</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Median current run rate before delivery by known legal over; uncertain balls lower the denominator bound</text>
+<line x1="95" y1="600.0" x2="1130" y2="600.0" stroke="#d8dee8"/>
+<text x="83" y="604.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">0.0</text>
+<line x1="95" y1="510.0" x2="1130" y2="510.0" stroke="#d8dee8"/>
+<text x="83" y="514.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">1.9</text>
+<line x1="95" y1="420.0" x2="1130" y2="420.0" stroke="#d8dee8"/>
+<text x="83" y="424.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">3.8</text>
+<line x1="95" y1="330.0" x2="1130" y2="330.0" stroke="#d8dee8"/>
+<text x="83" y="334.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">5.6</text>
+<line x1="95" y1="240.0" x2="1130" y2="240.0" stroke="#d8dee8"/>
+<text x="83" y="244.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">7.5</text>
+<line x1="95" y1="150.0" x2="1130" y2="150.0" stroke="#d8dee8"/>
+<text x="83" y="154.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">9.4</text>
+<text x="95.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">0</text>
+<text x="146.8" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">1</text>
+<text x="198.5" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">2</text>
+<text x="250.2" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">3</text>
+<text x="302.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">4</text>
+<text x="353.8" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">5</text>
+<text x="405.5" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">6</text>
+<text x="457.2" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">7</text>
+<text x="509.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">8</text>
+<text x="560.8" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">9</text>
+<text x="612.5" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">10</text>
+<text x="664.2" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">11</text>
+<text x="716.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">12</text>
+<text x="767.8" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">13</text>
+<text x="819.5" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">14</text>
+<text x="871.2" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">15</text>
+<text x="923.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">16</text>
+<text x="974.8" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">17</text>
+<text x="1026.5" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">18</text>
+<text x="1078.2" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">19</text>
+<text x="1130.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">20</text>
+<polyline points="95.0,312.3 146.8,240.4 198.5,213.6 250.2,182.8 302.0,173.4 353.8,160.0 405.5,168.4 457.2,175.3 509.0,177.2 560.8,180.6 612.5,182.4 664.2,181.1 716.0,178.0 767.8,177.3 819.5,176.5 871.2,174.8 923.0,175.6 974.8,174.1 1026.5,171.1 1078.2,166.0" fill="none" stroke="#245b8f" stroke-width="2.5"/>
+<circle cx="95.0" cy="312.3" r="3" fill="#245b8f"/>
+<circle cx="146.8" cy="240.4" r="3" fill="#245b8f"/>
+<circle cx="198.5" cy="213.6" r="3" fill="#245b8f"/>
+<circle cx="250.2" cy="182.8" r="3" fill="#245b8f"/>
+<circle cx="302.0" cy="173.4" r="3" fill="#245b8f"/>
+<circle cx="353.8" cy="160.0" r="3" fill="#245b8f"/>
+<circle cx="405.5" cy="168.4" r="3" fill="#245b8f"/>
+<circle cx="457.2" cy="175.3" r="3" fill="#245b8f"/>
+<circle cx="509.0" cy="177.2" r="3" fill="#245b8f"/>
+<circle cx="560.8" cy="180.6" r="3" fill="#245b8f"/>
+<circle cx="612.5" cy="182.4" r="3" fill="#245b8f"/>
+<circle cx="664.2" cy="181.1" r="3" fill="#245b8f"/>
+<circle cx="716.0" cy="178.0" r="3" fill="#245b8f"/>
+<circle cx="767.8" cy="177.3" r="3" fill="#245b8f"/>
+<circle cx="819.5" cy="176.5" r="3" fill="#245b8f"/>
+<circle cx="871.2" cy="174.8" r="3" fill="#245b8f"/>
+<circle cx="923.0" cy="175.6" r="3" fill="#245b8f"/>
+<circle cx="974.8" cy="174.1" r="3" fill="#245b8f"/>
+<circle cx="1026.5" cy="171.1" r="3" fill="#245b8f"/>
+<circle cx="1078.2" cy="166.0" r="3" fill="#245b8f"/>
+<line x1="95" y1="638" x2="117" y2="638" stroke="#245b8f" stroke-width="3"/>
+<text x="123" y="642" font-family="Arial" font-size="11" fill="#182230">IPL · Chase</text>
+<polyline points="95.0,312.3 146.8,264.3 198.5,222.4 250.2,200.4 302.0,192.4 353.8,176.9 405.5,179.0 457.2,184.4 509.0,185.7 560.8,185.0 612.5,184.2 664.2,185.4 716.0,182.2 767.8,180.9 819.5,178.4 871.2,176.3 923.0,169.9 974.8,167.1 1026.5,158.3 1078.2,150.0" fill="none" stroke="#d9822b" stroke-width="2.5"/>
+<circle cx="95.0" cy="312.3" r="3" fill="#d9822b"/>
+<circle cx="146.8" cy="264.3" r="3" fill="#d9822b"/>
+<circle cx="198.5" cy="222.4" r="3" fill="#d9822b"/>
+<circle cx="250.2" cy="200.4" r="3" fill="#d9822b"/>
+<circle cx="302.0" cy="192.4" r="3" fill="#d9822b"/>
+<circle cx="353.8" cy="176.9" r="3" fill="#d9822b"/>
+<circle cx="405.5" cy="179.0" r="3" fill="#d9822b"/>
+<circle cx="457.2" cy="184.4" r="3" fill="#d9822b"/>
+<circle cx="509.0" cy="185.7" r="3" fill="#d9822b"/>
+<circle cx="560.8" cy="185.0" r="3" fill="#d9822b"/>
+<circle cx="612.5" cy="184.2" r="3" fill="#d9822b"/>
+<circle cx="664.2" cy="185.4" r="3" fill="#d9822b"/>
+<circle cx="716.0" cy="182.2" r="3" fill="#d9822b"/>
+<circle cx="767.8" cy="180.9" r="3" fill="#d9822b"/>
+<circle cx="819.5" cy="178.4" r="3" fill="#d9822b"/>
+<circle cx="871.2" cy="176.3" r="3" fill="#d9822b"/>
+<circle cx="923.0" cy="169.9" r="3" fill="#d9822b"/>
+<circle cx="974.8" cy="167.1" r="3" fill="#d9822b"/>
+<circle cx="1026.5" cy="158.3" r="3" fill="#d9822b"/>
+<circle cx="1078.2" cy="150.0" r="3" fill="#d9822b"/>
+<line x1="435" y1="638" x2="457" y2="638" stroke="#d9822b" stroke-width="3"/>
+<text x="463" y="642" font-family="Arial" font-size="11" fill="#182230">IPL · First innings</text>
+<polyline points="95.0,312.3 146.8,212.0 198.5,193.8 250.2,202.7 302.0,199.4 353.8,177.5 405.5,180.9 457.2,208.2 509.0,217.4 560.8,223.0 612.5,219.5 664.2,238.3 716.0,240.4 767.8,237.7 819.5,232.0 871.2,234.1 923.0,229.9 974.8,232.1 1026.5,231.0 1078.2,234.1" fill="none" stroke="#25855a" stroke-width="2.5"/>
+<circle cx="95.0" cy="312.3" r="3" fill="#25855a"/>
+<circle cx="146.8" cy="212.0" r="3" fill="#25855a"/>
+<circle cx="198.5" cy="193.8" r="3" fill="#25855a"/>
+<circle cx="250.2" cy="202.7" r="3" fill="#25855a"/>
+<circle cx="302.0" cy="199.4" r="3" fill="#25855a"/>
+<circle cx="353.8" cy="177.5" r="3" fill="#25855a"/>
+<circle cx="405.5" cy="180.9" r="3" fill="#25855a"/>
+<circle cx="457.2" cy="208.2" r="3" fill="#25855a"/>
+<circle cx="509.0" cy="217.4" r="3" fill="#25855a"/>
+<circle cx="560.8" cy="223.0" r="3" fill="#25855a"/>
+<circle cx="612.5" cy="219.5" r="3" fill="#25855a"/>
+<circle cx="664.2" cy="238.3" r="3" fill="#25855a"/>
+<circle cx="716.0" cy="240.4" r="3" fill="#25855a"/>
+<circle cx="767.8" cy="237.7" r="3" fill="#25855a"/>
+<circle cx="819.5" cy="232.0" r="3" fill="#25855a"/>
+<circle cx="871.2" cy="234.1" r="3" fill="#25855a"/>
+<circle cx="923.0" cy="229.9" r="3" fill="#25855a"/>
+<circle cx="974.8" cy="232.1" r="3" fill="#25855a"/>
+<circle cx="1026.5" cy="231.0" r="3" fill="#25855a"/>
+<circle cx="1078.2" cy="234.1" r="3" fill="#25855a"/>
+<line x1="775" y1="638" x2="797" y2="638" stroke="#25855a" stroke-width="3"/>
+<text x="803" y="642" font-family="Arial" font-size="11" fill="#182230">Other T20 · Chase</text>
+<polyline points="95.0,312.3 146.8,312.3 198.5,250.6 250.2,237.2 302.0,227.7 353.8,219.5 405.5,223.8 457.2,232.4 509.0,241.7 560.8,249.5 612.5,249.3 664.2,246.1 716.0,248.2 767.8,254.4 819.5,256.7 871.2,258.8 923.0,260.5 974.8,247.8 1026.5,248.4 1078.2,221.3" fill="none" stroke="#8d5aa6" stroke-width="2.5"/>
+<circle cx="95.0" cy="312.3" r="3" fill="#8d5aa6"/>
+<circle cx="146.8" cy="312.3" r="3" fill="#8d5aa6"/>
+<circle cx="198.5" cy="250.6" r="3" fill="#8d5aa6"/>
+<circle cx="250.2" cy="237.2" r="3" fill="#8d5aa6"/>
+<circle cx="302.0" cy="227.7" r="3" fill="#8d5aa6"/>
+<circle cx="353.8" cy="219.5" r="3" fill="#8d5aa6"/>
+<circle cx="405.5" cy="223.8" r="3" fill="#8d5aa6"/>
+<circle cx="457.2" cy="232.4" r="3" fill="#8d5aa6"/>
+<circle cx="509.0" cy="241.7" r="3" fill="#8d5aa6"/>
+<circle cx="560.8" cy="249.5" r="3" fill="#8d5aa6"/>
+<circle cx="612.5" cy="249.3" r="3" fill="#8d5aa6"/>
+<circle cx="664.2" cy="246.1" r="3" fill="#8d5aa6"/>
+<circle cx="716.0" cy="248.2" r="3" fill="#8d5aa6"/>
+<circle cx="767.8" cy="254.4" r="3" fill="#8d5aa6"/>
+<circle cx="819.5" cy="256.7" r="3" fill="#8d5aa6"/>
+<circle cx="871.2" cy="258.8" r="3" fill="#8d5aa6"/>
+<circle cx="923.0" cy="260.5" r="3" fill="#8d5aa6"/>
+<circle cx="974.8" cy="247.8" r="3" fill="#8d5aa6"/>
+<circle cx="1026.5" cy="248.4" r="3" fill="#8d5aa6"/>
+<circle cx="1078.2" cy="221.3" r="3" fill="#8d5aa6"/>
+<line x1="95" y1="655" x2="117" y2="655" stroke="#8d5aa6" stroke-width="3"/>
+<text x="123" y="659" font-family="Arial" font-size="11" fill="#182230">Other T20 · First innings</text>
+<polyline points="95.0,312.3 146.8,271.2 198.5,245.9 250.2,230.1 302.0,213.1 353.8,207.2 405.5,206.3 457.2,210.0 509.0,218.2 560.8,221.4 612.5,226.9 664.2,227.2 716.0,225.2 767.8,224.9 819.5,228.7 871.2,227.9 923.0,226.0 974.8,223.8 1026.5,220.6 1078.2,217.2" fill="none" stroke="#c04444" stroke-width="2.5"/>
+<circle cx="95.0" cy="312.3" r="3" fill="#c04444"/>
+<circle cx="146.8" cy="271.2" r="3" fill="#c04444"/>
+<circle cx="198.5" cy="245.9" r="3" fill="#c04444"/>
+<circle cx="250.2" cy="230.1" r="3" fill="#c04444"/>
+<circle cx="302.0" cy="213.1" r="3" fill="#c04444"/>
+<circle cx="353.8" cy="207.2" r="3" fill="#c04444"/>
+<circle cx="405.5" cy="206.3" r="3" fill="#c04444"/>
+<circle cx="457.2" cy="210.0" r="3" fill="#c04444"/>
+<circle cx="509.0" cy="218.2" r="3" fill="#c04444"/>
+<circle cx="560.8" cy="221.4" r="3" fill="#c04444"/>
+<circle cx="612.5" cy="226.9" r="3" fill="#c04444"/>
+<circle cx="664.2" cy="227.2" r="3" fill="#c04444"/>
+<circle cx="716.0" cy="225.2" r="3" fill="#c04444"/>
+<circle cx="767.8" cy="224.9" r="3" fill="#c04444"/>
+<circle cx="819.5" cy="228.7" r="3" fill="#c04444"/>
+<circle cx="871.2" cy="227.9" r="3" fill="#c04444"/>
+<circle cx="923.0" cy="226.0" r="3" fill="#c04444"/>
+<circle cx="974.8" cy="223.8" r="3" fill="#c04444"/>
+<circle cx="1026.5" cy="220.6" r="3" fill="#c04444"/>
+<circle cx="1078.2" cy="217.2" r="3" fill="#c04444"/>
+<line x1="435" y1="655" x2="457" y2="655" stroke="#c04444" stroke-width="3"/>
+<text x="463" y="659" font-family="Arial" font-size="11" fill="#182230">T20I · Chase</text>
+<polyline points="95.0,312.3 146.8,280.3 198.5,245.9 250.2,232.4 302.0,223.0 353.8,219.2 405.5,211.6 457.2,218.6 509.0,223.8 560.8,225.0 612.5,221.2 664.2,219.2 716.0,220.1 767.8,218.7 819.5,216.4 871.2,212.4 923.0,207.4 974.8,202.7 1026.5,197.2 1078.2,187.9" fill="none" stroke="#0b8190" stroke-width="2.5"/>
+<circle cx="95.0" cy="312.3" r="3" fill="#0b8190"/>
+<circle cx="146.8" cy="280.3" r="3" fill="#0b8190"/>
+<circle cx="198.5" cy="245.9" r="3" fill="#0b8190"/>
+<circle cx="250.2" cy="232.4" r="3" fill="#0b8190"/>
+<circle cx="302.0" cy="223.0" r="3" fill="#0b8190"/>
+<circle cx="353.8" cy="219.2" r="3" fill="#0b8190"/>
+<circle cx="405.5" cy="211.6" r="3" fill="#0b8190"/>
+<circle cx="457.2" cy="218.6" r="3" fill="#0b8190"/>
+<circle cx="509.0" cy="223.8" r="3" fill="#0b8190"/>
+<circle cx="560.8" cy="225.0" r="3" fill="#0b8190"/>
+<circle cx="612.5" cy="221.2" r="3" fill="#0b8190"/>
+<circle cx="664.2" cy="219.2" r="3" fill="#0b8190"/>
+<circle cx="716.0" cy="220.1" r="3" fill="#0b8190"/>
+<circle cx="767.8" cy="218.7" r="3" fill="#0b8190"/>
+<circle cx="819.5" cy="216.4" r="3" fill="#0b8190"/>
+<circle cx="871.2" cy="212.4" r="3" fill="#0b8190"/>
+<circle cx="923.0" cy="207.4" r="3" fill="#0b8190"/>
+<circle cx="974.8" cy="202.7" r="3" fill="#0b8190"/>
+<circle cx="1026.5" cy="197.2" r="3" fill="#0b8190"/>
+<circle cx="1078.2" cy="187.9" r="3" fill="#0b8190"/>
+<line x1="775" y1="655" x2="797" y2="655" stroke="#0b8190" stroke-width="3"/>
+<text x="803" y="659" font-family="Arial" font-size="11" fill="#182230">T20I · First innings</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>

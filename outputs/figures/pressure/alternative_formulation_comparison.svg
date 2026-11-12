@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Alternative pressure formulations</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Median scores by weighted-index decile; formulations share normalized demand/resource components</text>
+<line x1="95" y1="600.0" x2="1130" y2="600.0" stroke="#d8dee8"/>
+<text x="83" y="604.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">0.0</text>
+<line x1="95" y1="510.0" x2="1130" y2="510.0" stroke="#d8dee8"/>
+<text x="83" y="514.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">18.8</text>
+<line x1="95" y1="420.0" x2="1130" y2="420.0" stroke="#d8dee8"/>
+<text x="83" y="424.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">37.6</text>
+<line x1="95" y1="330.0" x2="1130" y2="330.0" stroke="#d8dee8"/>
+<text x="83" y="334.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">56.4</text>
+<line x1="95" y1="240.0" x2="1130" y2="240.0" stroke="#d8dee8"/>
+<text x="83" y="244.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">75.2</text>
+<line x1="95" y1="150.0" x2="1130" y2="150.0" stroke="#d8dee8"/>
+<text x="83" y="154.0" text-anchor="end" font-family="Arial" font-size="12" fill="#667085">94.0</text>
+<text x="95.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">-0–10</text>
+<text x="210.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">10–20</text>
+<text x="325.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">20–30</text>
+<text x="440.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">30–40</text>
+<text x="555.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">40–50</text>
+<text x="670.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">50–60</text>
+<text x="785.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">60–70</text>
+<text x="900.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">70–80</text>
+<text x="1015.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">80–90</text>
+<text x="1130.0" y="622" text-anchor="middle" font-family="Arial" font-size="10" fill="#667085">90–100</text>
+<polyline points="95.0,566.1 210.0,523.9 325.0,478.5 440.0,432.2 555.0,384.4 670.0,338.7 785.0,291.2 900.0,244.5 1015.0,200.0 1130.0,157.2" fill="none" stroke="#245b8f" stroke-width="2.5"/>
+<circle cx="95.0" cy="566.1" r="3" fill="#245b8f"/>
+<circle cx="210.0" cy="523.9" r="3" fill="#245b8f"/>
+<circle cx="325.0" cy="478.5" r="3" fill="#245b8f"/>
+<circle cx="440.0" cy="432.2" r="3" fill="#245b8f"/>
+<circle cx="555.0" cy="384.4" r="3" fill="#245b8f"/>
+<circle cx="670.0" cy="338.7" r="3" fill="#245b8f"/>
+<circle cx="785.0" cy="291.2" r="3" fill="#245b8f"/>
+<circle cx="900.0" cy="244.5" r="3" fill="#245b8f"/>
+<circle cx="1015.0" cy="200.0" r="3" fill="#245b8f"/>
+<circle cx="1130.0" cy="157.2" r="3" fill="#245b8f"/>
+<line x1="95" y1="638" x2="117" y2="638" stroke="#245b8f" stroke-width="3"/>
+<text x="123" y="642" font-family="Arial" font-size="11" fill="#182230">weighted</text>
+<polyline points="95.0,565.7 210.0,521.8 325.0,470.6 440.0,419.6 555.0,365.9 670.0,321.8 785.0,273.9 900.0,230.1 1015.0,188.8 1130.0,150.0" fill="none" stroke="#d9822b" stroke-width="2.5"/>
+<circle cx="95.0" cy="565.7" r="3" fill="#d9822b"/>
+<circle cx="210.0" cy="521.8" r="3" fill="#d9822b"/>
+<circle cx="325.0" cy="470.6" r="3" fill="#d9822b"/>
+<circle cx="440.0" cy="419.6" r="3" fill="#d9822b"/>
+<circle cx="555.0" cy="365.9" r="3" fill="#d9822b"/>
+<circle cx="670.0" cy="321.8" r="3" fill="#d9822b"/>
+<circle cx="785.0" cy="273.9" r="3" fill="#d9822b"/>
+<circle cx="900.0" cy="230.1" r="3" fill="#d9822b"/>
+<circle cx="1015.0" cy="188.8" r="3" fill="#d9822b"/>
+<circle cx="1130.0" cy="150.0" r="3" fill="#d9822b"/>
+<line x1="435" y1="638" x2="457" y2="638" stroke="#d9822b" stroke-width="3"/>
+<text x="463" y="642" font-family="Arial" font-size="11" fill="#182230">nonlinear</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>
