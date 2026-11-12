@@ -1,0 +1,6 @@
+scenario,runs_required,legal_balls_remaining,wickets_remaining,required_run_rate,demand_component_synthetic,resource_component,batting_pressure_weighted_synthetic,batting_pressure_nonlinear_synthetic,is_synthetic_not_match_observation
+low-demand long chase,10.0,30,9,2.0,0.15351827510938587,0.425,28.92591375546929,30.234178008705214,True
+"high-demand, scarce wickets",30.0,12,2,15.0,0.7134952031398099,0.8500000000000001,78.1747601569905,79.2694140147876,True
+"final-ball, one wicket",18.0,6,1,18.0,0.7768698398515702,0.925,85.09349199257852,87.06370918263963,True
+comfortable first innings,,100,10,,0.1,0.08333333333333331,9.166666666666666,9.170489377075242,True
+"death phase, high chase rate",30.0,12,5,15.0,0.7134952031398099,0.7,70.67476015699049,70.68252414377099,True
