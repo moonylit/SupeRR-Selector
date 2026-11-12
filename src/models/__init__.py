@@ -1,1 +1,1 @@
-"""Batting and bowling evaluation models."""
+"""Player-performance models and feature engineering."""

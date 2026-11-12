@@ -1,0 +1,7 @@
+BATTING VALIDATION
+Source deliveries: 200,999; rows after joins: 200,999; source row IDs unique: True.
+Unique delivery keys: True; stable player IDs missing: 0; player mapping unmatched: 0.
+Weighted pressure range: 0.104–97.180; composite score bounds: 46.398–54.784.
+No future baseline: month labels computed from prior months only; regression folds use years < test year; first unavailable test year remains unscored.
+Bootstrap rows: 907; match-level resampling; replicates=300; seed=42.
+See join diagnostics and baseline audit CSV for row coverage. Input tables were loaded read-only; source files were not rewritten.

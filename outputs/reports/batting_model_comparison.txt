@@ -1,0 +1,37 @@
+SUPERR SELECTOR — MODEL COMPARISON
+
+Model A: equal-weight means of absolute, relative-resilience and consistency domains; easy to explain, but choices are normative.
+Model B: inverse absolute-correlation component weighting; reduces redundant correlated components, but weights are sample-dependent and not outcome-trained.
+Model C: Model A shrunk toward neutral 50 using pressure volume, matches and baseline history; this is the displayed exploratory composite.
+
+Correlation weights:
+           component  correlation_reduced_weight
+      z_pressure_rpb                    0.105245
+ z_pressure_boundary                    0.126185
+      z_pressure_dot                    0.119642
+z_pressure_dismissal                    0.147828
+      z_relative_rpb                    0.106231
+ z_relative_boundary                    0.125963
+      z_relative_dot                    0.117843
+z_relative_dismissal                    0.151062
+
+Competition-specific rank checks:
+IPL: score_model_a_equal_domains vs score_model_b_correlation_reduced, Spearman=0.764, top-decile overlap=21/35
+IPL: score_model_a_equal_domains vs score_model_c_shrinkage_adjusted, Spearman=0.856, top-decile overlap=12/35
+IPL: score_model_b_correlation_reduced vs score_model_c_shrinkage_adjusted, Spearman=0.676, top-decile overlap=12/35
+Other T20: score_model_a_equal_domains vs score_model_b_correlation_reduced, Spearman=0.452, top-decile overlap=4/16
+Other T20: score_model_a_equal_domains vs score_model_c_shrinkage_adjusted, Spearman=0.782, top-decile overlap=11/16
+Other T20: score_model_b_correlation_reduced vs score_model_c_shrinkage_adjusted, Spearman=0.436, top-decile overlap=6/16
+T20I: score_model_a_equal_domains vs score_model_b_correlation_reduced, Spearman=0.757, top-decile overlap=40/67
+T20I: score_model_a_equal_domains vs score_model_c_shrinkage_adjusted, Spearman=0.833, top-decile overlap=16/67
+T20I: score_model_b_correlation_reduced vs score_model_c_shrinkage_adjusted, Spearman=0.706, top-decile overlap=27/67
+
+Walk-forward Ridge comparison:
+ test_year  training_rows  test_rows  model_available                                                   reason  mae_runs_per_ball  rmse_runs_per_ball  hierarchical_baseline_mae_runs_per_ball_on_same_rows  mae_improvement_vs_hierarchical_baseline walk_forward_no_future_training predictors_use_pre_delivery_context_only
+      2022              0      40796            False insufficient prior-year training rows or empty test fold                NaN                 NaN                                                   NaN                                       NaN                             NaN                                      NaN
+      2023          40796      31763             True                                                      NaN           1.265022            1.708783                                              1.310241                                  0.045219                            True                                     True
+      2024          72559      43016             True                                                      NaN           1.267577            1.722988                                              1.345139                                  0.077563                            True                                     True
+      2025         115575      45797             True                                                      NaN           1.293569            1.741457                                              1.352163                                  0.058595                            True                                     True
+      2026         161372      31646             True                                                      NaN           1.369650            1.804896                                              1.422316                                  0.052666                            True                                     True
+
+No approach is declared superior without future-outcome evidence. Model C is used as the displayed exploratory score because it explicitly shrinks low-information cases toward neutral 50; that is a risk-control design choice, not an empirical claim of better batting prediction. Sensitivity scenarios are in batting_sensitivity_analysis.csv.

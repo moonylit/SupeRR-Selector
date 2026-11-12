@@ -1,0 +1,24 @@
+Rows: 200,999; known-faced rows: 193,018; uncertain faced rows: 267.
+Player/competition records: 1,167; pressure-sample sufficient: 158; eligible default candidates (pressure sample + reliable baseline): 73; insufficient pressure sample: 1,009; baseline unreliable among pressure-sample sufficient: 85.
+Pressure label available: 194,324; unavailable early/context rows: 6,675.
+Eligible-candidate median P90 runs/ball: 1.322; median non-P90 runs/ball: 1.479; median pressure-minus-personal-baseline runs/ball: -0.117; candidates above their personal baseline: 30.1%. These are descriptive and competition/context pooled candidate summaries.
+Competition-specific candidate summaries:
+competition_group  candidate_records  median_pressure_rpb  median_normal_rpb  median_pressure_minus_baseline_rpb  share_above_personal_baseline
+              IPL                 67                1.324              1.505                              -0.111                          0.313
+             T20I                  6                1.148              1.325                              -0.199                          0.167
+Join diagnostics: {'source_delivery_rows': 200999, 'duplicate_source_delivery_keys': 0, 'pressure_join_rows': {'state': {'matched': 200999, 'unmatched': 0, 'right_duplicate_keys': 0}, 'feature': {'matched': 200999, 'unmatched': 0, 'right_duplicate_keys': 0}, 'score': {'matched': 200999, 'unmatched': 0, 'right_duplicate_keys': 0}}, 'unmatched_player_mapping_rows': 0, 'missing_player_id_rows': 0, 'missing_batting_team_name_rows': 0, 'missing_opponent_team_name_rows': 0, 'batting_team_catalog_name_conflicts': 0, 'opponent_team_catalog_name_conflicts': 0, 'delivery_rows_after_joins': 200999, 'known_faced_rows': 193018, 'uncertain_faced_rows': 267, 'wide_rows_excluded_from_balls_faced': 7714, 'legal_status_uncertain_rows': 267, 'bowler_extra_attribution_uncertain_rows': 266, 'valid_batter_dismissal_events': 10881, 'dismissal_attribution_uncertain_events': 1, 'retired_hurt_or_non_dismissal_rows_not_counted': 0, 'unmatched_pressure_state_rows': 0, 'unmatched_pressure_feature_rows': 0, 'unmatched_pressure_score_rows': 0}
+
+Top exploratory scores (not selections):
+competition_group  striker_id      player_name  overall_batting_pressure_score                 eligibility_status
+              IPL     23450.0    Sai Sudharsan                       54.783787      eligible analytical candidate
+              IPL        47.0      Virat Kohli                        53.58213      eligible analytical candidate
+              IPL      4260.0 Heinrich Klaasen                       53.379443 eligible with uncertain deliveries
+              IPL       142.0   Shikhar Dhawan                       53.259015 eligible with uncertain deliveries
+              IPL      4755.0      Shivam Dube                       53.228577 eligible with uncertain deliveries
+              IPL      6423.0      Riyan Parag                        53.08634 eligible with uncertain deliveries
+              IPL      3605.0    Aiden Markram                       52.936221 eligible with uncertain deliveries
+              IPL      2258.0     Sanju Samson                       52.807991      eligible analytical candidate
+              IPL      6288.0     Shubman Gill                       52.746268 eligible with uncertain deliveries
+              IPL      1699.0 Suryakumar Yadav                       52.684925 eligible with uncertain deliveries
+
+Interpretation: use absolute output, baseline differentials, match-cluster intervals and eligibility together. No score constitutes a validated pressure trait or final competition recommendation.
