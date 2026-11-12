@@ -16,9 +16,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--phase",
-        choices=("all", "profile", "eda", "pressure"),
+        choices=("all", "profile", "eda", "pressure", "batting"),
         default="all",
-        help="Run Phase 2 profiling, Phase 3 EDA, Phase 4 pressure analysis, or all (default: all).",
+        help="Run one analytical phase or all phases (default: all).",
     )
     parser.add_argument("--data-dir", type=Path, default=DATA_RAW_DIR)
     parser.add_argument("--reports-dir", type=Path, default=OUTPUTS_DIR / "reports")
@@ -47,7 +47,7 @@ def main() -> None:
             f"and {len(result['figures'])} figures."
         )
 
-    if args.phase in ("all", "pressure"):
+    if args.phase in ("all", "pressure", "batting"):
         from src.pressure.pressure_validation import run_pressure_engine
 
         result = run_pressure_engine(
@@ -61,6 +61,29 @@ def main() -> None:
             f"{len(result['thresholds'])} threshold sensitivity rows, and "
             f"{len(result['figures'])} figures."
         )
+
+        if args.phase in ("all", "batting"):
+            from src.models.batting_model import run_batting_model
+
+            import pandas as pd
+
+            states = pd.read_csv(args.pressure_processed_dir / "delivery_match_states.csv")
+            features = pd.read_csv(args.pressure_processed_dir / "pressure_features.csv")
+            scores = pd.read_csv(args.pressure_processed_dir / "pressure_scores.csv")
+            batting = run_batting_model(
+                tables,
+                states,
+                features,
+                scores,
+                args.reports_dir,
+                args.figures_dir / "batting",
+                args.pressure_processed_dir,
+            )
+            print(
+                f"Batting model wrote {len(batting['deliveries'])} delivery rows, "
+                f"{len(batting['scores'])} player/competition records, "
+                f"and {len(batting['figures'])} figures."
+            )
 
 
 if __name__ == "__main__":

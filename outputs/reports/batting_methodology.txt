@@ -1,0 +1,11 @@
+SUPERR SELECTOR — PHASE 5 BATTING METHODOLOGY
+All outputs are descriptive estimates of observed cricket outcomes under defined match contexts; pressure indices are not psychological measurements.
+Stable striker IDs drive aggregation; names are display labels. Joins use delivery keys and many-to-one dimensions with row preservation checks.
+Batter runs are source runs. Wides are not balls faced; Overstep/no-ball, byes and leg-byes count as faced under the Phase 2 convention. Unclassified extras remain uncertain and are retained.
+A batter dot is a known-faced delivery with zero batter runs; a separate zero-total-runs flag is retained. Boundaries use batter four/six flags. Dismissals are credited to dismissed_player_id, including run-outs and retire-outs; retired hurt is excluded.
+Primary P90 labels use the prior-month weighted score distribution within competition group × innings phase after 100 reference states; bands use prior-history P50/P75/P90. Early rows remain unavailable. Phase 4 static P90 is sensitivity-only.
+Personal baselines use prior months of non-P90 known-faced observations, matched on exact competition ID, phase and first/chase context, then broader competition-group fallback; peer rates shrink estimates with 50 prior balls.
+Context regression is a prior-year-only Ridge comparison using pre-delivery predictors. The prediction target is delivery batter runs per known-faced ball; held-out years are compared with the historical baseline.
+Continuous exposure uses weighted pressure/100; effective exposure is Kish ESS. Bootstrap resamples matches. Composite scores robust-standardize within IPL/T20I/Other T20, report absolute, relative, consistency and reliability components separately, and are exploratory only.
+Default candidate eligibility: 50 P90 balls, 5 P90 matches, and 30 historical nonpressure balls. Threshold sensitivity is reported separately. No final top-10 selections are produced.
+Limitations: the P90 construct and provisional Phase 4 indices have no ground-truth pressure labels; the data are observational and competition/context coverage is uneven; the pooled baseline uses prior months only but small contexts can remain noisy; eligibility is a policy candidate; scores are not validated talent or psychological ratings.

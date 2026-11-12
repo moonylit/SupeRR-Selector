@@ -1,0 +1,6 @@
+test_year,training_rows,test_rows,model_available,reason,mae_runs_per_ball,rmse_runs_per_ball,hierarchical_baseline_mae_runs_per_ball_on_same_rows,mae_improvement_vs_hierarchical_baseline,walk_forward_no_future_training,predictors_use_pre_delivery_context_only
+2022,0,40796,False,insufficient prior-year training rows or empty test fold,,,,,,
+2023,40796,31763,True,,1.2650219916739083,1.7087830325038902,1.3102411946313917,0.045219202957483384,True,True
+2024,72559,43016,True,,1.2675766191938933,1.7229882176483824,1.3451394344877812,0.07756281529388787,True,True
+2025,115575,45797,True,,1.2935685433557456,1.7414568545820486,1.3521631800678644,0.05859463671211884,True,True
+2026,161372,31646,True,,1.3696496310903676,1.804896208043986,1.422315630673142,0.05266599958277429,True,True
