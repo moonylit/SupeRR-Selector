@@ -1,0 +1,80 @@
+SUPERR SELECTOR — DATA QUALITY REPORT
+========================================================================
+
+Scope: structural and cricket-scoring validation only. No pressure model or player rankings were run.
+Source files are left unchanged. Review statuses preserve anomalies for later decisions.
+
+Coverage
+- Matches: 883; unique match IDs: 883.
+- Deliveries: 200,999; delivery match IDs missing from matches: 0.
+- Matches without delivery rows: 16; all results: {'Match Abandoned': 16}.
+- Competitions in catalog: 141; competitions with no match reference: 3; details: [{'comp_id': 3405, 'comp_name': 'Afghanistan v Sri Lanka T20I Series 2026', 'match_format': 'T20I'}, {'comp_id': 3473, 'comp_name': 'United Arab Emirates in Nepal T20I Series 2026', 'match_format': 'T20I'}, {'comp_id': 2940, 'comp_name': 'India in Bangladesh T20I Series 2025', 'match_format': 'T20I'}].
+- Match date coverage: 2022-01-22 to 2026-11-01.
+- Match records with null winner IDs: 41 ({'No Result': 21, 'Match Abandoned': 19, 'Match Tied': 1}); includes no-result, abandoned, and tied matches.
+- Missing captain IDs: home=44, away=45; missing values are retained.
+
+Competition formats
+- Catalog format counts: {'T20I': 134, 'T20': 7}.
+- IPL is identified by competition name matching 'IPL YYYY' and match_format T20: 5 seasons.
+- T20 format also contains non-IPL events: ['Mens T20 Emerging Teams Asia Cup 2024', 'Asia Cup Rising Stars 2025'].
+- T20I remains separate; the T20 format label alone is not treated as IPL.
+- Match/player coverage by distinct competition grouping (player counts are summed across competitions and are not unique cross-competition people): {'IPL': {'competition_count': 5, 'match_count': 371, 'mapped_competition_player_records': 1308}, 'Other T20': {'competition_count': 2, 'match_count': 30, 'mapped_competition_player_records': 277}, 'T20I': {'competition_count': 134, 'match_count': 482, 'mapped_competition_player_records': 4828}}.
+
+Relationships and identifiers
+- Competition team-name consistency: 0 home/away name-to-ID mismatches (expected 0).
+- PASS: ball_by_ball.match_id -> matches.match_id; checked=867; flagged=0; []
+- REVIEW: matches.match_id -> ball_by_ball.match_id (all match coverage); checked=883; flagged=16; matches without deliveries by result={'Match Abandoned': 16}; unmatched=[{'key_0': 31281}, {'key_0': 31284}, {'key_0': 31288}, {'key_0': 32610}, {'key_0': 32612}, {'key_0': 32622}, {'key_0': 38797}, {'key_0': 36564}, {'key_0': 36210}, {'key_0': 40761}, {'key_0': 41502}, {'key_0': 41503}, {'key_0': 42030}, {'key_0': 46008}, {'key_0': 48513}, {'key_0': 50189}]
+- PASS: matches.comp_id -> competitions.comp_id; checked=138; flagged=0; []
+- REVIEW: competitions.comp_id -> matches.comp_id (coverage); checked=141; flagged=3; [{'key_0': 3405}, {'key_0': 3473}, {'key_0': 2940}]
+- PASS: match home/away team names agree with team IDs; checked=1766; flagged=0; []
+- PASS: home/away match teams -> teams by competition; checked=345; flagged=0; []
+- PASS: ball batting teams -> teams by competition; checked=345; flagged=0; []
+- PASS: ball bowling teams -> teams by competition; checked=345; flagged=0; []
+- PASS: delivery striker -> competition player mapping; checked=4327; flagged=0; []
+- PASS: delivery non-striker -> competition player mapping; checked=4165; flagged=0; []
+- PASS: delivery bowler -> competition player mapping; checked=3101; flagged=0; []
+- PASS: nonmissing match captains -> competition team player mapping; checked=398; flagged=0; []
+- PASS: nonzero man-of-the-match IDs -> competition player mapping; checked=642; flagged=0; []
+- PASS: toss_win_team_id is one of the match teams; checked=868; flagged=0; []
+- PASS: win_team_id is one of the match teams; checked=842; flagged=0; []
+- REVIEW: playing_eleven -> competition player mapping; checked=5646; flagged=1; [{'key_0': 2670, 'key_1': 4444, 'key_2': 29833}]
+- PASS: matches unique key ('match_id',); checked=883; flagged=0; duplicate rows=0; duplicate keys=0
+- PASS: competitions unique key ('comp_id',); checked=141; flagged=0; duplicate rows=0; duplicate keys=0
+- PASS: teams unique key ('comp_id', 'team_id'); checked=353; flagged=0; duplicate rows=0; duplicate keys=0
+- PASS: competition_team_player_mapping unique key ('comp_id', 'team_id', 'player_id'); checked=6413; flagged=0; duplicate rows=0; duplicate keys=0
+- PASS: ball_by_ball delivery unique key ('match_id', 'innings', 'overid', 'over_ball_num'); checked=200999; flagged=0; duplicate rows=0; duplicate keys=0
+- PASS: innings_ball_num is a contiguous delivery-row sequence; checked=1724; flagged=0; This ordinal includes recorded wide/no-ball events; do not use it as legal-ball count.
+- REVIEW: playing_eleven repeated match/team/player keys; checked=28381; flagged=35; 75 rows across 35 keys; source has no innings column, so repeated player rows are preserved
+- PASS: matches.match_date parses as a date; checked=883; flagged=0; range=2022-01-22 00:00:00 to 2026-11-01 00:00:00
+- PASS: match/competition metadata enrichment preserves delivery rows; checked=200999; flagged=0; many-to-one metadata joins; delivery rows are preserved and unmatched values remain visible
+- Five playing-eleven mapping-miss rows are all is_played=False for player 29833/team 4444 in competition 2670; source roster rows retained.
+- Playing-eleven has 35 repeated match/team/player keys across 75 rows; batting_order differs and the source table has no innings key. No row was removed.
+- For is_played=False rows, is_captain and is_wk are missing in 8667 and 8667 rows respectively; these are structurally blank role fields, not imputed.
+
+Scoring fields and limitations
+- Delivery total runs are derived as runs + extras1_runs + extras_2_runs. runs is treated as batter runs because the extras are separate fields; a leg-byes row violates the expected pattern (runs=1 with zero extras) and is flagged.
+- Extras type values: {nan: 189167, 'wide': 7714, 'legbyes': 2748, 'Overstep': 576, 'byes': 529, 'other': 264, 'Penalty': 1}.
+- 2 rows have nonzero extras but no extras_type; 264 rows use the unclassified 'other' extras label.
+- 266 deliveries carry extras with unclear legality or bowler attribution and remain flagged; the separate Penalty row is not charged to the bowler but its ball legality is unknown.
+- Legal ball classification: wide and Overstep (observed no-ball label) are illegal; known byes/leg-byes and no-extra rows are legal. Unknown extras remain nullable, so counts are reported as known legal, known illegal, and unknown.
+- innings_ball_num is a contiguous per-innings delivery-row ordinal (includes illegal deliveries), not a legal-ball count. Legal balls are derived from the extras classification.
+- Negative values in runs/extras fields: 0; mismatched is_four/is_six versus runs fields: 0.
+- bowl_speed equals zero on 77861 rows; treated as a likely unavailable measurement, not as a measured zero-speed delivery.
+- Bowler runs: batter runs plus wide/no-ball extras where attributable; byes, leg-byes, and penalty extras are not charged to the bowler. Unclassified extras are not silently allocated.
+- Innings 3/4 appear in 12 match-innings; retained as recorded (likely tie-break/super-over innings; source has no explicit super-over flag).
+- Innings above 120 known-legal deliveries: 0; innings above 120 if all ambiguous rows were legal: 150. Ambiguous cases remain flagged and no innings is truncated.
+- Dismissal types observed: {'Caught': 7557, 'Bowled': 1775, 'LBW': 709, 'RunOut': 600, 'Stump': 214, 'Hit Wicket': 17, 'Retire Out': 6, 'Obstracting the field': 2, 'Obstructing the field': 1}. Bowler wickets count caught, bowled, LBW, stumped and hit wicket; run-out, retire-out and obstruction are excluded.
+- matches.csv has no innings score totals, so calculated totals cannot be independently reconciled against a scorecard. Per-innings derived totals are supplied in data/processed/innings_summary.csv.
+- revised_target is populated on some matches and revised overs are recorded separately. No target reconstruction is attempted in this profiling phase.
+
+Cricket scoring summary
+- CALCULATED: Delivery total runs = runs + extras1_runs + extras_2_runs = 284257; batter-runs field sum=269550; extras sum=14707; no innings-total field exists in matches.csv for external reconciliation
+- CALCULATED: Batter runs (sum of runs field) = 269550; The data separates runs from two extras fields; one leg-byes row has runs=1 and no extras, flagged for source review
+- CALCULATED: Extras (extras1_runs + extras_2_runs) = 14707; Rows are summed as stored; two nonzero-extras rows lack extras_type
+- REVIEW: Legal deliveries (tri-state classification) = 192442; known legal=192442; known illegal=8290; legality unknown=267; wide and Overstep classified illegal; ambiguous extras left unknown
+- REVIEW: Bowler runs conceded (known attribution only) = 279348; Includes batter runs and wide/no-ball extras; excludes byes, leg-byes and penalty; 264 deliveries have extras with unknown attribution
+- CALCULATED: Bowler-attributable wickets = 10272; All wicket events=10881; uses caught, bowled, LBW, stumped, and hit wicket; excludes run-out, retire out, and obstruction
+- CALCULATED: Wicket attribution unknown = 0; Wicket rows with a missing dismissal type are not credited to a bowler
+- NOT AVAILABLE: Innings run reconciliation = 284257; No innings scorecard or innings-total column is supplied; per-innings totals are derived from delivery fields and cannot be compared to an independent total
+
+No records were silently deleted or rewritten.

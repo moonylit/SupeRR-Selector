@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="100%" height="100%" fill="#f5f7fb"/>
+<text x="70" y="60" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#182230">Matches by competition</text>
+<text x="70" y="92" font-family="Arial,sans-serif" font-size="15" fill="#667085">Top 25 by match count; full coverage is in competition_coverage.csv</text>
+<line x1="330.0" y1="115" x2="330.0" y2="625" stroke="#d8dee8"/>
+<text x="330.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">0</text>
+<line x1="482.0" y1="115" x2="482.0" y2="625" stroke="#d8dee8"/>
+<text x="482.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">15</text>
+<line x1="634.0" y1="115" x2="634.0" y2="625" stroke="#d8dee8"/>
+<text x="634.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">30</text>
+<line x1="786.0" y1="115" x2="786.0" y2="625" stroke="#d8dee8"/>
+<text x="786.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">45</text>
+<line x1="938.0" y1="115" x2="938.0" y2="625" stroke="#d8dee8"/>
+<text x="938.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">60</text>
+<line x1="1090.0" y1="115" x2="1090.0" y2="625" stroke="#d8dee8"/>
+<text x="1090.0" y="107" text-anchor="middle" font-family="Arial" font-size="11" fill="#667085">75</text>
+<text x="316" y="140" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL 2025 · T20</text>
+<rect x="330" y="125" width="760.00" height="19" rx="4" fill="#245b8f"/>
+<text x="1096.0" y="140" font-family="Arial" font-size="11" fill="#182230">75</text>
+<text x="316" y="160" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL 2024 · T20</text>
+<rect x="330" y="145" width="749.87" height="19" rx="4" fill="#245b8f"/>
+<text x="1086.9" y="160" font-family="Arial" font-size="11" fill="#182230">74</text>
+<text x="316" y="180" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL 2022 · T20</text>
+<rect x="330" y="165" width="749.87" height="19" rx="4" fill="#245b8f"/>
+<text x="1086.9" y="180" font-family="Arial" font-size="11" fill="#182230">74</text>
+<text x="316" y="200" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL 2023 · T20</text>
+<rect x="330" y="185" width="749.87" height="19" rx="4" fill="#245b8f"/>
+<text x="1086.9" y="200" font-family="Arial" font-size="11" fill="#182230">74</text>
+<text x="316" y="220" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">IPL 2026 · T20</text>
+<rect x="330" y="205" width="749.87" height="19" rx="4" fill="#245b8f"/>
+<text x="1086.9" y="220" font-family="Arial" font-size="11" fill="#182230">74</text>
+<text x="316" y="240" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Asia Cup 2025 · T20I</text>
+<rect x="330" y="225" width="192.53" height="19" rx="4" fill="#245b8f"/>
+<text x="529.5" y="240" font-family="Arial" font-size="11" fill="#182230">19</text>
+<text x="316" y="260" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Mens T20 Emerging Teams Asia Cup 2024 · T20</text>
+<rect x="330" y="245" width="152.00" height="19" rx="4" fill="#245b8f"/>
+<text x="489.0" y="260" font-family="Arial" font-size="11" fill="#182230">15</text>
+<text x="316" y="280" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Asia Cup Rising Stars 2025 · T20</text>
+<rect x="330" y="265" width="152.00" height="19" rx="4" fill="#245b8f"/>
+<text x="489.0" y="280" font-family="Arial" font-size="11" fill="#182230">15</text>
+<text x="316" y="300" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Mens Twenty20 Asia Cup 2022 · T20I</text>
+<rect x="330" y="285" width="131.73" height="19" rx="4" fill="#245b8f"/>
+<text x="468.7" y="300" font-family="Arial" font-size="11" fill="#182230">13</text>
+<text x="316" y="320" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">New Zealand T20I Tri Series 2022/23 · T20I</text>
+<rect x="330" y="305" width="70.93" height="19" rx="4" fill="#245b8f"/>
+<text x="407.9" y="320" font-family="Arial" font-size="11" fill="#182230">7</text>
+<text x="316" y="340" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">England in Pakistan T20I Series 2022 · T20I</text>
+<rect x="330" y="325" width="70.93" height="19" rx="4" fill="#245b8f"/>
+<text x="407.9" y="340" font-family="Arial" font-size="11" fill="#182230">7</text>
+<text x="316" y="360" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">United Arab Emirates T20I Tri-Series 2025 · T2</text>
+<rect x="330" y="345" width="70.93" height="19" rx="4" fill="#245b8f"/>
+<text x="407.9" y="360" font-family="Arial" font-size="11" fill="#182230">7</text>
+<text x="316" y="380" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Pakistan T20I Tri-Series 2025 · T20I</text>
+<rect x="330" y="365" width="70.93" height="19" rx="4" fill="#245b8f"/>
+<text x="407.9" y="380" font-family="Arial" font-size="11" fill="#182230">7</text>
+<text x="316" y="400" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Asia Cup T20 Qualifiers 2022 · T20I</text>
+<rect x="330" y="385" width="60.80" height="19" rx="4" fill="#245b8f"/>
+<text x="397.8" y="400" font-family="Arial" font-size="11" fill="#182230">6</text>
+<text x="316" y="420" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Netherlands Tri-Nation T20I Series [Aug 2024] </text>
+<rect x="330" y="405" width="60.80" height="19" rx="4" fill="#245b8f"/>
+<text x="397.8" y="420" font-family="Arial" font-size="11" fill="#182230">6</text>
+<text x="316" y="440" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Netherlands Tri-Nation T20I Series 2024 · T20I</text>
+<rect x="330" y="425" width="60.80" height="19" rx="4" fill="#245b8f"/>
+<text x="397.8" y="440" font-family="Arial" font-size="11" fill="#182230">6</text>
+<text x="316" y="460" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">New Zealand in Pakistan T20I Series 2023 · T20</text>
+<rect x="330" y="445" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="460" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="480" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">South Africa in India T20I Series 2022 · T20I</text>
+<rect x="330" y="465" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="480" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="500" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">New Zealand in Pakistan T20I Series 2024 · T20</text>
+<rect x="330" y="485" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="500" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="520" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Afghanistan in Ireland T20I Series 2022 · T20I</text>
+<rect x="330" y="505" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="520" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="540" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">South Africa in New Zealand T20I Series 2026 ·</text>
+<rect x="330" y="525" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="540" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="560" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">South Africa in India T20I Series 2025 · T20I</text>
+<rect x="330" y="545" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="560" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="580" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">West Indies in India T20I Series 2026 · T20I</text>
+<rect x="330" y="565" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="580" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="600" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">West Indies in New Zealand T20I Series 2025 · </text>
+<rect x="330" y="585" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="600" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="316" y="620" text-anchor="end" font-family="Arial" font-size="12" fill="#182230">Zimbabwe in Bangladesh T20I Series 2024 · T20I</text>
+<rect x="330" y="605" width="50.67" height="19" rx="4" fill="#245b8f"/>
+<text x="387.7" y="620" font-family="Arial" font-size="11" fill="#182230">5</text>
+<text x="70" y="690" font-family="Arial,sans-serif" font-size="12" fill="#98a2b3">SupeRR Selector · dataset profiling · source rows preserved</text>
+</svg>
