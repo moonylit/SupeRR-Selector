@@ -1,0 +1,9 @@
+check,value,status,details
+Delivery total runs = runs + extras1_runs + extras_2_runs,284257,CALCULATED,batter-runs field sum=269550; extras sum=14707; no innings-total field exists in matches.csv for external reconciliation
+Batter runs (sum of runs field),269550,CALCULATED,"The data separates runs from two extras fields; one leg-byes row has runs=1 and no extras, flagged for source review"
+Extras (extras1_runs + extras_2_runs),14707,CALCULATED,Rows are summed as stored; two nonzero-extras rows lack extras_type
+Legal deliveries (tri-state classification),192442,REVIEW,known legal=192442; known illegal=8290; legality unknown=267; wide and Overstep classified illegal; ambiguous extras left unknown
+Bowler runs conceded (known attribution only),279348,REVIEW,"Includes batter runs and wide/no-ball extras; excludes byes, leg-byes and penalty; 264 deliveries have extras with unknown attribution"
+Bowler-attributable wickets,10272,CALCULATED,"All wicket events=10881; uses caught, bowled, LBW, stumped, and hit wicket; excludes run-out, retire out, and obstruction"
+Wicket attribution unknown,0,CALCULATED,Wicket rows with a missing dismissal type are not credited to a bowler
+Innings run reconciliation,284257,NOT AVAILABLE,No innings scorecard or innings-total column is supplied; per-innings totals are derived from delivery fields and cannot be compared to an independent total

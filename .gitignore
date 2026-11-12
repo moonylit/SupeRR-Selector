@@ -17,13 +17,9 @@ env/
 data/raw/
 data/processed/
 
-# Generated analysis artifacts (commit selected final deliverables deliberately)
-outputs/figures/*
-outputs/reports/*
+# Intermediate processed data and unreviewed player rankings stay local
 outputs/rankings/*
 outputs/processed/*
-!outputs/figures/.gitkeep
-!outputs/reports/.gitkeep
 !outputs/rankings/.gitkeep
 !outputs/processed/.gitkeep
 
