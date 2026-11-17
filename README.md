@@ -6,7 +6,7 @@ The analysis will compare pressure performance with each player's own baseline, 
 
 ## Project status
 
-**Phase 5 — batting pressure evaluation and player reliability model.** Phase 4 reconstructs pre-delivery match states with explicit legal-ball uncertainty; Phase 5 adds walk-forward pressure labels, personal historical baselines, match-cluster uncertainty, and exploratory batting scores. The indices and scores describe observed outcomes under defined cricket contexts; they are not psychological measurements, validated talent predictions, or final selections.
+**Phase 6 — bowling pressure evaluation model.** Phases 2–5 provide dataset profiling, exploratory analysis, pre-delivery match states and pressure scores, and batting pressure evaluation. Phase 6 adds cricket-accounted bowling features, prospective pressure labels and baselines, pressure-versus-normal statistics, match-level uncertainty, sensitivity analysis, and provisional bowling scores. The indices and scores describe observed outcomes under defined cricket contexts; they are not psychological measurements, causal pressure effects, validated talent predictions, or final selections.
 
 ## Repository layout
 
@@ -62,6 +62,7 @@ python main.py --phase profile
 python main.py --phase eda
 python main.py --phase pressure
 python main.py --phase batting
+python main.py --phase bowling
 ```
 
 Run the automated calculation and validation tests with:
@@ -81,6 +82,10 @@ Phase 4 writes the generated `delivery_match_states.csv`, `pressure_features.csv
 Phase 5 writes eight local-only player/delivery tables under `outputs/processed/`, including delivery features, player-match and pressure statistics, baselines, differentials, scores, eligibility, and match-bootstrap uncertainty. Reports under `outputs/reports/` document methodology, model comparison, validation, eligibility sensitivity, pressure sensitivity, and key findings. Sixteen charts are generated under `outputs/figures/batting/`. The primary P90 labels use only earlier months within competition group and innings phase; personal baselines use only earlier months of non-P90, known-faced observations and use peer shrinkage when history is sparse. Unknown extras remain flagged. All players remain in outputs, and scores are exploratory rather than final top-10 selections.
 
 Phase 5 thresholds and reproducibility settings are centralized in `BATTING_MODEL_CONFIG` in `config.py`. Run `python main.py --phase batting` to regenerate Phase 4 inputs and the batting outputs together. Derived delivery-level CSVs remain ignored by Git.
+
+Phase 6 reuses the distinct Phase 4 `bowling_pressure_weighted` index and pre-delivery state, then assigns high-pressure opportunities using a prior-month P90 by competition group and innings phase. Walk-forward normal-pressure baselines use only earlier calendar dates; same-date matches are excluded. Bowling rates use confirmed legal-ball denominators, bowler-charged runs, and credited wickets, with uncertain legality and extras preserved as bounds. Match bootstrap draws resample matches jointly across bowlers; intervals are conditional on the fixed historical baseline, consistency, and evidence-volume reliability estimates. The four evaluation dimensions remain visible alongside four bounded composite models.
+
+Run `python main.py --phase bowling` to regenerate Phase 4 inputs and Phase 6 outputs together. It writes the detailed delivery and player tables under ignored `outputs/processed/`, five methodology/validation/comparison/sensitivity/findings reports under `outputs/reports/`, and 14 figures under `outputs/figures/bowling/`. The default eligibility rules require 36 high-pressure legal balls across at least three matches and innings, 24 prior normal-pressure legal balls, and 25% baseline coverage. All bowlers remain in the eligibility table with exclusion reasons. IPL, T20I, and Other T20 results are kept separate; a group with no eligible records has no provisional ranking under the default threshold.
 
 ## Phase 2 findings
 

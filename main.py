@@ -1,4 +1,4 @@
-"""Command-line entry point for reproducible dataset profiling."""
+"""Command-line entry point for reproducible SupeRR Selector analysis phases."""
 
 from __future__ import annotations
 
@@ -16,15 +16,17 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--phase",
-        choices=("all", "profile", "eda", "pressure", "batting"),
+        choices=("all", "profile", "eda", "pressure", "batting", "bowling"),
         default="all",
-        help="Run one analytical phase or all phases (default: all).",
+        help="Run one analytical phase or all phases, including bowling pressure (default: all).",
     )
     parser.add_argument("--data-dir", type=Path, default=DATA_RAW_DIR)
     parser.add_argument("--reports-dir", type=Path, default=OUTPUTS_DIR / "reports")
     parser.add_argument("--figures-dir", type=Path, default=OUTPUTS_DIR / "figures")
     parser.add_argument("--processed-dir", type=Path, default=DATA_PROCESSED_DIR)
     parser.add_argument("--pressure-processed-dir", type=Path, default=OUTPUTS_DIR / "processed")
+    parser.add_argument("--bootstrap-replicates", type=int, default=None,
+                        help="Override the Phase 6 match-bootstrap replicate count.")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     if args.phase in ("all", "profile"):
@@ -47,7 +49,7 @@ def main() -> None:
             f"and {len(result['figures'])} figures."
         )
 
-    if args.phase in ("all", "pressure", "batting"):
+    if args.phase in ("all", "pressure", "batting", "bowling"):
         from src.pressure.pressure_validation import run_pressure_engine
 
         result = run_pressure_engine(
@@ -64,17 +66,11 @@ def main() -> None:
 
         if args.phase in ("all", "batting"):
             from src.models.batting_model import run_batting_model
-
-            import pandas as pd
-
-            states = pd.read_csv(args.pressure_processed_dir / "delivery_match_states.csv")
-            features = pd.read_csv(args.pressure_processed_dir / "pressure_features.csv")
-            scores = pd.read_csv(args.pressure_processed_dir / "pressure_scores.csv")
             batting = run_batting_model(
                 tables,
-                states,
-                features,
-                scores,
+                result["scores"],
+                result["scores"],
+                result["scores"],
                 args.reports_dir,
                 args.figures_dir / "batting",
                 args.pressure_processed_dir,
@@ -83,6 +79,30 @@ def main() -> None:
                 f"Batting model wrote {len(batting['deliveries'])} delivery rows, "
                 f"{len(batting['scores'])} player/competition records, "
                 f"and {len(batting['figures'])} figures."
+            )
+
+        if args.phase in ("all", "bowling"):
+            import gc
+
+            from src.models.bowling_model import run_bowling_model
+
+            if "batting" in locals():
+                del batting
+                gc.collect()
+            bowling = run_bowling_model(
+                tables,
+                result["scores"],
+                result["scores"],
+                result["scores"],
+                args.reports_dir,
+                args.figures_dir / "bowling",
+                args.pressure_processed_dir,
+                bootstrap_replicates=args.bootstrap_replicates,
+            )
+            print(
+                f"Bowling model wrote {len(bowling['deliveries'])} delivery rows, "
+                f"{len(bowling['scores'])} bowler/competition records, "
+                f"and {len(bowling['figures'])} figures."
             )
 
 
