@@ -46,6 +46,8 @@ class BowlingModelConfig:
     pressure_reference_minimum: int = 100
     pressure_percentiles: tuple[float, float, float, float] = (0.25, 0.50, 0.75, 0.90)
     minimum_peer_baseline_balls: int = 60
+    baseline_strategy: str = "format_hierarchical"
+    baseline_coverage_minimum: float = 0.25
     economy_prior_balls: float = 60.0
     wicket_prior_balls: float = 180.0
     event_rate_prior_balls: float = 60.0

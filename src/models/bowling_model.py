@@ -66,9 +66,130 @@ def _score_pressure_scenario(
     scenario = deliveries.copy()
     scenario["bowling_pressure_band_walk_forward"] = pressure_band.to_numpy()
     detail, player, match = build_pressure_statistics(scenario)
-    diff = build_bowler_pressure_differentials(scenario, player, match)
+    diff = build_bowler_pressure_differentials(scenario, player, match, config)
     scores, _ = score_bowlers(diff, config)
     return scores
+
+
+def _rescore_baseline_strategy(
+    deliveries: pd.DataFrame,
+    scores: pd.DataFrame,
+    config: BowlingModelConfig,
+    strategy: str,
+) -> pd.DataFrame:
+    """Recompute baseline-relative scores while holding pressure outcomes fixed."""
+    based, _ = add_walk_forward_bowling_baselines(deliveries, config, strategy=strategy)
+    _detail, player, match = build_pressure_statistics(based)
+    differential = build_bowler_pressure_differentials(based, player, match, config)
+    alternate, _ = score_bowlers(differential, config)
+    names = scores[PLAYER_KEYS + ["player_name"]].drop_duplicates(PLAYER_KEYS)
+    alternate = alternate.merge(names, on=PLAYER_KEYS, how="left", validate="one_to_one")
+    bootstrap_columns = [
+        "bootstrap_score_draws", "top10_selection_frequency", "bootstrap_score_p95",
+        "bootstrap_score_p05", "bootstrap_rank_std",
+    ]
+    bootstrap = scores[PLAYER_KEYS + bootstrap_columns].drop_duplicates(PLAYER_KEYS)
+    return integrate_bootstrap_reliability(alternate, bootstrap)
+
+
+def _baseline_approach_rows(
+    deliveries: pd.DataFrame,
+    primary: pd.DataFrame,
+    config: BowlingModelConfig,
+) -> list[dict[str, Any]]:
+    """Compare the strict, format-hierarchical, relaxed-coverage and broad pools."""
+    approaches: list[tuple[str, pd.DataFrame, str]] = [
+        ("B. Format-hierarchical (primary)", primary,
+         "Competition-aware peer hierarchy; personal normal history accumulates across the same format, phase and innings context."),
+        ("A. Existing selected-context history (legacy)", _rescore_baseline_strategy(
+            deliveries, primary, config, "legacy_hierarchical"
+        ), "Historical behavior: personal history is measured at the selected peer hierarchy, which can reset at exact competition/season level when that peer pool meets its minimum."),
+        ("D. Broader T20 pool sensitivity", _rescore_baseline_strategy(
+            deliveries, primary, config, "broader_t20"
+        ), "Sensitivity only: cross-format peer rates retain phase/context but may mix incompatible scoring environments."),
+    ]
+    relaxed = primary.copy()
+    relaxed["eligible_analytical_candidate"] = (
+        relaxed["pressure_matches"].ge(config.eligibility_pressure_matches)
+        & relaxed["pressure_innings"].ge(config.eligibility_pressure_innings)
+        & relaxed["pressure_legal_balls"].ge(config.eligibility_pressure_balls)
+        & relaxed["baseline_history_balls"].ge(config.eligibility_baseline_balls)
+        & relaxed["baseline_coverage_fraction"].fillna(0).ge(0.10)
+    )
+    relaxed["rank_eligible"] = relaxed["overall_bowling_pressure_score"].where(
+        relaxed["eligible_analytical_candidate"]
+    ).groupby(relaxed["competition_group"], dropna=False).rank(method="min", ascending=False)
+    approaches.append(("C. Format hierarchy, coverage ≥10%", relaxed,
+                       "Same baselines and scores as primary; coverage gate reduced from 25% to 10%, with the existing reliability domain retaining coverage/history penalties."))
+
+    rows: list[dict[str, Any]] = []
+    for name, scenario, note in approaches:
+        row = _compare_rankings(primary, scenario, name, note)
+        primary_pool = (
+            primary["pressure_matches"].ge(config.eligibility_pressure_matches)
+            & primary["pressure_innings"].ge(config.eligibility_pressure_innings)
+            & primary["pressure_legal_balls"].ge(config.eligibility_pressure_balls)
+            & primary["baseline_coverage_fraction"].fillna(0).ge(config.baseline_coverage_minimum)
+        )
+        scenario_coverage = 0.10 if name.startswith("C.") else config.baseline_coverage_minimum
+        scenario_pool = (
+            scenario["pressure_matches"].ge(config.eligibility_pressure_matches)
+            & scenario["pressure_innings"].ge(config.eligibility_pressure_innings)
+            & scenario["pressure_legal_balls"].ge(config.eligibility_pressure_balls)
+            & scenario["baseline_coverage_fraction"].fillna(0).ge(scenario_coverage)
+        )
+        left = primary.loc[primary_pool].set_index(PLAYER_KEYS)
+        right = scenario.loc[scenario_pool].set_index(PLAYER_KEYS)
+        left_ranks = left["overall_bowling_pressure_score"].groupby(level=0).rank(
+            method="min", ascending=False
+        ).rename("primary")
+        right_ranks = right["overall_bowling_pressure_score"].groupby(level=0).rank(
+            method="min", ascending=False
+        ).rename("scenario")
+        common_ranks = pd.concat([left_ranks, right_ranks], axis=1, join="inner").dropna()
+        left_top = set(left.assign(_rank=left_ranks).sort_values("_rank").groupby(
+            level=0, group_keys=False
+        ).head(10).index)
+        right_top = set(right.assign(_rank=right_ranks).sort_values("_rank").groupby(
+            level=0, group_keys=False
+        ).head(10).index)
+        row["pressure_coverage_top10_overlap"] = len(left_top & right_top)
+        row["pressure_coverage_top10_primary"] = len(left_top)
+        row["pressure_coverage_top10_scenario"] = len(right_top)
+        row["pressure_coverage_rank_spearman"] = (
+            common_ranks["primary"].corr(common_ranks["scenario"], method="spearman")
+            if len(common_ranks) > 1 else np.nan
+        )
+        row["note"] += " Bootstrap evidence is held fixed from primary; alternative-baseline uncertainty is not independently bootstrapped."
+        for group, label in (("IPL", "ipl"), ("T20I", "t20i"), ("Other T20", "other_t20")):
+            row[f"eligible_{label}"] = int(
+                scenario.loc[scenario["competition_group"].eq(group), "eligible_analytical_candidate"].sum()
+            )
+            part = scenario.loc[scenario["competition_group"].eq(group)]
+            pressure = (
+                part["pressure_matches"].ge(config.eligibility_pressure_matches)
+                & part["pressure_innings"].ge(config.eligibility_pressure_innings)
+                & part["pressure_legal_balls"].ge(config.eligibility_pressure_balls)
+            )
+            row[f"pressure_gate_{label}"] = int(pressure.sum())
+            coverage = part["baseline_coverage_fraction"].fillna(0).ge(
+                0.10 if name.startswith("C.") else config.baseline_coverage_minimum
+            )
+            row[f"coverage_gate_{label}"] = int((pressure & coverage).sum())
+            history = part["baseline_history_balls"].ge(config.eligibility_baseline_balls)
+            row[f"history_gate_{label}"] = int((pressure & coverage & history).sum())
+            row[f"median_history_balls_{label}"] = float(part.loc[pressure, "baseline_history_balls"].median()) if pressure.any() else np.nan
+            row[f"median_peer_balls_{label}"] = float(part.loc[pressure, "baseline_peer_balls"].median()) if pressure.any() else np.nan
+            row[f"baseline_levels_{label}"] = "; ".join(
+                f"{int(level)}:{int(count)}" for level, count in
+                part.loc[pressure, "baseline_selected_level"].value_counts(dropna=False).sort_index().items()
+            )
+            row[f"baseline_sources_{label}"] = "; ".join(
+                f"{source}:{int(count)}" for source, count in
+                part.loc[pressure, "baseline_pool_source"].value_counts(dropna=False).items()
+            )
+        rows.append(row)
+    return rows
 
 
 def _with_alternative_overall(scores: pd.DataFrame, absolute_score: pd.Series) -> pd.DataFrame:
@@ -158,6 +279,8 @@ def _sensitivity_analysis(
             alternate["eligible_analytical_candidate"]
         ).groupby(alternate["competition_group"], dropna=False).rank(method="min", ascending=False)
         rows.append(_compare_rankings(scores, alternate, name, "Baseline context-matching sensitivity; scores use the selected walk-forward estimate"))
+
+    rows.extend(_baseline_approach_rows(deliveries, scores, config))
 
     # Recompute the normal-history prior contribution at multiple metric-
     # specific exposure strengths; all other dimensions and source counts stay fixed.
@@ -406,6 +529,14 @@ def _write_reports(
         "SUPERR SELECTOR — PHASE 6 PROVISIONAL BOWLING FINDINGS\n"
         "These are model outputs for analysis and audit, not final competition picks.\n"
         + "\n".join(findings) + "\n\n"
+        + "Baseline eligibility comparison (IPL / T20I / Other T20):\n"
+        + "\n".join(
+            f"{row.scenario}: {int(row.eligible_ipl)} / {int(row.eligible_t20i)} / {int(row.eligible_other_t20)} eligible; "
+            f"eligible top-10 overlap {int(row.top10_overlap_player_group_pairs)}/{int(row.top10_base_pairs)}; "
+            f"pressure+coverage candidate overlap {int(row.pressure_coverage_top10_overlap)}/{int(row.pressure_coverage_top10_primary)}; "
+            f"Spearman rank agreement {row.eligible_rank_spearman:.3f}; median absolute score change {row.median_absolute_score_change:.3f}."
+            for row in sensitivity.loc[sensitivity["scenario"].str.startswith(("A.", "B.", "C.", "D."))].itertuples()
+        ) + "\n\n"
         + "Competition groups are ranked separately. Only eligible records are shown above; all other bowlers and exclusion reasons remain in bowler_eligibility.csv.\n",
         encoding="utf-8",
     )
@@ -417,15 +548,17 @@ def _write_reports(
         "The Phase 4 match state is pre-delivery. The current delivery's runs, extras, and wicket are joined only as outcomes after pressure is assigned.",
         f"Primary high-pressure opportunity: prior-month P90 within competition group × innings phase after {config.pressure_reference_minimum} earlier pressure states. P25/P50/P75/P90 also identify low, normal, elevated, and high strata. Early months remain unavailable.",
         "All matches on the same calendar date are excluded from walk-forward baselines because within-day match chronology is not reliable in the source.",
-        "Baselines use prior-date normal-pressure known-legal deliveries. Hierarchical contexts are exact competition/phase/innings-context, then competition-group/phase/innings-context, group/phase, group, and pooled prior history.",
-        "Baseline uncertainty is represented by personal and peer legal-ball exposures, the selected hierarchy level, and metric-specific shrinkage fractions. The model does not claim calibrated posterior intervals for baseline rates; pressure-bootstrap intervals are conditional on those baselines.",
+        "Primary baseline is format-hierarchical. Peer pool levels are exact competition/season + format + phase + innings context; same-format + phase + context; same-format + phase; then same-format pool. Personal normal-pressure history is independently accumulated across seasons within the same format + phase + context, using only prior calendar dates. This prevents a season-specific peer pool from erasing valid cross-season personal history.",
+        "Each delivery and bowler summary records baseline_pool_source, numeric baseline_selected_level, baseline_personal_history_scope, own/peer legal-ball exposures, coverage, shrinkage fraction, and metric-specific approximate standard errors. The SEs use an independent Poisson-count approximation and are not calibrated intervals; they omit overdispersion, between-competition heterogeneity, and uncertainty from pressure classification. Fallback level is a separate lower-is-better reliability component. The 300-match pressure bootstrap is conditional on the selected baseline.",
+        "The prior selected-context history behavior is retained as comparison A. The primary hierarchy preserves competition-aware peers and same-format personal history (B). Comparison C relaxes baseline coverage from 25% to 10%; evidence reliability still includes history/coverage. Comparison D pools peer rates across all T20 groups only as a sensitivity, retaining phase/context and explicitly marking the broader source. It is not a primary source because IPL, T20I, and other T20 scoring environments may differ.",
+        "The source does not identify bowling role consistently; innings phase and innings context are the available tactical comparability strata. No population-level cross-format pool is treated as equivalent to an exact competition baseline.",
         f"Metric-specific peer shrinkage equivalent exposure: economy {config.economy_prior_balls:g} legal balls; wicket rate {config.wicket_prior_balls:g}; dot/boundary rates {config.event_rate_prior_balls:g}; extras {config.extras_prior_balls:g}.",
         "Economy is bowler-charged runs per six confirmed legal balls. Wides and the observed Overstep no-ball label are charged; byes, leg-byes, and penalty extras are not charged to the bowler and remain in team totals. The one source penalty row has five runs and unknown legality. Other/untyped extras remain flagged as uncertain and enter a conservative upper-bound sensitivity.",
         "Bowler-attributable wickets are bowled, caught, LBW, stump/stumped, and hit wicket. Run-outs, retirements, and obstructing-the-field events are not credited.",
         "Primary dot is a confirmed legal ball with zero bowler-charged runs; team-total dot rate is also retained separately. Boundary rates count batter four/six flags per confirmed legal ball.",
         "Relative improvement directions: baseline economy minus pressure economy; pressure wickets/dots minus baseline; baseline boundary/extras rate minus pressure.",
         "Consistency is match-clustered: median/lower-tail match performance, dispersion, and share of pressure matches meeting the competition median standard.",
-        "Reliability includes pressure matches/innings/balls, baseline coverage and history, bootstrap score intervals, top-10 frequency, and rank stability. baseline_history_balls is the median personal normal-pressure legal-ball history available over a bowler's high-pressure delivery contexts; it is not their total career normal-pressure volume.",
+        "Reliability includes pressure matches/innings/balls, baseline coverage and same-format personal history, peer exposure, bootstrap score intervals, top-10 frequency, and rank stability. baseline_history_balls is the median personal normal-pressure legal-ball history available over a bowler's high-pressure delivery contexts; it is not total career volume.",
         "Composite A averages standardized component percentiles and dimensions equally. B adjusts metric weights inversely to empirical mean absolute Spearman correlation while retaining equal dimension weights. C applies metric-specific peer shrinkage. D averages the correlation-adjusted absolute, relative, and consistency domains, then applies one reliability discount, (0.5 + 0.5 × reliability/100); reliability is not included in the performance-only base.",
         f"Match bootstrap uses {bootstrap_replicates} replicates and seed {config.random_seed}; match IDs are resampled once per competition group and shared multiplicities are applied to every bowler in each selected match, including duplicate-match multiplicities. Each draw recomputes shrunk pressure and baseline-relative rate ranks in four equally weighted domains. Metric components within those domains are equally weighted, unlike the correlation-adjusted primary composite; walk-forward baselines, match consistency, and evidence-volume reliability are fixed. Thus the intervals and top-10 frequencies are conditional stability proxies, not fully propagated intervals for the final composite. A player absent from every sampled match in a draw contributes no score for that draw, so their percentile intervals condition on at least one appearance; bootstrap_score_draws records the count. Percentile intervals are empirical summaries, not calibrated confidence or prediction intervals.",
         "IPL, T20I, and Other T20 are reported separately. No single combined ranking is presented because format and competition environments differ.",
@@ -445,6 +578,8 @@ def _write_reports(
         f"Player/competition scoring rows: {len(scores):,}; eligible records: {int(scores['eligible_analytical_candidate'].sum()):,}; ineligible records: {int((~scores['eligible_analytical_candidate']).sum()):,}.",
         f"Composite score range: {scores['overall_bowling_pressure_score'].min():.3f}–{scores['overall_bowling_pressure_score'].max():.3f}; all composite scores bounded 0–100: {bool(scores['overall_bowling_pressure_score'].dropna().between(0, 100).all())}.",
         f"Bowler/competition records with baseline coverage: {int(deliveries_baseline_count(scores)):,}; bootstrap rows: {len(uncertainty):,}; match-level replicates: {bootstrap_replicates}; seed: {config.random_seed}.",
+        f"Primary baseline strategy: {config.baseline_strategy}; minimum peer exposure: {config.minimum_peer_baseline_balls} legal balls; baseline coverage gate: {config.baseline_coverage_minimum:.0%}; personal history gate: {config.eligibility_baseline_balls} legal balls.",
+        "Baseline hierarchy/eligibility comparison rows A–D are in bowling_sensitivity.txt and bowler_sensitivity_analysis.csv; numeric source level and uncertainty estimates are in bowler_baseline_statistics.csv and bowler_eligibility.csv.",
         "Walk-forward pressure thresholds use earlier months only; baselines use strictly earlier calendar dates and exclude all same-date matches.",
         "Raw data and delivery-level derived CSVs are written only to local ignored data/output paths and are not published by this pipeline.",
     ]
@@ -453,11 +588,11 @@ def _write_reports(
             part["pressure_matches"].ge(config.eligibility_pressure_matches)
             & part["pressure_innings"].ge(config.eligibility_pressure_innings)
             & part["pressure_legal_balls"].ge(config.eligibility_pressure_balls)
-            & part["baseline_coverage_fraction"].fillna(0).ge(0.25)
+            & part["baseline_coverage_fraction"].fillna(0).ge(config.baseline_coverage_minimum)
         )
         meets_personal_history = part["baseline_history_balls"].ge(config.eligibility_baseline_balls)
         validation.append(
-            f"{group}: {int(meets_pressure.sum())} meet pressure exposure and coverage before the personal-history gate; "
+            f"{group}: {int((part['pressure_matches'].ge(config.eligibility_pressure_matches) & part['pressure_innings'].ge(config.eligibility_pressure_innings) & part['pressure_legal_balls'].ge(config.eligibility_pressure_balls)).sum())} meet pressure exposure; {int(meets_pressure.sum())} also meet baseline coverage; "
             f"{int((meets_pressure & meets_personal_history).sum())} meet the configured personal baseline-history threshold."
         )
     (reports_dir / "bowling_validation.txt").write_text("\n".join(validation) + "\n", encoding="utf-8")
@@ -477,9 +612,30 @@ def _write_reports(
     sensitivity_table = "\n".join(
         line.rstrip() for line in sensitivity.to_string(index=False, float_format=lambda value: f"{value:.3f}").splitlines()
     )
+    approach_columns = [
+        "scenario", "eligible_ipl", "eligible_t20i", "eligible_other_t20",
+        "pressure_gate_ipl", "coverage_gate_ipl", "history_gate_ipl",
+        "pressure_gate_t20i", "coverage_gate_t20i", "history_gate_t20i",
+        "pressure_gate_other_t20", "coverage_gate_other_t20", "history_gate_other_t20",
+        "median_history_balls_ipl", "median_peer_balls_ipl", "median_history_balls_t20i",
+        "median_peer_balls_t20i", "median_history_balls_other_t20", "median_peer_balls_other_t20",
+        "baseline_levels_ipl", "baseline_levels_t20i", "baseline_levels_other_t20",
+        "baseline_sources_ipl", "baseline_sources_t20i", "baseline_sources_other_t20",
+        "top10_overlap_player_group_pairs", "top10_base_pairs", "eligible_rank_spearman",
+        "pressure_coverage_top10_overlap", "pressure_coverage_top10_primary",
+        "pressure_coverage_rank_spearman",
+        "median_absolute_score_change", "note",
+    ]
+    approach_table = sensitivity.loc[
+        sensitivity["scenario"].str.startswith(("A.", "B.", "C.", "D.")),
+        [column for column in approach_columns if column in sensitivity.columns],
+    ].to_string(index=False, float_format=lambda value: f"{value:.3f}")
     eligibility_table = "\n".join(line.rstrip() for line in eligibility.to_string(index=False).splitlines())
     (reports_dir / "bowling_sensitivity.txt").write_text(
         "SUPERR SELECTOR — PHASE 6 SENSITIVITY\n\n"
+        "Baseline approach comparison (A previous selected-context history, B primary format hierarchy, C relaxed coverage, D broad T20 sensitivity):\n"
+        + approach_table
+        + "\n\nFull historical and current sensitivity scenarios:\n"
         + sensitivity_table
         + "\n\nEligibility threshold counts by competition group:\n"
         + eligibility_table
@@ -519,7 +675,7 @@ def run_bowling_model(
     )
     deliveries, baseline_audit = add_walk_forward_bowling_baselines(deliveries, cfg)
     detail, player_stats, match_stats = build_pressure_statistics(deliveries)
-    differential = build_bowler_pressure_differentials(deliveries, player_stats, match_stats)
+    differential = build_bowler_pressure_differentials(deliveries, player_stats, match_stats, cfg)
     scores, correlation_weights = score_bowlers(differential, cfg)
     names = deliveries.loc[deliveries["bowler_id"].notna(), ["competition_group", "bowler_id", "bowler_name"]].drop_duplicates(
         ["competition_group", "bowler_id"]

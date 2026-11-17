@@ -11,6 +11,7 @@ from src.models.bowling_baseline import (
     assign_walk_forward_pressure_bands,
 )
 from src.models.bowling_features import aggregate_bowling_counts
+from src.models.bowling_statistics import _weighted_baselines
 from src.models.bowling_scoring import (
     eligibility_scenarios,
     integrate_bootstrap_reliability,
@@ -84,6 +85,117 @@ def test_baseline_hierarchy_falls_back_and_records_the_selected_level():
         "competition_group+innings_phase+innings_context", regex=False
     ).all()
     assert july.baseline_selected_level.eq(1).all()
+
+
+def test_strict_competition_baseline_does_not_cross_competition_ids():
+    rows = _baseline_rows()
+    rows.loc[rows.match_id.eq(3), "comp_id"] = 20
+    strict, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=1), strategy="strict_competition"
+    )
+    july = strict.loc[(strict.bowler_id.eq(1)) & strict.match_id.eq(3)]
+    assert july.baseline_pool_source.eq("no prior peer history").all()
+    assert july.baseline_history_balls.eq(0).all()
+
+
+def test_format_hierarchy_uses_personal_history_across_seasons_but_labeled_peer_fallback():
+    rows = _baseline_rows()
+    rows.loc[rows.match_id.eq(3), "comp_id"] = 20
+    result, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=1), strategy="format_hierarchical"
+    )
+    july = result.loc[(result.bowler_id.eq(1)) & result.match_id.eq(3)]
+    assert july.baseline_history_balls.eq(6).all()
+    assert july.baseline_pool_source.str.contains(
+        "competition_group+innings_phase+innings_context", regex=False
+    ).all()
+    assert july.baseline_personal_history_scope.str.contains("same format", regex=False).all()
+    assert july.baseline_selected_level.eq(1).all()
+    assert july.baseline_economy_approx_se.notna().all()
+
+
+def test_legacy_selected_context_history_is_preserved_as_a_comparison():
+    rows = _baseline_rows()
+    extra = rows.loc[(rows.bowler_id.eq(1)) & rows.match_id.eq(1)].copy()
+    extra["match_id"] = 5
+    extra["match_date"] = "2024-06-02"
+    extra["innings_context"] = "chasing"
+    rows.loc[rows.match_id.eq(3), "comp_id"] = 20
+    rows = pd.concat([rows, extra], ignore_index=True)
+    cfg = BowlingModelConfig(minimum_peer_baseline_balls=100)
+    legacy, _ = add_walk_forward_bowling_baselines(rows, cfg, strategy="legacy_hierarchical")
+    format_level, _ = add_walk_forward_bowling_baselines(rows, cfg, strategy="format_hierarchical")
+    old = legacy.loc[(legacy.bowler_id.eq(1)) & legacy.match_id.eq(3)].iloc[0]
+    current = format_level.loc[(format_level.bowler_id.eq(1)) & format_level.match_id.eq(3)].iloc[0]
+    assert old.baseline_selected_level == 3
+    assert old.baseline_history_balls == 12
+    assert current.baseline_history_balls == 6
+    assert "legacy" in old.baseline_personal_history_scope
+
+
+def test_broader_t20_pool_is_explicitly_labeled_and_keeps_context():
+    rows = _baseline_rows()
+    rows.loc[rows.bowler_id.eq(2), "competition_group"] = "T20I"
+    rows.loc[rows.match_id.eq(3), "comp_id"] = 20
+    result, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=1), strategy="broader_t20"
+    )
+    july = result.loc[(result.bowler_id.eq(1)) & result.match_id.eq(3)]
+    assert july.baseline_pool_source.eq("innings_phase+innings_context").all()
+    assert july.baseline_selected_level.eq(4).all()
+    assert july.baseline_strategy.eq("broader_t20").all()
+    assert july.baseline_peer_balls.eq(6).all()
+
+
+def test_baseline_strategy_can_be_recomputed_without_stale_columns():
+    rows = _baseline_rows()
+    primary, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=1), strategy="format_hierarchical"
+    )
+    strict, _ = add_walk_forward_bowling_baselines(
+        primary, BowlingModelConfig(minimum_peer_baseline_balls=1), strategy="strict_competition"
+    )
+    assert strict.baseline_strategy.eq("strict_competition").all()
+
+
+def test_no_history_remains_unavailable_without_future_or_cross_day_leakage():
+    rows = _baseline_rows()
+    target = rows.loc[rows.match_id.eq(3)].copy()
+    target["bowler_id"] = 99
+    target["match_date"] = "2024-07-01"
+    result, _ = add_walk_forward_bowling_baselines(
+        pd.concat([rows, target], ignore_index=True),
+        BowlingModelConfig(minimum_peer_baseline_balls=1000),
+        strategy="format_hierarchical",
+    )
+    no_history = result.loc[result.bowler_id.eq(99)]
+    assert no_history.baseline_history_balls.eq(0).all()
+    assert no_history.baseline_economy.notna().all()  # peer prior can be used
+    assert no_history.baseline_personal_history_scope.str.contains("same format", regex=False).all()
+
+
+def test_player_only_baseline_has_a_poisson_standard_error():
+    rows = _baseline_rows().loc[lambda frame: frame.bowler_id.eq(1)].copy()
+    result, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=100), strategy="strict_competition"
+    )
+    july = result.loc[result.match_id.eq(3)].iloc[0]
+    assert july.baseline_pool_source == "player-only prior history"
+    assert np.isclose(july.baseline_economy_approx_se, np.sqrt(6) / 6 * 6)
+
+
+def test_player_baseline_level_and_source_use_the_same_modal_context():
+    rows = _baseline_rows()
+    result, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=1)
+    )
+    high = result.loc[(result.bowler_id.eq(1)) & result.match_id.eq(3)].copy()
+    other = high.iloc[[0]].copy()
+    other["baseline_selected_level"] = 1
+    other["baseline_pool_source"] = "competition_group+innings_phase+innings_context"
+    summary = _weighted_baselines(pd.concat([high, other], ignore_index=True)).iloc[0]
+    assert summary.baseline_selected_level == 0
+    assert summary.baseline_pool_source == "competition_group+comp_id+innings_phase+innings_context"
 
 
 def test_future_normal_matches_do_not_change_an_earlier_baseline():

@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from src.models.bowling_features import aggregate_bowling_counts
+from config import BowlingModelConfig
 
 PLAYER_KEYS = ["competition_group", "bowler_id"]
 
@@ -43,10 +44,17 @@ def _weighted_baselines(high: pd.DataFrame) -> pd.DataFrame:
         row["baseline_coverage_fraction"] = float(group["baseline_available"].fillna(False).mean())
         row["baseline_history_balls"] = float(group["baseline_history_balls"].median())
         row["baseline_peer_balls"] = float(group["baseline_peer_balls"].median())
+        levels = pd.to_numeric(group["baseline_selected_level"], errors="coerce")
+        level_modes = levels.mode(dropna=True)
+        row["baseline_selected_level"] = float(level_modes.iloc[0]) if len(level_modes) else np.nan
+        source_rows = group.loc[levels.eq(row["baseline_selected_level"])]
+        source_modes = source_rows["baseline_pool_source"].mode(dropna=True)
         row["baseline_pool_source"] = (
-            group["baseline_pool_source"].mode(dropna=True).iloc[0]
-            if group["baseline_pool_source"].notna().any() else "no prior normal-pressure baseline"
+            source_modes.iloc[0] if len(source_modes) else "no prior normal-pressure baseline"
         )
+        for field in ("baseline_strategy", "baseline_personal_history_scope"):
+            values = group[field].dropna().astype(str)
+            row[field] = values.mode().iloc[0] if len(values) else "unknown"
         for metric in metrics:
             column = f"baseline_{metric}"
             values = pd.to_numeric(group[column], errors="coerce")
@@ -56,6 +64,8 @@ def _weighted_baselines(high: pd.DataFrame) -> pd.DataFrame:
             row[f"{column}_raw"] = float(np.average(raw.loc[raw.notna() & weight.gt(0)], weights=weight.loc[raw.notna() & weight.gt(0)])) if (raw.notna() & weight.gt(0)).any() else np.nan
             peer = pd.to_numeric(group[f"{column}_peer"], errors="coerce")
             row[f"{column}_peer"] = float(np.average(peer.loc[peer.notna() & weight.gt(0)], weights=weight.loc[peer.notna() & weight.gt(0)])) if (peer.notna() & weight.gt(0)).any() else np.nan
+            errors = pd.to_numeric(group[f"{column}_approx_se"], errors="coerce")
+            row[f"{column}_approx_se"] = float(np.average(errors.loc[errors.notna() & weight.gt(0)], weights=weight.loc[errors.notna() & weight.gt(0)])) if (errors.notna() & weight.gt(0)).any() else np.nan
         rows.append(row)
     return pd.DataFrame(rows)
 
@@ -102,8 +112,10 @@ def build_bowler_pressure_differentials(
     deliveries: pd.DataFrame,
     player_pressure_stats: pd.DataFrame,
     match_pressure_stats: pd.DataFrame,
+    config: BowlingModelConfig | None = None,
 ) -> pd.DataFrame:
     """Compare high-pressure outcomes with normal performance and prior baselines."""
+    cfg = config or BowlingModelConfig()
     wide = player_pressure_stats.pivot(
         index=PLAYER_KEYS, columns="pressure_band",
         values=[
@@ -181,9 +193,12 @@ def build_bowler_pressure_differentials(
     if baseline.empty:
         baseline = pd.DataFrame(columns=PLAYER_KEYS + [
             "baseline_coverage_fraction", "baseline_history_balls", "baseline_peer_balls",
-            "baseline_pool_source", *[f"baseline_{metric}" for metric in directions],
+            "baseline_pool_source", "baseline_selected_level", "baseline_strategy",
+            "baseline_personal_history_scope",
+            *[f"baseline_{metric}" for metric in directions],
             *[f"baseline_{metric}_raw" for metric in directions],
             *[f"baseline_{metric}_peer" for metric in directions],
+            *[f"baseline_{metric}_approx_se" for metric in directions],
         ])
     consistency = _match_consistency(match_pressure_stats)
     result = wide.merge(baseline, on=PLAYER_KEYS, how="left", validate="one_to_one").merge(
@@ -206,7 +221,7 @@ def build_bowler_pressure_differentials(
         )
     result = pd.concat([result, pd.DataFrame(additions, index=result.index)], axis=1).copy()
     result["baseline_reliable"] = (
-        result["baseline_history_balls"].fillna(0).ge(24)
-        & result["baseline_coverage_fraction"].fillna(0).ge(0.25)
+        result["baseline_history_balls"].fillna(0).ge(cfg.eligibility_baseline_balls)
+        & result["baseline_coverage_fraction"].fillna(0).ge(cfg.baseline_coverage_minimum)
     )
     return result

@@ -128,6 +128,7 @@ def score_bowlers(
         ("pressure_matches", True), ("pressure_innings", True),
         ("pressure_legal_balls", True), ("baseline_history_balls", True),
         ("baseline_coverage_fraction", True), ("baseline_peer_balls", True),
+        ("baseline_selected_level", False),
     ]
     reliability, reliability_cols = _domain_score(frame, reliability_metrics, "reliability")
     frame["absolute_pressure_score"] = absolute_a
@@ -189,8 +190,8 @@ def score_bowlers(
             failed.append("pressure legal balls below minimum")
         if under(row, "baseline_history_balls", cfg.eligibility_baseline_balls):
             failed.append("normal-pressure baseline history below minimum")
-        if under(row, "baseline_coverage_fraction", 0.25):
-            failed.append("walk-forward baseline coverage below 25%")
+        if under(row, "baseline_coverage_fraction", cfg.baseline_coverage_minimum):
+            failed.append(f"walk-forward baseline coverage below {cfg.baseline_coverage_minimum:.0%}")
         reasons.append("eligible" if not failed else "; ".join(failed))
     frame["eligibility_status"] = reasons
     frame["eligible_analytical_candidate"] = frame["eligibility_status"].eq("eligible")
@@ -241,7 +242,7 @@ def eligibility_scenarios(scores: pd.DataFrame, config: BowlingModelConfig | Non
             & candidates["pressure_matches"].ge(pressure_matches)
             & candidates["pressure_innings"].ge(pressure_innings)
             & candidates["baseline_history_balls"].ge(baseline_balls)
-            & candidates["baseline_coverage_fraction"].fillna(0).ge(0.25)
+            & candidates["baseline_coverage_fraction"].fillna(0).ge(cfg.baseline_coverage_minimum)
         )
         candidates["scenario_rank"] = candidates["overall_bowling_pressure_score"].where(
             candidates["scenario_eligible"]
