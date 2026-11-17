@@ -420,14 +420,14 @@ def _write_reports(
         "Baselines use prior-date normal-pressure known-legal deliveries. Hierarchical contexts are exact competition/phase/innings-context, then competition-group/phase/innings-context, group/phase, group, and pooled prior history.",
         "Baseline uncertainty is represented by personal and peer legal-ball exposures, the selected hierarchy level, and metric-specific shrinkage fractions. The model does not claim calibrated posterior intervals for baseline rates; pressure-bootstrap intervals are conditional on those baselines.",
         f"Metric-specific peer shrinkage equivalent exposure: economy {config.economy_prior_balls:g} legal balls; wicket rate {config.wicket_prior_balls:g}; dot/boundary rates {config.event_rate_prior_balls:g}; extras {config.extras_prior_balls:g}.",
-        "Economy is bowler-charged runs per six confirmed legal balls. Wides and the observed Overstep no-ball label are charged; byes and leg-byes are excluded. Unknown extras are retained as a conservative upper-bound sensitivity.",
+        "Economy is bowler-charged runs per six confirmed legal balls. Wides and the observed Overstep no-ball label are charged; byes, leg-byes, and penalty extras are not charged to the bowler and remain in team totals. The one source penalty row has five runs and unknown legality. Other/untyped extras remain flagged as uncertain and enter a conservative upper-bound sensitivity.",
         "Bowler-attributable wickets are bowled, caught, LBW, stump/stumped, and hit wicket. Run-outs, retirements, and obstructing-the-field events are not credited.",
         "Primary dot is a confirmed legal ball with zero bowler-charged runs; team-total dot rate is also retained separately. Boundary rates count batter four/six flags per confirmed legal ball.",
         "Relative improvement directions: baseline economy minus pressure economy; pressure wickets/dots minus baseline; baseline boundary/extras rate minus pressure.",
         "Consistency is match-clustered: median/lower-tail match performance, dispersion, and share of pressure matches meeting the competition median standard.",
-        "Reliability includes pressure matches/innings/balls, baseline coverage and history, bootstrap score intervals, top-10 frequency, and rank stability.",
-        "Composite A averages standardized component percentiles and dimensions equally. B adjusts metric weights inversely to empirical mean absolute Spearman correlation while retaining equal dimension weights. C applies metric-specific peer shrinkage. D discounts the correlation-adjusted score according to reliability.",
-        f"Match bootstrap uses {bootstrap_replicates} replicates and seed {config.random_seed}; match IDs are resampled once per competition group and shared multiplicities are applied to every bowler in each selected match. Each draw recomputes shrunk pressure and baseline-relative rate ranks in the same four equally weighted domains as the primary composite; walk-forward baselines, match consistency, and evidence-volume reliability are held fixed, so intervals are conditional on those estimates. Percentile intervals are empirical bootstrap summaries, not calibrated confidence or prediction intervals.",
+        "Reliability includes pressure matches/innings/balls, baseline coverage and history, bootstrap score intervals, top-10 frequency, and rank stability. baseline_history_balls is the median personal normal-pressure legal-ball history available over a bowler's high-pressure delivery contexts; it is not their total career normal-pressure volume.",
+        "Composite A averages standardized component percentiles and dimensions equally. B adjusts metric weights inversely to empirical mean absolute Spearman correlation while retaining equal dimension weights. C applies metric-specific peer shrinkage. D averages the correlation-adjusted absolute, relative, and consistency domains, then applies one reliability discount, (0.5 + 0.5 × reliability/100); reliability is not included in the performance-only base.",
+        f"Match bootstrap uses {bootstrap_replicates} replicates and seed {config.random_seed}; match IDs are resampled once per competition group and shared multiplicities are applied to every bowler in each selected match, including duplicate-match multiplicities. Each draw recomputes shrunk pressure and baseline-relative rate ranks in four equally weighted domains. Metric components within those domains are equally weighted, unlike the correlation-adjusted primary composite; walk-forward baselines, match consistency, and evidence-volume reliability are fixed. Thus the intervals and top-10 frequencies are conditional stability proxies, not fully propagated intervals for the final composite. A player absent from every sampled match in a draw contributes no score for that draw, so their percentile intervals condition on at least one appearance; bootstrap_score_draws records the count. Percentile intervals are empirical summaries, not calibrated confidence or prediction intervals.",
         "IPL, T20I, and Other T20 are reported separately. No single combined ranking is presented because format and competition environments differ.",
         "Weights are descriptive design choices and correlation corrections, not outcome-trained or optimized to favor any player. No causal pressure effect is claimed.",
     ]
@@ -448,6 +448,18 @@ def _write_reports(
         "Walk-forward pressure thresholds use earlier months only; baselines use strictly earlier calendar dates and exclude all same-date matches.",
         "Raw data and delivery-level derived CSVs are written only to local ignored data/output paths and are not published by this pipeline.",
     ]
+    for group, part in scores.groupby("competition_group", dropna=False):
+        meets_pressure = (
+            part["pressure_matches"].ge(config.eligibility_pressure_matches)
+            & part["pressure_innings"].ge(config.eligibility_pressure_innings)
+            & part["pressure_legal_balls"].ge(config.eligibility_pressure_balls)
+            & part["baseline_coverage_fraction"].fillna(0).ge(0.25)
+        )
+        meets_personal_history = part["baseline_history_balls"].ge(config.eligibility_baseline_balls)
+        validation.append(
+            f"{group}: {int(meets_pressure.sum())} meet pressure exposure and coverage before the personal-history gate; "
+            f"{int((meets_pressure & meets_personal_history).sum())} meet the configured personal baseline-history threshold."
+        )
     (reports_dir / "bowling_validation.txt").write_text("\n".join(validation) + "\n", encoding="utf-8")
 
     comparison_lines = [
@@ -455,7 +467,7 @@ def _write_reports(
         "A: equal-weight standardized component/domain scores.",
         "B: inverse-correlation component weighting; equal weight across absolute, relative, consistency, reliability domains.",
         "C: empirical peer-shrinkage-adjusted pressure outcomes; displayed provisional composite.",
-        "D: B discounted toward neutral according to the reliability score.",
+        "D: the mean correlation-adjusted absolute, relative, and consistency domains is multiplied by (0.5 + 0.5 × reliability/100); reliability is excluded from its base and applied once.",
         "No model is declared predictive without an independent pressure-outcome target.",
         "\nTop-10 overlap and Spearman rank agreement by composite variant:",
         sensitivity.loc[sensitivity["scenario"].str.contains("composite", case=False, na=False)].to_string(index=False),

@@ -2,7 +2,7 @@ SUPERR SELECTOR — PHASE 6 MODEL COMPARISON
 A: equal-weight standardized component/domain scores.
 B: inverse-correlation component weighting; equal weight across absolute, relative, consistency, reliability domains.
 C: empirical peer-shrinkage-adjusted pressure outcomes; displayed provisional composite.
-D: B discounted toward neutral according to the reliability score.
+D: the mean correlation-adjusted absolute, relative, and consistency domains is multiplied by (0.5 + 0.5 × reliability/100); reliability is excluded from its base and applied once.
 No model is declared predictive without an independent pressure-outcome target.
 
 Top-10 overlap and Spearman rank agreement by composite variant:
@@ -10,6 +10,6 @@ Top-10 overlap and Spearman rank agreement by composite variant:
         equal-weight composite               644                                 9                10                    10                0.972085                      1.288116 Composite model weight sensitivity
 correlation-adjusted composite               644                                 9                10                    10                0.977559                      1.086622 Composite model weight sensitivity
   shrinkage-adjusted composite               644                                10                10                    10                1.000000                      0.000000 Composite model weight sensitivity
-reliability-adjusted composite               644                                 9                10                    10                0.946360                     12.011018 Composite model weight sensitivity
+reliability-adjusted composite               644                                 9                10                    10                0.977011                     12.425197 Composite model weight sensitivity
 
 Correlation-adjusted scoring reduces redundant metric influence; see bowling_correlation_weights.csv for component weights.

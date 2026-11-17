@@ -18,8 +18,13 @@ def bootstrap_bowler_scores(
     """Resample matches jointly across bowlers and summarize score uncertainty.
 
     Every draw samples competition-level match IDs once; all bowlers appearing
-    in a selected match receive the same multiplicity. Percentile intervals
-    describe this empirical bootstrap distribution, not calibrated intervals.
+    in a selected match receive the same multiplicity, including duplicate
+    selections. Each score is a conditional equal-metric, four-domain proxy:
+    historical baselines, match consistency, and evidence-volume reliability
+    are fixed, and metric weights differ from the correlation-adjusted primary
+    composite. Players missing from all sampled matches have no draw; reported
+    intervals condition on at least one appearance. Percentile intervals are
+    empirical summaries, not calibrated or fully propagated intervals.
     """
     cfg = config or BowlingModelConfig()
     n_replicates = int(replicates or cfg.bootstrap_replicates)

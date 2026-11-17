@@ -11,3 +11,6 @@ Composite score range: 15.949–81.643; all composite scores bounded 0–100: Tr
 Bowler/competition records with baseline coverage: 644; bootstrap rows: 644; match-level replicates: 300; seed: 42.
 Walk-forward pressure thresholds use earlier months only; baselines use strictly earlier calendar dates and exclude all same-date matches.
 Raw data and delivery-level derived CSVs are written only to local ignored data/output paths and are not published by this pipeline.
+IPL: 113 meet pressure exposure and coverage before the personal-history gate; 0 meet the configured personal baseline-history threshold.
+Other T20: 4 meet pressure exposure and coverage before the personal-history gate; 0 meet the configured personal baseline-history threshold.
+T20I: 114 meet pressure exposure and coverage before the personal-history gate; 28 meet the configured personal baseline-history threshold.
