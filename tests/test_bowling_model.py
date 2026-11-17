@@ -370,6 +370,18 @@ def test_scores_are_bounded_and_ineligible_players_are_retained():
     assert scenarios.players_total.sum() >= len(scores)
 
 
+def test_baseline_coverage_gate_is_configurable_and_reported_as_an_exclusion():
+    fixture = _score_fixture()
+    fixture.loc[fixture.competition_group.eq("IPL") & fixture.bowler_id.eq(1), "baseline_coverage_fraction"] = 0.40
+    lenient, _ = score_bowlers(fixture, BowlingModelConfig(baseline_coverage_minimum=0.30))
+    strict, _ = score_bowlers(fixture, BowlingModelConfig(baseline_coverage_minimum=0.50))
+    target = lenient.competition_group.eq("IPL") & lenient.bowler_id.eq(1)
+    assert lenient.loc[target, "eligible_analytical_candidate"].item()
+    excluded = strict.loc[strict.competition_group.eq("IPL") & strict.bowler_id.eq(1)].iloc[0]
+    assert not excluded.eligible_analytical_candidate
+    assert "walk-forward baseline coverage below 50%" in excluded.eligibility_status
+
+
 def test_bootstrap_reliability_adjusts_model_d_only_once():
     scores, _ = score_bowlers(_score_fixture(), BowlingModelConfig())
     uncertainty = pd.DataFrame({
