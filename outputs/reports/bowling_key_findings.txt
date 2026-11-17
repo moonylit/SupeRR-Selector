@@ -1,0 +1,29 @@
+SUPERR SELECTOR — PHASE 6 PROVISIONAL BOWLING FINDINGS
+These are model outputs for analysis and audit, not final competition picks.
+
+Absolute pressure performers — provisional analytical leaders by competition group
+IPL: no bowlers met the configured eligibility thresholds.
+Other T20: no bowlers met the configured eligibility thresholds.
+T20I: 1. Nasum Ahmed (ID 4658), 2. Mahedi Hasan (ID 5837), 3. Roston Chase (ID 2687), 4. Rashid Khan (ID 4722), 5. Mehidy Hasan Miraz (ID 3282), 6. Adil Rashid (ID 479), 7. Sikandar Raza (ID 2984), 8. Richard Ngarava (ID 4874), 9. Mohammad Rishad Hossain (ID 8380), 10. Mohammad Nawaz (ID 2490), 11. Taskin Ahmed (ID 2681), 12. Adam Zampa (ID 2636), 13. Mitchell Santner (ID 4101), 14. Kuldeep Yadav (ID 3644), 15. Barry McCarthy (ID 5441), 16. Mark Adair (ID 5379), 17. Shadab Khan (ID 4926), 18. Arshdeep Singh (ID 6464), 19. Naseem Shah (ID 8049), 20. Obed McCoy (ID 4837)
+
+Relative improvement — provisional analytical leaders by competition group
+IPL: no bowlers met the configured eligibility thresholds.
+Other T20: no bowlers met the configured eligibility thresholds.
+T20I: 1. Nasum Ahmed (ID 4658), 2. Mahedi Hasan (ID 5837), 3. Mehidy Hasan Miraz (ID 3282), 4. Roston Chase (ID 2687), 5. Rashid Khan (ID 4722), 6. Adil Rashid (ID 479), 7. Sikandar Raza (ID 2984), 8. Mohammad Rishad Hossain (ID 8380), 9. Richard Ngarava (ID 4874), 10. Barry McCarthy (ID 5441), 11. Mohammad Nawaz (ID 2490), 12. Mark Adair (ID 5379), 13. Adam Zampa (ID 2636), 14. Obed McCoy (ID 4837), 15. Taskin Ahmed (ID 2681), 16. Ish Sodhi (ID 2526), 17. Mitchell Santner (ID 4101), 18. Shadab Khan (ID 4926), 19. Arshdeep Singh (ID 6464), 20. Kuldeep Yadav (ID 3644)
+
+Consistency — provisional analytical leaders by competition group
+IPL: no bowlers met the configured eligibility thresholds.
+Other T20: no bowlers met the configured eligibility thresholds.
+T20I: 1. Nasum Ahmed (ID 4658), 2. Rashid Khan (ID 4722), 3. Kuldeep Yadav (ID 3644), 4. Sikandar Raza (ID 2984), 5. Barry McCarthy (ID 5441), 6. Mark Adair (ID 5379), 7. Mustafizur Rahman (ID 4373), 8. Adam Zampa (ID 2636), 9. Mitchell Santner (ID 4101), 10. Adil Rashid (ID 479), 11. Mohammad Nawaz (ID 2490), 12. Mohammad Rishad Hossain (ID 8380), 13. Mahedi Hasan (ID 5837), 14. Shadab Khan (ID 4926), 15. Ish Sodhi (ID 2526), 16. Arshdeep Singh (ID 6464), 17. Michael Bracewell (ID 6512), 18. FazalHaq Farooqi (ID 7240), 19. Roston Chase (ID 2687), 20. Taskin Ahmed (ID 2681)
+
+Statistical reliability — provisional analytical leaders by competition group
+IPL: no bowlers met the configured eligibility thresholds.
+Other T20: no bowlers met the configured eligibility thresholds.
+T20I: 1. Arshdeep Singh (ID 6464), 2. Adil Rashid (ID 479), 3. Michael Bracewell (ID 6512), 4. Richard Ngarava (ID 4874), 5. Mahedi Hasan (ID 5837), 6. Rashid Khan (ID 4722), 7. Sikandar Raza (ID 2984), 8. Roston Chase (ID 2687), 9. Romario Shepherd (ID 6726), 10. Nasum Ahmed (ID 4658), 11. Mitchell Santner (ID 4101), 12. Mohammad Rishad Hossain (ID 8380), 13. Adam Zampa (ID 2636), 14. Taskin Ahmed (ID 2681), 15. Shamar Joseph (ID 47050), 16. Mehidy Hasan Miraz (ID 3282), 17. Jason Holder (ID 2633), 18. Mustafizur Rahman (ID 4373), 19. Ish Sodhi (ID 2526), 20. FazalHaq Farooqi (ID 7240)
+
+Composite — provisional analytical leaders by competition group
+IPL: no bowlers met the configured eligibility thresholds.
+Other T20: no bowlers met the configured eligibility thresholds.
+T20I: 1. Nasum Ahmed (ID 4658), 2. Rashid Khan (ID 4722), 3. Mahedi Hasan (ID 5837), 4. Adil Rashid (ID 479), 5. Roston Chase (ID 2687), 6. Sikandar Raza (ID 2984), 7. Kuldeep Yadav (ID 3644), 8. Mohammad Rishad Hossain (ID 8380), 9. Mohammad Nawaz (ID 2490), 10. Adam Zampa (ID 2636), 11. Barry McCarthy (ID 5441), 12. Mehidy Hasan Miraz (ID 3282), 13. Richard Ngarava (ID 4874), 14. Mitchell Santner (ID 4101), 15. Mark Adair (ID 5379), 16. Obed McCoy (ID 4837), 17. Ish Sodhi (ID 2526), 18. Arshdeep Singh (ID 6464), 19. Taskin Ahmed (ID 2681), 20. Naseem Shah (ID 8049)
+
+Competition groups are ranked separately. Only eligible records are shown above; all other bowlers and exclusion reasons remain in bowler_eligibility.csv.

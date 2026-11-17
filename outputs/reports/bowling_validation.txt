@@ -1,0 +1,13 @@
+SUPERR SELECTOR — PHASE 6 BOWLING VALIDATION
+==============================================================================
+Source rows: 200,999; unique delivery keys: 200,999.
+Bowler mapping: missing IDs 0; unmatched mapping rows 0.
+Phase 4 bowling pressure matched rows: 200,999; unmatched rows 0.
+Known legal deliveries: 192,442; uncertain legal-ball status: 267.
+Bowler-attributable wicket rows: 10,272; uncertain wicket attribution rows 0.
+Uncertain bowler-extra attribution rows: 266; missing bowling-pressure scores: 0.
+Player/competition scoring rows: 806; eligible records: 28; ineligible records: 778.
+Composite score range: 15.949–81.643; all composite scores bounded 0–100: True.
+Bowler/competition records with baseline coverage: 644; bootstrap rows: 644; match-level replicates: 300; seed: 42.
+Walk-forward pressure thresholds use earlier months only; baselines use strictly earlier calendar dates and exclude all same-date matches.
+Raw data and delivery-level derived CSVs are written only to local ignored data/output paths and are not published by this pipeline.
