@@ -462,11 +462,15 @@ def _write_reports(
         "\nCorrelation-adjusted scoring reduces redundant metric influence; see bowling_correlation_weights.csv for component weights.",
     ]
     (reports_dir / "bowling_model_comparison.txt").write_text("\n".join(comparison_lines) + "\n", encoding="utf-8")
+    sensitivity_table = "\n".join(
+        line.rstrip() for line in sensitivity.to_string(index=False, float_format=lambda value: f"{value:.3f}").splitlines()
+    )
+    eligibility_table = "\n".join(line.rstrip() for line in eligibility.to_string(index=False).splitlines())
     (reports_dir / "bowling_sensitivity.txt").write_text(
         "SUPERR SELECTOR — PHASE 6 SENSITIVITY\n\n"
-        + sensitivity.to_string(index=False, float_format=lambda value: f"{value:.3f}")
+        + sensitivity_table
         + "\n\nEligibility threshold counts by competition group:\n"
-        + eligibility.to_string(index=False)
+        + eligibility_table
         + "\n\nLower/upper economy and uncertain extras remain available in processed count tables; static Phase 4 flags are sensitivity-only because they use full-dataset thresholds.\n",
         encoding="utf-8",
     )

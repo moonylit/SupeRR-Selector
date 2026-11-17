@@ -33,14 +33,14 @@ Eligibility threshold counts by competition group:
                       24                          2                          2                       12               IPL            258                20                 238 7967,6161,19316,36982,23,7503,4219,4722,152,1612
                       24                          2                          2                       12         Other T20             70                 2                  68                                      23467,42548
                       24                          2                          2                       12              T20I            478                66                 412  4658,4722,4900,6256,830,4229,6676,5837,7364,479
-                      36                          3                          3                       24               IPL            258                 0                 258                                                 
-                      36                          3                          3                       24         Other T20             70                 0                  70                                                 
+                      36                          3                          3                       24               IPL            258                 0                 258
+                      36                          3                          3                       24         Other T20             70                 0                  70
                       36                          3                          3                       24              T20I            478                28                 450 4658,4722,5837,479,2687,2984,3644,8380,2490,2636
-                      60                          5                          5                       36               IPL            258                 0                 258                                                 
-                      60                          5                          5                       36         Other T20             70                 0                  70                                                 
+                      60                          5                          5                       36               IPL            258                 0                 258
+                      60                          5                          5                       36         Other T20             70                 0                  70
                       60                          5                          5                       36              T20I            478                 7                 471                4722,5837,479,8380,2636,4874,6464
-                      90                          8                          8                       60               IPL            258                 0                 258                                                 
-                      90                          8                          8                       60         Other T20             70                 0                  70                                                 
+                      90                          8                          8                       60               IPL            258                 0                 258
+                      90                          8                          8                       60         Other T20             70                 0                  70
                       90                          8                          8                       60              T20I            478                 2                 476                                         4722,479
 
 Lower/upper economy and uncertain extras remain available in processed count tables; static Phase 4 flags are sensitivity-only because they use full-dataset thresholds.
