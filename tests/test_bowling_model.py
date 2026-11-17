@@ -11,7 +11,11 @@ from src.models.bowling_baseline import (
     assign_walk_forward_pressure_bands,
 )
 from src.models.bowling_features import aggregate_bowling_counts
-from src.models.bowling_scoring import eligibility_scenarios, score_bowlers
+from src.models.bowling_scoring import (
+    eligibility_scenarios,
+    integrate_bootstrap_reliability,
+    score_bowlers,
+)
 
 
 def _baseline_rows() -> pd.DataFrame:
@@ -67,6 +71,45 @@ def test_baselines_exclude_same_day_matches_and_include_only_earlier_dates():
     assert july.baseline_pool_source.str.contains("competition_group").all()
 
 
+def test_baseline_hierarchy_falls_back_and_records_the_selected_level():
+    rows = _baseline_rows()
+    # Move the only peer into another competition. The exact-comp pool is
+    # empty, while the competition-group/phase/context pool has six balls.
+    rows.loc[rows.bowler_id.eq(2), "comp_id"] = 20
+    result, _ = add_walk_forward_bowling_baselines(
+        rows, BowlingModelConfig(minimum_peer_baseline_balls=1)
+    )
+    july = result.loc[(result.bowler_id.eq(1)) & result.match_id.eq(3)]
+    assert july.baseline_pool_source.str.contains(
+        "competition_group+innings_phase+innings_context", regex=False
+    ).all()
+    assert july.baseline_selected_level.eq(1).all()
+
+
+def test_future_normal_matches_do_not_change_an_earlier_baseline():
+    config = BowlingModelConfig(minimum_peer_baseline_balls=1)
+    original, _ = add_walk_forward_bowling_baselines(_baseline_rows(), config)
+    future_rows = pd.DataFrame([
+        {
+            "competition_group": "IPL", "comp_id": 10,
+            "innings_phase": "Powerplay", "innings_context": "first innings",
+            "bowler_id": 1, "match_id": 4, "innings": 1,
+            "match_date": "2024-08-01", "bowling_pressure_band_walk_forward": "normal",
+            "legal_ball_known": True, "bowler_runs_conceded_lower": 20,
+            "bowler_wicket_calculated": False, "bowler_dot_legal": False,
+            "boundary_delivery": True, "bowler_extra_runs_known": 0,
+        }
+        for _ in range(6)
+    ])
+    extended, _ = add_walk_forward_bowling_baselines(
+        pd.concat([_baseline_rows(), future_rows], ignore_index=True), config
+    )
+    before = original.loc[(original.bowler_id.eq(1)) & original.match_id.eq(3)].iloc[0]
+    after = extended.loc[(extended.bowler_id.eq(1)) & extended.match_id.eq(3)].iloc[0]
+    assert after.baseline_history_balls == before.baseline_history_balls
+    assert after.baseline_economy == before.baseline_economy
+
+
 def test_cricket_accounting_separates_bowler_charges_and_wickets():
     frame = pd.DataFrame({
         "runs": [4, 0, 2, 0, 0, 0],
@@ -80,6 +123,41 @@ def test_cricket_accounting_separates_bowler_charges_and_wickets():
     assert result.legal_delivery_calculated.tolist() == [True, False, False, True, True, True]
     assert result.bowler_runs_conceded_known.tolist() == [4, 1, 3, 0, 0, 0]
     assert result.bowler_wicket_calculated.tolist() == [False, False, False, False, False, True]
+
+
+def test_legbyes_penalty_and_unknown_extras_are_not_mischarged():
+    frame = pd.DataFrame({
+        "runs": [0, 0, 0, 0],
+        "extras1_runs": [4, 5, 1, 0],
+        "extras_2_runs": [0, 0, 0, 0],
+        "extras_type": ["legbyes", "Penalty", "other", None],
+        "is_wicket": [False, False, False, False],
+        "dismissal_type": [None, None, None, None],
+    })
+    result = calculate_delivery_metrics(frame)
+    assert result.bowler_runs_conceded_known.tolist() == [0, 0, 0, 0]
+    assert result.legal_delivery_calculated.iloc[0] == True
+    assert pd.isna(result.legal_delivery_calculated.iloc[1])
+    assert pd.isna(result.legal_delivery_calculated.iloc[2])
+    assert result.legal_delivery_calculated.iloc[3] == True
+    assert result.bowler_runs_attribution_unknown.tolist() == [False, False, True, False]
+    assert result.extras_calculated.tolist() == [4, 5, 1, 0]
+
+
+def test_only_credited_dismissal_types_count_as_bowler_wickets():
+    credited = ["bowled", "caught", "lbw", "stump", "hit wicket"]
+    non_credited = ["runout", "retire out", "retired hurt", "obstracting the field", "obstructing the field"]
+    dismissal_types = credited + non_credited
+    result = calculate_delivery_metrics(pd.DataFrame({
+        "runs": [0] * len(dismissal_types),
+        "extras1_runs": [0] * len(dismissal_types),
+        "extras_2_runs": [0] * len(dismissal_types),
+        "extras_type": [None] * len(dismissal_types),
+        "is_wicket": [True] * len(dismissal_types),
+        "dismissal_type": dismissal_types,
+    }))
+    assert result.bowler_wicket_calculated.tolist() == [True] * len(credited) + [False] * len(non_credited)
+    assert not result.wicket_attribution_unknown.any()
 
 
 def test_aggregate_rates_use_legal_balls_and_handle_zero_denominators():
@@ -165,9 +243,37 @@ def test_scores_are_bounded_and_ineligible_players_are_retained():
     assert scores.overall_bowling_pressure_score.between(0, 100).all()
     assert not scores.loc[scores.bowler_id.eq(2), "eligible_analytical_candidate"].item()
     assert not weights.empty
+    assert np.allclose(
+        scores.score_model_d_reliability_adjusted,
+        scores.score_model_d_performance_only
+        * (0.5 + 0.5 * scores.statistical_reliability_score / 100),
+    )
+    assert not np.allclose(
+        scores.score_model_d_reliability_adjusted,
+        scores.score_model_b_correlation_adjusted
+        * (0.5 + 0.5 * scores.statistical_reliability_score / 100),
+    )
     scenarios = eligibility_scenarios(scores, BowlingModelConfig())
     assert len(scenarios) == 8  # four thresholds for each represented competition group
     assert scenarios.players_total.sum() >= len(scores)
+
+
+def test_bootstrap_reliability_adjusts_model_d_only_once():
+    scores, _ = score_bowlers(_score_fixture(), BowlingModelConfig())
+    uncertainty = pd.DataFrame({
+        "competition_group": scores.competition_group,
+        "bowler_id": scores.bowler_id,
+        "bootstrap_score_draws": 10,
+        "top10_selection_frequency": [0.9, 0.2, 0.6],
+        "bootstrap_score_p95": [70.0, 60.0, 65.0],
+        "bootstrap_score_p05": [30.0, 20.0, 25.0],
+        "bootstrap_rank_std": [1.0, 4.0, 2.0],
+    })
+    integrated = integrate_bootstrap_reliability(scores, uncertainty)
+    expected = integrated.score_model_d_performance_only * (
+        0.5 + 0.5 * integrated.statistical_reliability_score / 100
+    )
+    assert np.allclose(integrated.score_model_d_reliability_adjusted, expected)
 
 
 def test_match_bootstrap_is_reproducible_and_uses_shared_match_resampling():

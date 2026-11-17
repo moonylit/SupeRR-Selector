@@ -202,13 +202,13 @@ def add_walk_forward_bowling_baselines(
         selected.loc[eligible, "selected_baseline_level"] = i
     # If no candidate meets the minimum peer exposure, retain the broadest
     # non-empty peer pool rather than silently dropping the player.
-    for candidate in reversed(candidates):
+    for reverse_index, candidate in enumerate(reversed(candidates)):
         fallback = selected["pool_source"].isna() & candidate["peer_legal_balls_known"].gt(0)
         for column in BASELINE_COUNTS:
             selected.loc[fallback, f"own_{column}"] = candidate.loc[fallback, f"own_{column}"]
             selected.loc[fallback, f"peer_{column}"] = candidate.loc[fallback, f"peer_{column}"]
         selected.loc[fallback, "pool_source"] = candidate.loc[fallback, "pool_source"]
-        selected.loc[fallback, "selected_baseline_level"] = len(candidates) - 1
+        selected.loc[fallback, "selected_baseline_level"] = len(candidates) - 1 - reverse_index
     # With no historical peers, use the bowler's own earlier normal-pressure
     # rate as a clearly flagged, unpooled fallback.
     for i, candidate in enumerate(candidates):

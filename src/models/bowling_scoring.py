@@ -156,12 +156,19 @@ def score_bowlers(
     frame["score_model_c_shrinkage_adjusted"] = (
         absolute_c_b + relative_b + consistency_b + reliability_b
     ) / 4
-    frame["score_model_d_reliability_adjusted"] = frame["score_model_b_correlation_adjusted"] * (
+    # Model D uses reliability as one explicit discount on performance-only
+    # evidence. Model B already includes reliability, so discounting B would
+    # count the reliability domain twice.
+    frame["score_model_d_performance_only"] = (
+        absolute_b + relative_b + consistency_b
+    ) / 3
+    frame["score_model_d_reliability_adjusted"] = frame["score_model_d_performance_only"] * (
         0.50 + 0.50 * frame["statistical_reliability_score"].fillna(0) / 100
     )
     score_columns = [
         "score_model_a_equal_weight", "score_model_b_correlation_adjusted",
-        "score_model_c_shrinkage_adjusted", "score_model_d_reliability_adjusted",
+        "score_model_c_shrinkage_adjusted", "score_model_d_performance_only",
+        "score_model_d_reliability_adjusted",
     ]
     for column in score_columns:
         frame[column] = frame[column].clip(0, 100)
@@ -291,7 +298,7 @@ def integrate_bootstrap_reliability(scores: pd.DataFrame, uncertainty: pd.DataFr
         "score_model_c_shrinkage_adjusted",
     ):
         frame[column] = frame[column] + reliability_delta
-    frame["score_model_d_reliability_adjusted"] = frame["score_model_b_correlation_adjusted"] * (
+    frame["score_model_d_reliability_adjusted"] = frame["score_model_d_performance_only"] * (
         0.5 + 0.5 * frame["statistical_reliability_score"].fillna(0) / 100
     )
     for column in (
