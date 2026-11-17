@@ -35,3 +35,31 @@ class BattingModelConfig:
 
 
 BATTING_MODEL_CONFIG = BattingModelConfig()
+
+
+@dataclass(frozen=True)
+class BowlingModelConfig:
+    """Reproducible Phase 6 pressure labels, baselines, and evaluation settings."""
+
+    weighted_pressure_column: str = "bowling_pressure_weighted"
+    alternate_pressure_column: str = "bowling_pressure_nonlinear"
+    pressure_reference_minimum: int = 100
+    pressure_percentiles: tuple[float, float, float, float] = (0.25, 0.50, 0.75, 0.90)
+    minimum_peer_baseline_balls: int = 60
+    economy_prior_balls: float = 60.0
+    wicket_prior_balls: float = 180.0
+    event_rate_prior_balls: float = 60.0
+    extras_prior_balls: float = 120.0
+    eligibility_pressure_balls: int = 36
+    eligibility_pressure_matches: int = 3
+    eligibility_pressure_innings: int = 3
+    eligibility_baseline_balls: int = 24
+    eligibility_scenarios: tuple[tuple[int, int, int, int], ...] = (
+        (24, 2, 2, 12), (36, 3, 3, 24), (60, 5, 5, 36), (90, 8, 8, 60)
+    )
+    shrinkage_sensitivity_multipliers: tuple[float, ...] = (0.5, 1.0, 2.0)
+    bootstrap_replicates: int = 300
+    random_seed: int = RANDOM_SEED
+
+
+BOWLING_MODEL_CONFIG = BowlingModelConfig()
