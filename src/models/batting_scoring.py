@@ -24,7 +24,7 @@ def robust_score(series: pd.Series, higher_is_better: bool = True) -> pd.Series:
         z = ((x - med) / scale).clip(-3, 3)
     if not higher_is_better:
         z = -z
-    return (50 + z / 6 * 50).fillna(50)
+    return (50 + z / 3 * 50).fillna(50)
 
 
 def build_composite_scores(statistics: pd.DataFrame, eligibility: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
