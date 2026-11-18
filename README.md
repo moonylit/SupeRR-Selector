@@ -6,7 +6,7 @@ The analysis will compare pressure performance with each player's own baseline, 
 
 ## Project status
 
-**Phase 6 — bowling pressure evaluation model.** Phases 2–5 provide dataset profiling, exploratory analysis, pre-delivery match states and pressure scores, and batting pressure evaluation. Phase 6 adds cricket-accounted bowling features, prospective pressure labels and baselines, pressure-versus-normal statistics, match-level uncertainty, sensitivity analysis, and provisional bowling scores. The indices and scores describe observed outcomes under defined cricket contexts; they are not psychological measurements, causal pressure effects, validated talent predictions, or final selections.
+**Phase 7 — final auction strategy.** Phases 2–6 provide dataset profiling, exploratory analysis, pre-delivery match states and pressure scores, and separate batting and bowling pressure evaluations. Phase 7 produces separate provisional IPL top-ten batter and bowler historical-performance shortlists from the Phase 5/6 eligibility and scoring outputs, with observed-role context, robustness evidence, a report, and a comparison chart. It does not combine formats or roles. These are not auction-eligible player pools or purchase recommendations: current official retention information identifies several ranked players as retained, while the final registered auction pool and the RR budget/role brief are not model inputs. All indices and scores describe observed outcomes under defined cricket contexts; they are not psychological measurements, causal pressure effects, or validated future performance predictions.
 
 ## Repository layout
 
@@ -63,6 +63,7 @@ python main.py --phase eda
 python main.py --phase pressure
 python main.py --phase batting
 python main.py --phase bowling
+python main.py --phase final
 ```
 
 Run the automated calculation and validation tests with:
@@ -86,6 +87,8 @@ Phase 5 thresholds and reproducibility settings are centralized in `BATTING_MODE
 Phase 6 reuses the distinct Phase 4 `bowling_pressure_weighted` index and pre-delivery state, then assigns high-pressure opportunities using a prior-month P90 by competition group and innings phase. Walk-forward normal-pressure baselines use only earlier calendar dates; same-date matches are excluded. Bowling rates use confirmed legal-ball denominators, bowler-charged runs, and credited wickets, with uncertain legality and extras preserved as bounds. Match bootstrap draws resample matches jointly across bowlers; intervals are conditional on the fixed historical baseline, consistency, and evidence-volume reliability estimates. The four evaluation dimensions remain visible alongside four bounded composite models.
 
 Run `python main.py --phase bowling` to regenerate Phase 4 inputs and Phase 6 outputs together. It writes the detailed delivery and player tables under ignored `outputs/processed/`, five methodology/validation/comparison/sensitivity/findings reports under `outputs/reports/`, and 14 figures under `outputs/figures/bowling/`. The default eligibility rules require 36 high-pressure legal balls across at least three matches and innings, 24 prior normal-pressure legal balls, and 25% baseline coverage. All bowlers remain in the eligibility table with exclusion reasons. IPL, T20I, and Other T20 results are kept separate; a group with no eligible records has no provisional ranking under the default threshold.
+
+Run `python main.py --phase final` to regenerate the shared Phase 4 inputs, both Phase 5/6 evaluations, and the final strategy outputs. The two IPL-only shortlists, complete eligible candidate tables, joined evidence table, and audit metadata are written under ignored `outputs/processed/`; the narrative report is `outputs/reports/final_strategy_report.md`, and a score comparison is written to `outputs/figures/final_strategy/ipl_top10_shortlists.png`. Batters and bowlers use their own existing Phase 5/6 composite scores. Role descriptions are historical usage summaries. Alternative-score and pressure-definition retention is reported for batting; alternative-score and match-bootstrap top-ten stability is reported for bowling. The report includes a dated external retention check but does not treat the remaining players as available without an official registered auction list; it does not produce price ceilings or budget-specific recommendations.
 
 ## Phase 2 findings
 

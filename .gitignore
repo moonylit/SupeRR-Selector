@@ -23,6 +23,9 @@ outputs/rankings/*
 outputs/processed/*
 !outputs/rankings/.gitkeep
 !outputs/processed/.gitkeep
+outputs/reports/final_strategy*
+outputs/figures/final_strategy/
+outputs/submission/
 
 # Editors and operating systems
 .vscode/
