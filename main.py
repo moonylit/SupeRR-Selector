@@ -16,7 +16,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--phase",
-        choices=("all", "profile", "eda", "pressure", "batting", "bowling"),
+        choices=("all", "profile", "eda", "pressure", "batting", "bowling", "final"),
         default="all",
         help="Run one analytical phase or all phases, including bowling pressure (default: all).",
     )
@@ -49,7 +49,7 @@ def main() -> None:
             f"and {len(result['figures'])} figures."
         )
 
-    if args.phase in ("all", "pressure", "batting", "bowling"):
+    if args.phase in ("all", "pressure", "batting", "bowling", "final"):
         from src.pressure.pressure_validation import run_pressure_engine
 
         result = run_pressure_engine(
@@ -64,7 +64,7 @@ def main() -> None:
             f"{len(result['figures'])} figures."
         )
 
-        if args.phase in ("all", "batting"):
+        if args.phase in ("all", "batting", "final"):
             from src.models.batting_model import run_batting_model
             batting = run_batting_model(
                 tables,
@@ -81,7 +81,19 @@ def main() -> None:
                 f"and {len(batting['figures'])} figures."
             )
 
-        if args.phase in ("all", "bowling"):
+            if args.phase == "final":
+                import gc
+
+                batting_scores = batting["scores"]
+                batting_sensitivity = batting["sensitivity"]
+                batting_role_evidence = batting["deliveries"][
+                    ["competition_group", "striker_id", "batting_order", "match_id", "season",
+                     "pressure_high_p90_walk_forward", "balls_faced_known"]
+                ].copy()
+                del batting
+                gc.collect()
+
+        if args.phase in ("all", "bowling", "final"):
             import gc
 
             from src.models.bowling_model import run_bowling_model
@@ -104,6 +116,29 @@ def main() -> None:
                 f"{len(bowling['scores'])} bowler/competition records, "
                 f"and {len(bowling['figures'])} figures."
             )
+
+            if args.phase == "final":
+                from src.models.final_strategy import run_final_strategy
+
+                bowling_role_evidence = bowling["deliveries"][
+                    ["competition_group", "bowler_id", "innings_phase", "season"]
+                ].copy()
+                final = run_final_strategy(
+                    batting_scores,
+                    bowling["scores"],
+                    batting_sensitivity,
+                    batting_role_evidence,
+                    bowling_role_evidence,
+                    args.reports_dir,
+                    args.figures_dir,
+                    args.pressure_processed_dir,
+                    bowling["sensitivity"],
+                )
+                print(
+                    f"Final strategy wrote {len(final['batters'])} IPL batters and "
+                    f"{len(final['bowlers'])} IPL bowlers; report: "
+                    f"{args.reports_dir / 'final_strategy_report.md'}"
+                )
 
 
 if __name__ == "__main__":
