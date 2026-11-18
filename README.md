@@ -1,111 +1,216 @@
-# SupeRR Selector
+<p align="center">
+  <a href="https://www.rajasthanroyals.com/about-us"><img src="assets/branding/rajasthan-royals-official.png" alt="Rajasthan Royals official brand mark" width="150"></a>
+</p>
 
-An explainable cricket analytics project for the Rajasthan Royals SupeRR Selector Season 2 hackathon. The official Round 1 challenge is to identify the most reliable batters and bowlers under pressure using the supplied historical IPL and T20 International ball-by-ball data.
+<h1 align="center">SUPERR SELECTOR</h1>
+<p align="center"><strong>IPL Pressure Performance Analytics</strong></p>
+<p align="center">An evidence-led cricket analytics solution for understanding how players perform when match conditions become demanding.</p>
 
-The analysis will compare pressure performance with each player's own baseline, account for cricket scoring rules and opportunity, quantify uncertainty, and publish reproducible ranked lists with a documented methodology. No player rankings are produced until the supplied data and methodology have been validated.
+<p align="center">
+  <a href="https://api.unstop.com/hackathons/crp-superr-selector-season-2-help-shape-rajasthan-royals-ipl-2027-auction-strategy-rajasthan-royals-1792758"><img alt="Competition brief" src="https://img.shields.io/badge/Competition%20Brief-Explore-DB006B?style=for-the-badge"></a>
+  <a href="#methodology"><img alt="Methodology" src="https://img.shields.io/badge/Methodology-How%20it%20works-111A3A?style=for-the-badge"></a>
+  <a href="#player-rankings"><img alt="Player rankings" src="https://img.shields.io/badge/Player%20Rankings-Historical-DB006B?style=for-the-badge"></a>
+  <a href="https://github.com/moonylit/SupeRR-Selector"><img alt="GitHub repository" src="https://img.shields.io/badge/Repository-GitHub-111A3A?style=for-the-badge&logo=github"></a>
+  <a href="outputs/reports/pressure_methodology.txt"><img alt="Project report" src="https://img.shields.io/badge/Report-Read%20the%20method-9A7625?style=for-the-badge"></a>
+</p>
 
-## Project status
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white">
+  <img alt="Statistical analysis" src="https://img.shields.io/badge/Statistical-Analysis-111A3A">
+  <img alt="Pandas" src="https://img.shields.io/badge/Pandas-Data%20Analysis-150458?logo=pandas&logoColor=white">
+  <img alt="NumPy" src="https://img.shields.io/badge/NumPy-Scientific%20Computing-013243?logo=numpy&logoColor=white">
+  <img alt="Pytest" src="https://img.shields.io/badge/Pytest-57%20passing-2E8B57?logo=pytest&logoColor=white">
+</p>
 
-**Phase 7 — final auction strategy.** Phases 2–6 provide dataset profiling, exploratory analysis, pre-delivery match states and pressure scores, and separate batting and bowling pressure evaluations. Phase 7 produces separate provisional IPL top-ten batter and bowler historical-performance shortlists from the Phase 5/6 eligibility and scoring outputs, with observed-role context, robustness evidence, a report, and a comparison chart. It does not combine formats or roles. These are not auction-eligible player pools or purchase recommendations: current official retention information identifies several ranked players as retained, while the final registered auction pool and the RR budget/role brief are not model inputs. All indices and scores describe observed outcomes under defined cricket contexts; they are not psychological measurements, causal pressure effects, or validated future performance predictions.
+<p align="center"><a href="https://www.rajasthanroyals.com/">Rajasthan Royals</a> &nbsp;·&nbsp; <a href="https://api.unstop.com/hackathons/crp-superr-selector-season-2-help-shape-rajasthan-royals-ipl-2027-auction-strategy-rajasthan-royals-1792758">SupeRR Selector Season 2</a></p>
 
-## Repository layout
+---
+
+## About the project
+
+In cricket, pressure is shaped by the situation: the score to chase, wickets in hand, balls remaining, and the phase of an innings. SupeRR Selector turns those match conditions into a repeatable analytical framework for comparing historical batting and bowling performance.
+
+The solution evaluates pressure performance against relevant historical baselines, then considers consistency and evidence volume before creating separate batter and bowler rankings. The result is a transparent view of recorded performance under defined match states—not a psychological assessment or a trained forecast of future results.
+
+## Key highlights
+
+<table>
+  <tr>
+    <td align="center" width="25%"><strong>200,999</strong><br>ball-by-ball records</td>
+    <td align="center" width="25%"><strong>1,167</strong><br>batter / competition records</td>
+    <td align="center" width="25%"><strong>806</strong><br>bowler / competition records</td>
+    <td align="center" width="25%"><strong>57</strong><br>automated tests passing</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center" width="33%"><strong>67</strong><br>eligible IPL batting candidates</td>
+    <td align="center" width="33%"><strong>25</strong><br>eligible IPL bowling candidates</td>
+    <td align="center" width="34%"><strong>300</strong><br>match-bootstrap replicates</td>
+  </tr>
+</table>
+
+| Model capability | What it provides |
+| --- | --- |
+| Role-specific evaluation | Separate historical top-ten lists for batters and bowlers |
+| Walk-forward comparisons | Historical baselines built from earlier observations |
+| Match-level uncertainty | Bootstrap sensitivity summaries alongside player scores |
+| Evidence-aware ranking | Eligibility rules reflect exposure, history, and reliability |
+
+Dataset and player-record counts are verified against committed profiling and validation reports. Eligibility and bootstrap counts come from a fresh final run using the latest merged `main` implementation and the authorized local input pack. The full test suite passed on that same merged code.
+
+## How it works
+
+### Pressure situations
+
+The match-state engine evaluates context before a delivery. Pressure opportunities use walk-forward thresholds within competition and innings context, so the delivery's eventual outcome does not define whether that delivery was under pressure. The pressure score is a contextual proxy: it describes match conditions, not a player's internal state.
+
+### Batting evaluation
+
+Batting analysis compares pressure outcomes with a player's prior non-pressure history, using context-matched baselines where evidence permits and broader historical fallback when needed. The scoring keeps four views visible: absolute pressure performance, relative performance versus baseline, match-to-match consistency, and evidence-volume reliability. Peer and reliability shrinkage temper estimates supported by limited history.
+
+### Bowling evaluation
+
+Bowling analysis uses its own pressure index and evaluates economy, wickets, dot balls, boundaries, and bowler-charged extras against a format-aware historical baseline. Rates use confirmed legal-ball exposure; uncertain delivery details remain flagged. Peer shrinkage, match consistency, and evidence reliability contribute to the composite evaluation.
+
+### Ranking and statistical safeguards
+
+- Eligibility rules require meaningful pressure exposure and sufficient baseline history; bowling also uses pressure-innings and baseline-coverage requirements.
+- Match-level bootstrap resampling and alternative-model comparisons show how rankings vary under the implemented analysis choices.
+- Score and tie-break rules are deterministic, with stable player identifiers used for aggregation and final tie resolution.
+- Batter and bowler rankings are calculated independently. Their scores use different constructions and should not be compared with each other.
+
+## Player rankings
+
+These are separate top-ten **historical IPL evaluations**, ordered by the role-specific composite score. Scores are shown to two decimal places; the batting and bowling scales are independently constructed and must not be compared with each other. The tables are summaries generated from the latest merged `main` implementation and authorized competition inputs; the derived result files themselves are not linked or included in the repository.
+
+### Batters · historical IPL ranking
+
+| Rank | Batter | Score / 100 |
+| ---: | --- | ---: |
+| 1 | Sai Sudharsan | 59.57 |
+| 2 | Virat Kohli | 57.16 |
+| 3 | Heinrich Klaasen | 56.76 |
+| 4 | Shikhar Dhawan | 56.52 |
+| 5 | Shivam Dube | 56.46 |
+| 6 | Riyan Parag | 56.17 |
+| 7 | Aiden Markram | 55.87 |
+| 8 | Sanju Samson | 55.62 |
+| 9 | Shubman Gill | 55.44 |
+| 10 | Suryakumar Yadav | 55.37 |
+
+### Bowlers · historical IPL ranking
+
+| Rank | Bowler | Score / 100 |
+| ---: | --- | ---: |
+| 1 | Noor Ahmad | 78.55 |
+| 2 | Axar Patel | 69.29 |
+| 3 | Maheesh Theekshana | 67.76 |
+| 4 | Suyash Sharma | 65.15 |
+| 5 | Piyush Chawla | 63.56 |
+| 6 | Krunal Pandya | 62.71 |
+| 7 | Ravi Bishnoi | 62.67 |
+| 8 | Yuzvendra Chahal | 60.84 |
+| 9 | Rashid Khan | 60.62 |
+| 10 | Ravindra Jadeja | 60.17 |
+
+## Methodology
+
+The modelling approach is designed to make comparisons useful and auditable:
+
+1. **Establish context.** Reconstruct pre-delivery match states and define pressure opportunities from prior observations.
+2. **Build a fair comparison.** Compare pressure performance with historical personal baselines and use format-aware peer history where personal evidence is sparse.
+3. **Evaluate more than output.** Keep absolute performance, baseline-relative performance, consistency, and reliability visible as distinct scoring dimensions.
+4. **Quantify sensitivity.** Use match-level bootstrap summaries and alternative composite comparisons to show uncertainty and ranking sensitivity.
+5. **Apply evidence gates.** Require adequate pressure exposure and baseline evidence before a player enters a role-specific ranking.
+
+Detailed, committed references: [pressure methodology](outputs/reports/pressure_methodology.txt), [batting methodology](outputs/reports/batting_methodology.txt), [bowling methodology](outputs/reports/bowling_methodology.txt), [dataset profile](outputs/reports/dataset_profile.txt), and [bowling validation](outputs/reports/bowling_validation.txt).
+
+## Technology stack
+
+<p>
+  <img alt="Python" src="https://img.shields.io/badge/Python-Analytics%20Runtime-3776AB?logo=python&logoColor=white">
+  <img alt="Pandas" src="https://img.shields.io/badge/Pandas-Tabular%20Analysis-150458?logo=pandas&logoColor=white">
+  <img alt="NumPy" src="https://img.shields.io/badge/NumPy-Numerical%20Computing-013243?logo=numpy&logoColor=white">
+  <img alt="SciPy" src="https://img.shields.io/badge/SciPy-Statistics-8CAAE6?logo=scipy&logoColor=white">
+  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-Model%20Tools-F7931E?logo=scikitlearn&logoColor=white">
+  <img alt="Matplotlib and Seaborn" src="https://img.shields.io/badge/Matplotlib%20%2B%20Seaborn-Visualisation-11557C">
+  <img alt="Statsmodels" src="https://img.shields.io/badge/Statsmodels-Statistical%20Tools-4051B5">
+  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-Application%20UI-FF4B4B?logo=streamlit&logoColor=white">
+  <img alt="Pytest" src="https://img.shields.io/badge/Pytest-Tests-0A9EDC?logo=pytest&logoColor=white">
+</p>
+
+The badges reflect dependencies listed in [`requirements.txt`](requirements.txt) and the test suite included in the repository. There is no license file, CI badge, or coverage badge.
+
+## Project architecture
 
 ```text
 SupeRR-Selector/
-├── app/                  # Streamlit dashboard
-├── data/                 # Local-only source and processed data
-├── notebooks/            # Reproducible exploration notebooks
-├── outputs/              # Generated figures, reports, and rankings
+├── app/                  # Streamlit application
+├── assets/branding/      # Official Rajasthan Royals brand asset
+├── data/                 # Data handling notes; authorized data stays local
+├── notebooks/            # Notebook workspace
+├── outputs/
+│   ├── figures/          # Committed model and analysis figures
+│   ├── processed/        # Generated data tables (not tracked)
+│   ├── rankings/         # Generated rankings (not tracked)
+│   └── reports/          # Committed methodology and validation reports
 ├── src/
-│   ├── analysis/          # Exploratory and player analysis
-│   ├── data/              # Loading, validation, preprocessing
-│   ├── evaluation/        # Validation and sensitivity analysis
-│   ├── models/            # Batting and bowling models
-│   ├── pressure/          # Match context and pressure features
-│   └── reporting/         # Rankings and report generation
-├── tests/                 # Calculation and integration tests
-├── config.py
-├── main.py
-├── requirements.txt
-└── README.md
+│   ├── analysis/         # Exploratory analysis
+│   ├── data/             # Loading, validation, profiling, calculations
+│   ├── evaluation/       # Bootstrap uncertainty analysis
+│   ├── models/           # Batting, bowling, and final ranking logic
+│   ├── pressure/         # Match-state and pressure calculations
+│   └── reporting/        # Reporting package namespace
+├── tests/                # Automated tests
+├── config.py             # Shared paths and model configuration
+├── main.py               # Command-line pipeline
+└── requirements.txt      # Python dependencies
 ```
 
-## Setup
+## Getting started
 
-Requires Python 3.10 or newer and Git. From the repository root:
+Requires Python 3.10 or later. The proprietary competition data pack is not included. Use authorized input data under its applicable terms; the pipeline does not download or redistribute the pack.
+
+```bash
+python -m venv .venv
+```
+
+Activate the environment and install dependencies:
 
 ```powershell
-py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-On macOS or Linux, activate the environment with `source .venv/bin/activate`.
+On macOS or Linux, activate it with `source .venv/bin/activate`.
 
-## Data handling
+Run the integrated final analysis from the repository root:
 
-Keep the supplied ZIP and extracted CSV files in `data/raw/` on your machine. Both `data/raw/` and `data/processed/` are ignored by Git; do not commit source data, credentials, or local environment files. Preserve the original files. The six CSV schemas and their relationships are profiled in Phase 2. See [data/README.md](data/README.md).
-
-## Run
-
-Run both dataset profiling and exploratory analysis from the repository root:
-
-```powershell
-python main.py
-```
-
-The phases can also be run separately:
-
-```powershell
-python main.py --phase profile
-python main.py --phase eda
-python main.py --phase pressure
-python main.py --phase batting
-python main.py --phase bowling
+```bash
 python main.py --phase final
 ```
 
-Run the automated calculation and validation tests with:
+The CLI also supports `profile`, `eda`, `pressure`, `batting`, and `bowling` runs. See `python main.py --help` for options. Generated data-derived ranking and delivery files remain local and are not published by this repository.
 
-```powershell
+Run the automated tests:
+
+```bash
 python -m pytest -q
 ```
 
-The pipeline reads CSVs from `data/raw/`, writes reports and figures under `outputs/`, and writes the derived innings summary under the ignored `data/processed/` directory. It preserves every input row and does not modify the source CSVs.
+## Competition
 
-Phase 2 creates `dataset_profile.txt`, `dataset_profile.json`, `data_quality_report.txt`, `missing_values.csv`, `relational_validation.csv`, `cricket_scoring_validation.csv`, `competition_coverage.csv`, and `innings_scoring_summary.csv` under `outputs/reports/`. Eight standalone SVG figures are written under `outputs/figures/`.
+**Built for [SupeRR Selector Season 2 — Rajasthan Royals](https://api.unstop.com/hackathons/crp-superr-selector-season-2-help-shape-rajasthan-royals-ipl-2027-auction-strategy-rajasthan-royals-1792758).** The competition brief challenges participants to analyze reliable performance under pressure in support of IPL 2027 scouting. This repository makes no claim of being selected, shortlisted, accepted, or endorsed by the organizers.
 
-Phase 3 adds `eda_summary.txt`, `eda_summary.json`, `competition_analysis.csv`, `batting_analysis.csv`, `bowling_analysis.csv`, `innings_phase_analysis.csv`, `innings_context_analysis.csv`, `player_consistency.csv`, and `match_context_analysis.csv` under `outputs/reports/`, plus 16 standalone SVG charts under `outputs/figures/eda/`. Player opportunity and match-count thresholds only flag more interpretable descriptive comparisons; they do not establish statistical reliability or create rankings. Delivery states use information available before the delivery, and match outcomes are kept out of those state features. Uncertain delivery legality, extras attribution, and phase assignment remain explicitly flagged.
+The Rajasthan Royals logo above is an unmodified official image asset hosted on the [Rajasthan Royals website](https://www.rajasthanroyals.com/about-us), saved locally at `assets/branding/rajasthan-royals-official.png` for reliable rendering. No authentic SupeRR Selector competition logo could be verified, so the competition identity is represented by the typographic title above.
 
-Phase 4 writes the generated `delivery_match_states.csv`, `pressure_features.csv`, and `pressure_scores.csv` under the local-only `outputs/processed/` directory. The reproducible, shareable reports are `pressure_methodology.txt`, `pressure_validation.txt`, `pressure_distribution.csv`, `pressure_threshold_analysis.csv`, and `pressure_scenario_tests.csv` under `outputs/reports/`, with eight standalone charts under `outputs/figures/pressure/`. Match-state features use information available before each delivery. Unknown legal deliveries are carried as explicit lower/upper bounds; pressure percentiles use only information through the previous calendar month within each competition group and innings phase. Match outcomes are excluded from score construction. With no independent pressure ground truth, the reports recommend context-adjusted P90 as a provisional relative label for high-pressure opportunities and compare it with fixed and competition-only percentile thresholds. This recommendation is not a validated player-ranking threshold.
+## Disclaimer & statistical limits
 
-Phase 5 writes eight local-only player/delivery tables under `outputs/processed/`, including delivery features, player-match and pressure statistics, baselines, differentials, scores, eligibility, and match-bootstrap uncertainty. Reports under `outputs/reports/` document methodology, model comparison, validation, eligibility sensitivity, pressure sensitivity, and key findings. Sixteen charts are generated under `outputs/figures/batting/`. The primary P90 labels use only earlier months within competition group and innings phase; personal baselines use only earlier months of non-P90, known-faced observations and use peer shrinkage when history is sparse. Unknown extras remain flagged. All players remain in outputs, and scores are exploratory rather than final top-10 selections.
-
-Phase 5 thresholds and reproducibility settings are centralized in `BATTING_MODEL_CONFIG` in `config.py`. Run `python main.py --phase batting` to regenerate Phase 4 inputs and the batting outputs together. Derived delivery-level CSVs remain ignored by Git.
-
-Phase 6 reuses the distinct Phase 4 `bowling_pressure_weighted` index and pre-delivery state, then assigns high-pressure opportunities using a prior-month P90 by competition group and innings phase. Walk-forward normal-pressure baselines use only earlier calendar dates; same-date matches are excluded. Bowling rates use confirmed legal-ball denominators, bowler-charged runs, and credited wickets, with uncertain legality and extras preserved as bounds. Match bootstrap draws resample matches jointly across bowlers; intervals are conditional on the fixed historical baseline, consistency, and evidence-volume reliability estimates. The four evaluation dimensions remain visible alongside four bounded composite models.
-
-Run `python main.py --phase bowling` to regenerate Phase 4 inputs and Phase 6 outputs together. It writes the detailed delivery and player tables under ignored `outputs/processed/`, five methodology/validation/comparison/sensitivity/findings reports under `outputs/reports/`, and 14 figures under `outputs/figures/bowling/`. The default eligibility rules require 36 high-pressure legal balls across at least three matches and innings, 24 prior normal-pressure legal balls, and 25% baseline coverage. All bowlers remain in the eligibility table with exclusion reasons. IPL, T20I, and Other T20 results are kept separate; a group with no eligible records has no provisional ranking under the default threshold.
-
-Run `python main.py --phase final` to regenerate the shared Phase 4 inputs, both Phase 5/6 evaluations, and the final strategy outputs. The two IPL-only shortlists, complete eligible candidate tables, joined evidence table, and audit metadata are written under ignored `outputs/processed/`; the narrative report is `outputs/reports/final_strategy_report.md`, and a score comparison is written to `outputs/figures/final_strategy/ipl_top10_shortlists.png`. Batters and bowlers use their own existing Phase 5/6 composite scores. Role descriptions are historical usage summaries. Alternative-score and pressure-definition retention is reported for batting; alternative-score and match-bootstrap top-ten stability is reported for bowling. The report includes a dated external retention check but does not treat the remaining players as available without an official registered auction list; it does not produce price ceilings or budget-specific recommendations.
-
-## Phase 2 findings
-
-The data pack contains 883 match records, 200,999 ball-by-ball rows, 141 competition catalog entries, 28,381 playing-eleven rows, 353 competition-team records, and 6,413 competition-team-player mappings. Match dates span 2022-01-22 through 2026-11-01. Competition metadata identifies five IPL seasons, 134 T20I competitions, and two other T20 events.
-
-All delivery match IDs and all delivery batter/bowler player keys resolve to the supplied match and player mapping tables. Sixteen abandoned matches have no delivery records; three catalog competitions have no matches. The playing-eleven data has five unmapped non-playing roster rows and 35 repeated match/team/player keys. Extras include 264 `other` labels and two rows with nonzero extras but no type, so legal-ball and bowler-extra calculations retain explicit uncertainty. `matches.csv` has no independent innings score totals for external reconciliation. See the generated data-quality reports for details. Phase 4 pressure indices are descriptive candidates only; player rankings have not been produced.
-
-The dashboard will be implemented after subsequent analytical outputs are available:
-
-```powershell
-streamlit run app/streamlit_app.py
-```
-
-## Reproducibility and methodology
-
-Analysis settings will be centralized in `config.py`, including the random seed. Each cricket calculation, pressure definition, sample-size rule, baseline, and ranking component will be documented and validated before final selections are produced. See the project branches and pull requests for phase-by-phase progress.
-
-## License and data
-
-The supplied hackathon dataset is not redistributed by this repository. Dataset terms and any project license will be documented after the source materials are reviewed.
+- Pressure is a match-state proxy, not a measurement of a player's psychology or a causal pressure effect.
+- All ten selected batters' pressure-minus-baseline bootstrap intervals cross zero. The batting top ten also changes under an alternative correlation-reduced composite (5 of 10 overlap; Spearman 0.620).
+- Bowling top-ten resample inclusion frequencies range from 53.3% to 100%. These are conditional bootstrap results, not future-performance or selection probabilities.
+- Rankings describe historical performance; they are not predictions or confirmed IPL 2027 auction recommendations. The final registered auction pool has not been verified, and retained players may appear in the historical lists.
+- This is an independently developed competition project, not an official Rajasthan Royals product or an endorsed submission.
