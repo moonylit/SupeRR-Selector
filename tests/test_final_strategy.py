@@ -69,7 +69,16 @@ def test_final_strategy_writes_separate_eligible_top_tens(tmp_path):
     assert "robustness" not in result["bowlers"]
     assert (tmp_path / "reports" / "final_strategy_report.md").exists()
     assert (tmp_path / "figures" / "final_strategy" / "ipl_top10_shortlists.png").exists()
-    assert (tmp_path / "processed" / "final_strategy_audit.json").exists()
+    metadata_path = tmp_path / "processed" / "final_strategy_audit.json"
+    assert metadata_path.exists()
+    report_text = (tmp_path / "reports" / "final_strategy_report.md").read_text(encoding="utf-8")
+    assert "17 of the 20 historically ranked candidates" in report_text
+    assert "3 are already retained by RR and 14 by other franchises" in report_text
+    assert "Virat Kohli (Royal Challengers Bengaluru)" in report_text
+    assert "score = 50 + (50/3) × z" in report_text
+    assert "10 of 10 selected batters have an interval spanning zero" in report_text
+    import json
+    assert json.loads(metadata_path.read_text(encoding="utf-8"))["retained_phase7_top10_candidate_count"] == 17
 
 
 def test_candidate_validation_rejects_missing_primary_sort_values():

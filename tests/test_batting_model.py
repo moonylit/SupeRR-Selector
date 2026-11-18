@@ -7,8 +7,21 @@ from config import BattingModelConfig
 from src.evaluation.batting_uncertainty import bootstrap_batter_pressure
 from src.models.batting_baseline import add_historical_personal_baselines, assign_walk_forward_pressure_labels
 from src.models.batting_features import build_batting_delivery_features, derive_batting_outcomes
-from src.models.batting_scoring import assign_eligibility, build_composite_scores
+from src.models.batting_scoring import assign_eligibility, build_composite_scores, robust_score
 from src.models.batting_statistics import build_batter_statistics
+
+
+def test_robust_score_maps_clipped_extremes_to_zero_and_one_hundred():
+    values = pd.Series([-100.0, *([0.0] * 100), 100.0])
+    higher = robust_score(values)
+    lower = robust_score(values, higher_is_better=False)
+
+    assert higher.iloc[0] == 0.0
+    assert higher.iloc[-1] == 100.0
+    assert higher.iloc[1:-1].eq(50.0).all()
+    assert lower.iloc[0] == 100.0
+    assert lower.iloc[-1] == 0.0
+    assert higher.between(0, 100).all()
 
 
 def _synthetic() -> pd.DataFrame:

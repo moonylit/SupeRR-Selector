@@ -13,6 +13,31 @@ import numpy as np
 import pandas as pd
 from config import BATTING_MODEL_CONFIG, BOWLING_MODEL_CONFIG
 
+IPL_2027_RETAINED_PHASE7_CANDIDATES = {
+    "batters": [
+        ("Sai Sudharsan", "Gujarat Titans"),
+        ("Virat Kohli", "Royal Challengers Bengaluru"),
+        ("Heinrich Klaasen", "Sunrisers Hyderabad"),
+        ("Shivam Dube", "Chennai Super Kings"),
+        ("Riyan Parag", "Rajasthan Royals"),
+        ("Aiden Markram", "Lucknow Super Giants"),
+        ("Sanju Samson", "Chennai Super Kings"),
+        ("Shubman Gill", "Gujarat Titans"),
+        ("Suryakumar Yadav", "Mumbai Indians"),
+    ],
+    "bowlers": [
+        ("Noor Ahmad", "Chennai Super Kings"),
+        ("Axar Patel", "Delhi Capitals"),
+        ("Suyash Sharma", "Royal Challengers Bengaluru"),
+        ("Krunal Pandya", "Royal Challengers Bengaluru"),
+        ("Ravi Bishnoi", "Rajasthan Royals"),
+        ("Yuzvendra Chahal", "Punjab Kings"),
+        ("Rashid Khan", "Gujarat Titans"),
+        ("Ravindra Jadeja", "Rajasthan Royals"),
+    ],
+}
+IPL_2027_RETENTION_SOURCE = "https://www.iplt20.com/news/article/tata-ipl-2027-player-retentions-announced"
+
 
 def _top_membership(frame: pd.DataFrame, score_columns: list[str], key: str) -> pd.Series:
     """Count top-ten appearances across already calculated score variants."""
@@ -372,22 +397,29 @@ def run_final_strategy(
     combined.to_csv(processed / "final_strategy_evidence.csv", index=False)
 
     seasons = _season_scope(batting_deliveries, bowling_deliveries)
+    retained_batters = IPL_2027_RETAINED_PHASE7_CANDIDATES["batters"]
+    retained_bowlers = IPL_2027_RETAINED_PHASE7_CANDIDATES["bowlers"]
+    retained_candidate_count = len(retained_batters) + len(retained_bowlers)
+    retained_by_rr_count = sum(franchise == "Rajasthan Royals" for _, franchise in retained_batters + retained_bowlers)
+    retained_by_other_franchises_count = retained_candidate_count - retained_by_rr_count
+    retained_details = "; ".join(
+        f"{name} ({franchise})" for name, franchise in retained_batters + retained_bowlers
+    )
     metadata = {
         "target": "historical IPL pressure-performance shortlists; not auction-eligible player pools or purchase recommendations",
         "historical_ipl_seasons_in_generated_evidence": seasons,
         "auction_availability_verified": False,
         "official_retention_snapshot_as_of": "2026-11-18",
         "known_retained_phase7_top10_candidates": {
-            "batters": ["Sai Sudharsan", "Riyan Parag", "Shubman Gill", "Suryakumar Yadav"],
-            "bowlers": ["Axar Patel", "Ravi Bishnoi", "Rashid Khan", "Yuzvendra Chahal", "Ravindra Jadeja"],
+            "batters": [name for name, _ in retained_batters],
+            "bowlers": [name for name, _ in retained_bowlers],
         },
-        "retention_sources": [
-            "https://www.rajasthanroyals.com/latest-news/ipl-2027-rr-players-retention-list-retained-released",
-            "https://www.gujarattitansipl.com/news/gujarat-titans-retained-players-tata-ipl-2027",
-            "https://www.delhicapitals.in/news/sourav-ganguly-confident-of-turning-delhi-capitals-fortunes-around-as-franchise-retains-16-players-ahead-of-ipl-2027-auction",
-            "https://www.mumbaiindians.com/news/mumbai-indians-confirm-squad-composition-ahead-of-ipl-2027-auction",
-            "https://www.punjabkingsipl.in/news/ipl-2027-meet-our-retained-shers",
-        ],
+        "retained_phase7_top10_candidate_count": retained_candidate_count,
+        "retained_by_rr_candidate_count": retained_by_rr_count,
+        "retained_candidate_franchises": {
+            name: franchise for name, franchise in retained_batters + retained_bowlers
+        },
+        "retention_sources": [IPL_2027_RETENTION_SOURCE],
         "eligibility_rules": {
             "batters": {"walk_forward_p90_known_balls_minimum": BATTING_MODEL_CONFIG.eligibility_pressure_balls,
                         "walk_forward_p90_matches_minimum": BATTING_MODEL_CONFIG.eligibility_pressure_matches,
@@ -412,28 +444,50 @@ def run_final_strategy(
         "top_ten_batters": int(len(bat_top)), "top_ten_bowlers": int(len(bowl_top)),
         "batting_score": "Phase 5 Model C reliability shrinkage; Phase 7 recalculates the Phase 5 pressure-match count from known-faced walk-forward P90 deliveries, reapplies the original reliability formula, and retains the 0-100 score scale",
         "bowling_score": "Phase 6 overall_bowling_pressure_score (format-aware empirical shrinkage Model C; 0-100)",
-        "roster_and_purse": "Not included in the supplied official challenge files. An external official retention snapshot dated 2026-11-18 identifies nine top-ten candidates as retained; no official auction registration list was verified. Candidate inclusion does not imply availability.",
-        "limitations": ["Pressure is a descriptive match-state construct, not a psychological measurement.", "Scores are provisional and not outcome-trained.", "Competition scope is kept separate; T20I is not mixed into IPL auction rankings.", "The official pack contains no current RR roster, retention list, squad vacancies, purse or reserve prices; external retention information is a dated snapshot, not an auction registration list."],
+        "roster_and_purse": f"The supplied challenge pack has no roster or purse inputs. The official IPL retention announcement dated 2026-11-18 lists {retained_candidate_count} of the 20 historical top-ten candidates as retained; the final auction registration list was not verified. Candidate inclusion does not imply availability.",
+        "limitations": ["Pressure is a descriptive match-state construct, not a psychological measurement.", "Scores are provisional and not outcome-trained.", "Competition scope is kept separate; T20I is not mixed into IPL auction rankings.", f"The supplied challenge pack contains no current RR squad or auction registration list; a separate official retention snapshot dated 2026-11-18 identifies {retained_candidate_count} top-ten candidates as retained."],
     }
     (processed / "final_strategy_audit.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
 
     bat_cols = ["final_rank", "player_name", "observed_role", "overall_batting_pressure_score", "absolute_performance_score", "relative_resilience_score", "consistency_score", "reliability_score", "pressure_runs_per_ball", "rpb_personal_baseline_difference", "pressure_balls", "pressure_matches", "phase5_pressure_matches_reported", "score_variant_top10_count", "score_variants_tested", "pressure_definition_top10_count", "pressure_definitions_tested", "evidence_summary"]
     bowl_cols = ["final_rank", "player_name", "observed_bowling_phase", "overall_bowling_pressure_score", "absolute_pressure_score_shrunk", "relative_improvement_score", "consistency_score", "statistical_reliability_score", "pressure_economy", "relative_economy_improvement", "pressure_wickets_per_over", "pressure_legal_balls", "pressure_matches", "score_variant_top10_count", "score_variants_tested", "top10_selection_frequency", "evidence_summary"]
+    batting_ci_cross_zero = 0
+    if {"pressure_minus_baseline_ci_low", "pressure_minus_baseline_ci_high"}.issubset(bat_top.columns):
+        batting_ci_cross_zero = int((
+            pd.to_numeric(bat_top["pressure_minus_baseline_ci_low"], errors="coerce").lt(0)
+            & pd.to_numeric(bat_top["pressure_minus_baseline_ci_high"], errors="coerce").gt(0)
+        ).sum())
+    bowling_top10_frequency = pd.to_numeric(
+        bowl_top.get("top10_selection_frequency", pd.Series(dtype="float64")), errors="coerce"
+    ).dropna()
+    bowling_frequency_range = (
+        f"{bowling_top10_frequency.min():.0%}–{bowling_top10_frequency.max():.0%}"
+        if not bowling_top10_frequency.empty else "not available"
+    )
     report = (
-        "# SupeRR Selector — Final IPL Auction Strategy\n\n"
+        "# SupeRR Selector — Final IPL Historical Performance Rankings\n\n"
         "## Decision scope\n\n"
         f"The two lists below summarize historical IPL records from seasons {seasons}. Batting and bowling use separate Phase 5 and Phase 6 eligibility gates and reliability-adjusted within-IPL composite scores; the two score scales are not comparable to one another. The primary score sorts descending, followed by reliability, pressure exposure, and stable player ID as deterministic tie-breakers. Names are display labels; player IDs are retained in the accompanying CSVs.\n\n"
-        f"These lists are historical performers who meet analytical sample thresholds, not verified upcoming-auction entrants or purchase recommendations. The supplied pack does not identify player availability, the current Rajasthan Royals roster, retention/release list, open squad slots, purse, reserve prices, or a target role-gap brief. Batting-order and bowling-phase columns summarize observed delivery/scorecard usage only; they do not establish role specialization or current squad need.\n\n"
-        "### External retention check (as of 2026-11-18)\n\n"
-        "Official franchise announcements identify these top-ten historical candidates as retained for IPL 2027: Sai Sudharsan and Shubman Gill (Gujarat Titans); Riyan Parag, Ravi Bishnoi and Ravindra Jadeja (Rajasthan Royals); Suryakumar Yadav (Mumbai Indians); Axar Patel (Delhi Capitals); Rashid Khan (Gujarat Titans); and Yuzvendra Chahal (Punjab Kings). These nine players are not auction targets for Rajasthan Royals while retained by their respective franchises. The top-ten CSVs remain historical performance rankings and deliberately keep these players in rank order; the ranking code does not silently drop them. The remaining names are not thereby deemed available: this audit did not verify the final IPL 2027 registered auction pool. Sources: [RR](https://www.rajasthanroyals.com/latest-news/ipl-2027-rr-players-retention-list-retained-released), [GT](https://www.gujarattitansipl.com/news/gujarat-titans-retained-players-tata-ipl-2027), [MI](https://www.mumbaiindians.com/news/mumbai-indians-confirm-squad-composition-ahead-of-ipl-2027-auction), [DC](https://www.delhicapitals.in/news/sourav-ganguly-confident-of-turning-delhi-capitals-fortunes-around-as-franchise-retains-16-players-ahead-of-ipl-2027-auction), [PBKS](https://www.punjabkingsipl.in/news/ipl-2027-meet-our-retained-shers).\n\n"
+        f"These are historical performers who meet analytical sample thresholds, not a current-auction shortlist or purchase recommendation. The supplied challenge pack does not include the current RR squad, open slots, purse, reserve prices, or role-gap brief. Observed batting-order and bowling-phase fields describe historical usage only; they do not establish specialization or current squad need.\n\n"
+        "### Official IPL 2027 retention snapshot (2026-11-18)\n\n"
+        f"The [official IPL retention announcement]({IPL_2027_RETENTION_SOURCE}) lists {retained_candidate_count} of the 20 historically ranked candidates as retained: {retained_details}. {retained_by_rr_count} are already retained by RR and {retained_by_other_franchises_count} by other franchises; none is available to purchase at auction while retained. The historical ranking files intentionally keep them in score order. The other three candidates are not confirmed auction entrants or purchasable merely because they are absent from the retained list. The final registered auction pool was not verified.\n\n"
         f"Eligibility gates: batters require at least {BATTING_MODEL_CONFIG.eligibility_pressure_balls} known-faced walk-forward P90 balls in {BATTING_MODEL_CONFIG.eligibility_pressure_matches} distinct matches with at least one known-faced P90 ball, plus {BATTING_MODEL_CONFIG.eligibility_baseline_balls} prior non-pressure baseline balls. Phase 7 recomputes the batting pressure-match count from known-faced P90 rows and reapplies the unchanged Phase 5 reliability and Model C formulas; the original Phase 5 count is retained in the detailed CSV for audit. Bowlers require {BOWLING_MODEL_CONFIG.eligibility_pressure_balls} known legal high-pressure balls, {BOWLING_MODEL_CONFIG.eligibility_pressure_matches} pressure matches, {BOWLING_MODEL_CONFIG.eligibility_pressure_innings} pressure innings, {BOWLING_MODEL_CONFIG.eligibility_baseline_balls} prior normal-pressure legal balls, and at least {BOWLING_MODEL_CONFIG.baseline_coverage_minimum:.0%} walk-forward baseline coverage. Meeting these data thresholds is not auction eligibility.\n\n"
         "## Top 10 batters\n\n" + _format_player_table(bat_top, bat_cols) + "\n\n"
         "## Top 10 bowlers\n\n" + _format_player_table(bowl_top, bowl_cols) + "\n\n"
         "## Method and strategic interpretation\n\n"
-        "Batters use Phase 5 Model C: equal-weight absolute and relative domains plus a match-to-match runs-per-ball consistency component, then shrinkage toward neutral 50 using effective pressure exposure, pressure matches, and prior baseline balls. The consistency component is calculated from the player's IPL match-level runs per ball across pressure and non-pressure observations, not pressure-only matches. Pressure RPB, personal-baseline difference, component scores, reliability, match-bootstrap intervals, and alternative-model retention are exposed separately. The match bootstrap intervals are empirical and conditional, not calibrated prediction intervals.\n\n"
-        "Bowlers use Phase 6 Model C: peer-shrunk pressure rates, baseline-relative improvement, match consistency and statistical reliability, with correlation-adjusted metric weights and equal weighting across dimensions. The personal normal-pressure baseline uses strictly earlier dates with same-date matches excluded, and format/phase/context fallback hierarchy; peer shrinkage and composite percentiles are estimated across the complete historical IPL evaluation records. Bowling bootstrap top-ten frequencies are conditional stability summaries, not fully propagated model intervals.\n\n"
+        "### Data, pressure, and accounting\n\n"
+        "The rankings use the challenge ball-by-ball records joined to match, competition, team, and player-ID dimensions; the generated source table has 200,999 deliveries and the ranked historical IPL scope is shown above. Aggregation and joins use stable IDs and checked delivery keys. The scoring columns for batter runs, extras counts, wicket flags, and player IDs have no missing source values in this pack. Blank extras labels with zero extras are treated as no-extra deliveries; unfamiliar nonzero extras remain flagged as uncertain. Unknown-faced balls are excluded from known batter exposure.\n\n"
+        "Match state is reconstructed before each delivery by subtracting that delivery from cumulative runs, wickets, and legal balls. Pressure normalization compares each month with earlier months only within competition group × innings phase; fewer than 100 reference states leaves the pressure label unavailable. Resource depletion is the mean of innings progress and wicket loss: `100 × ((known/possible legal-ball progress midpoint + wickets lost / 10) / 2)`. For batting, chase demand is the mean of the prior-history percentile of required-rate gap and fraction of target remaining; first-innings demand is one minus the prior-history run-rate percentile. The weighted batting index is `100 × (0.5 × demand + 0.5 × resource depletion)`. The nonlinear sensitivity index is `100 × (1 − sqrt((1 − demand) × (1 − resource)))`. For bowling, chase threat is one minus batting chase demand and bowling resource is one minus resource depletion; in the first innings, threat is the run-rate percentile and resource is that percentile multiplied by wickets remaining / 10. These components are combined with the same weighted and nonlinear formulas. The indices are descriptive match-state proxies, not pressure probabilities or psychological measurements.\n\n"
+        "Batting P90 means the month's weighted pressure score is at or above its prior-month 90th percentile within competition group × phase. The batting baseline uses only earlier-month, known-faced, non-P90 observations. It first matches competition, season, phase, and first/chase context, then falls back to broader competition pools; a peer pool needs 30 balls where possible, sparse pools are flagged, and player rates are shrunk toward the peer rate using 50 prior balls. A batter's baseline differential is pressure outcome rate minus the baseline averaged across that batter's known-faced P90 deliveries.\n\n"
+        "Bowling high pressure is assigned at the prior-month P90 within competition group × phase; the baseline reference band is the P25–P75 normal band. Personal baseline dates are strictly earlier than the evaluated calendar date, with same-date matches excluded. The primary format-hierarchical peer order is exact competition/phase/context, same-format phase/context, same-format phase, then same-format overall; the chosen peer level needs 60 legal balls where possible, with an explicitly flagged broader or player-only fallback otherwise. Personal normal history accumulates across seasons within format, phase, and context. Each rate is shrunk toward the selected peer rate with prior strengths of 60 balls for economy, 180 for wickets/over, 60 for dots, 60 for boundary deliveries, and 120 for extras/over.\n\n"
+        "Bowling accounting uses known legal balls and bowler-attributable runs/wickets. Byes and leg-byes are excluded from bowler runs; wides and no-balls are included. Unfamiliar extras and uncertain legality are retained as flags and bounds; the primary rate score uses known lower-bound bowler runs and known legal balls, not an imputed unknown attribution. Approximate baseline standard errors are count-based summaries, not full uncertainty intervals.\n\n"
+        "### Composite formulas and reliability\n\n"
+        "For batting, each metric is robust-scored within competition: `z = clip((x − median) / (1.4826 × MAD), −3, 3)` (population standard deviation is the fallback when MAD is zero), then `score = 50 + (50/3) × z`; lower-is-better metrics reverse the sign. This maps the clipped range to 0–100. The absolute domain equally averages pressure runs/ball, boundary-ball frequency, inverse dot frequency, and inverse dismissal frequency. The relative domain equally averages the corresponding pressure-minus-personal-baseline differences. Consistency is the lower-is-better robust score of the player's standard deviation in match-level runs/ball over pressure and non-pressure matches; it is not a pressure-only consistency estimate. Model A equally averages absolute, relative, and consistency domains. Reliability is `100 × (1−e^(−ESS/100)) × (1−e^(−M/8)) × (0.5 + 0.5×(1−e^(−B/100)))`, where `ESS` is Kish effective pressure exposure, `M` is distinct known-faced P90 matches, and `B` is prior baseline balls. Model C is `reliability × Model A + (1−reliability) × 50`; Phase 7 recalculates `M` from known-faced P90 deliveries before applying the unchanged formula. Reliability is applied once as shrinkage.\n\n"
+        "For bowling, each component is a within-competition percentile rank (direction reversed for lower-is-better metrics). Each peer-shrunk rate follows `scale × (player numerator + peer rate × prior-ball strength) / (player legal balls + prior-ball strength)`. The five absolute inputs are pressure economy, wickets/over, bowler-dot rate, boundary-concession rate, and bowler extras/over. The five relative inputs are the favorable signed differences between each unshrunk pressure rate and its walk-forward normal baseline. The four Model C domains are peer-shrunk absolute outcomes, relative improvement, match performance/dispersion, and statistical reliability; each domain has equal 25% weight. Within each domain, metric weights are proportional to `1 / (1 + mean absolute Spearman correlation)` and renormalized over available metrics; each domain score is the weighted mean of its available components. The consistency domain combines lower-tail match-performance percentile and fraction meeting the competition median standard with inverse median absolute deviation and inverse standard deviation; it therefore includes both performance level and dispersion, not dispersion alone. The reliability domain ranks pressure matches, innings and balls; baseline history balls, coverage and peer balls; and lower fallback level. Reliability is one explicit domain in Model C, not a second post-score discount.\n\n"
+        f"The batter uncertainty output resamples match aggregates {BATTING_MODEL_CONFIG.bootstrap_replicates} times with seed {BATTING_MODEL_CONFIG.random_seed}; baseline values are held fixed, so pressure-minus-baseline percentile intervals are conditional and not calibrated prediction intervals. {batting_ci_cross_zero} of {len(bat_top)} selected batters have an interval spanning zero. Bowling resamples competition-group matches jointly across bowlers {BOWLING_MODEL_CONFIG.bootstrap_replicates} times; baseline, consistency, and reliability inputs are fixed. The selected bowlers' top-ten resample frequencies range from {bowling_frequency_range}; these are conditional ranking-stability frequencies, not probabilities of future selection or performance.\n\n"
         "Observed batting order is the median supplied batting_order over distinct player-match records (with fewer than five records marked uncertain), grouped as 1–3, 4–6, or 7+. Observed bowling phase is the largest share of a player's supplied innings-phase delivery records; it is usage evidence, not proof of powerplay/death specialization or pace/spin style. No wicketkeeping or all-rounder classification is inferred.\n\n"
         "Robustness is reported as raw top-ten overlap and rank correlation for existing composite/pressure scenarios; categorical high/mixed/low labels are not used. Pressure-only sensitivity ranks use runs per ball and therefore are not alternate composite rankings. Sensitivity results identify the scenario type and sample size; retrospective static thresholds are not treated as prospective.\n\n"
+        "Batting's primary score gives equal weight to related run-production, boundary, dot, and dismissal measures within its absolute and relative domains; those measures can be correlated. The correlation-reduced alternative is a sensitivity check rather than an outcome-validated replacement. Bowling consistency also includes lower-tail performance and standard attainment, so it overlaps conceptually with absolute performance. These are explicit composite choices, not empirically estimated optimal weights.\n\n"
         "The Phase 5 pressure-definition table includes the walk-forward weighted P85/P90/P95 labels, the nonlinear walk-forward label, fixed absolute-score cutoffs, and a static full-sample Phase 4 threshold. Fixed/static scenarios are sensitivity analyses only, not valid prospective pressure labels. Phase 5 does not provide a separate alternate-baseline hierarchy rescore, so batting baseline-hierarchy robustness is not claimed.\n\n"
         "### Existing-model sensitivity\n\n"
         "Batting composite and weighting comparisons:\n\n" + _format_player_table(batting_models, ["score_model", "primary_top10_overlap", "top10_size", "spearman_with_primary_score"]) + "\n\n"
@@ -447,8 +501,8 @@ def run_final_strategy(
         "- The scores are descriptive, not trained against future auction or match outcomes.\n"
         "- Bootstrap uncertainty is conditional on the existing Phase 5/6 pipeline designs; ranking stability is not a forecast guarantee.\n"
         "- IPL is ranked separately from T20I and Other T20. Cross-format evidence is not pooled into the auction order.\n"
-        "- The list pools historical IPL seasons and does not establish upcoming-auction eligibility or availability. As of 2026-11-18, nine listed candidates were already reported retained by IPL franchises; verify the final official auction registration list before treating any other name as purchasable.\n"
-        "- Current RR squad composition, purse, likely reserve prices, role vacancies, and scouting/medical information are absent from the analytical source pack. The external RR retention announcement reports squad/purse context, but this model does not use it. No player price ceiling or final purchase recommendation is produced.\n"
+        f"- The list pools historical IPL seasons and does not establish upcoming-auction eligibility or availability. The official IPL retention notice dated 2026-11-18 lists {retained_candidate_count} candidates from these two top tens as retained; absence from that list does not establish registration or auction availability.\n"
+        "- Current RR needs, reserve prices, and scouting/medical information are not model inputs. No player price ceiling or final purchase recommendation is produced.\n"
         "- Composite scores are within-model rankings over historical IPL records. Batting and bowling scores have different constructions and must not be compared numerically.\n"
     )
     (reports / "final_strategy_report.md").write_text(report, encoding="utf-8")
